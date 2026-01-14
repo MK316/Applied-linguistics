@@ -37,7 +37,7 @@ This perspective foregrounds the political and ideological dimensions of languag
 + Examines how language maintains or challenges social structures
 + Closely associated with critical discourse traditions
 
-## 3 Source vs Target What Is Being Applied
+## 3 Source vs Target: What Is Being Applied
 
 A central debate concerns whether applied linguistics should be defined by its source or its target.
 
