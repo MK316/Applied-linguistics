@@ -1,5 +1,4 @@
-# Applied Linguistics History and Definitions
-**Chapter One Handout Summary**
+# Chapter One: Applied Linguistics History and Definitions
 
 Davies, Alan (2007) _An Introduction to Applied Linguistics (2nd edition)_. Edinburgh University Press
 
