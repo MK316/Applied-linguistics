@@ -104,7 +104,7 @@ with tab3:
     try:
         df = load_schedule(CSV_URL)
         st.dataframe(df, use_container_width=True, hide_index=True)
-        st.markdown("Schedule is synced from Google Sheets. Updates may take up to 1 minute to appear. st.markdown("[Google Sheet link](https://docs.google.com/spreadsheets/d/1_6bsBK45diIHvfWLAuAKE8nI77V0_by5wDXluCZQXD0/edit?usp=sharing)")")
+        st.markdown("Schedule is synced from Google Sheets. Updates may take up to 1 minute to appear. [Google Sheet link](https://docs.google.com/spreadsheets/d/1_6bsBK45diIHvfWLAuAKE8nI77V0_by5wDXluCZQXD0/edit?usp=sharing)")
     except Exception as e:
         st.error("Failed to load the Google Sheet schedule.")
         st.write(e)
