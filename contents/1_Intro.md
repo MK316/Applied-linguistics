@@ -4,6 +4,8 @@
 
 Applied Linguistics is a problem-oriented field that studies how language works in real-world contexts, especially where language intersects with education, society, technology, and power. Rather than applying linguistic theory mechanically, the field develops theory from practice.
 
+![img](https://github.com/MK316/Applied-linguistics/raw/main/images/appling_timeline1.png)
+
 ## 1. Early Foundations (1950s–1980s): Language Teaching Focus
 
 Applied Linguistics first emerged to address practical issues in:
