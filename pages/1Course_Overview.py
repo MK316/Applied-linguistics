@@ -3,6 +3,7 @@ import streamlit.components.v1 as components
 import requests
 import base64
 from datetime import date, timedelta
+import pandas as pd
 
 st.set_page_config(page_title="Course", layout="wide")
 
