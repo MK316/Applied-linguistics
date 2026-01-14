@@ -7,7 +7,7 @@ st.set_page_config(page_title="Course", layout="wide")
 
 tab1, tab2, tab3 = st.tabs(["Syllabus", "Online Links", "TBA"])
 
-PDF_URL = "https://raw.githubusercontent.com/MK316/Applied-linguistics/main/data/S26-appling.pdf"
+PDF_URL = "https://raw.githubusercontent.com/MK316/Applied-linguistics/main/data/S26-appling-syllabus.pdf"
 
 @st.cache_data(show_spinner=False)
 def load_pdf_bytes(url: str) -> bytes:
