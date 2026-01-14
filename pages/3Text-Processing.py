@@ -12,7 +12,7 @@ def remove_line_breaks(text):
     return re.sub(r'[\r\n]+', ' ', text)
 
 # Set up the Streamlit interface
-st.title('Text Summary Tool')
+st.title('Text Processing Tools')
 
 # Create multiple tabs
 tabs = st.tabs(["Word Count", "Remove Line Breaks", "Application 3", "Application 4", "Application 5"])
