@@ -110,7 +110,7 @@ with tab3:
         st.write(e)
         st.info("Check: (1) Spreadsheet is published or accessible, (2) SPREADSHEET_ID and gid are correct, (3) columns exist.")
 
-
+    st.markdown("[link](https://docs.google.com/spreadsheets/d/1_6bsBK45diIHvfWLAuAKE8nI77V0_by5wDXluCZQXD0/edit?usp=sharing)")
 
 
 
