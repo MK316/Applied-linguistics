@@ -1,3 +1,9 @@
 streamlit
 pandas
-gtts
+numpy
+matplotlib
+qrcode
+Pillow
+wordcloud
+gTTS
+streamlit-drawable-canvas
