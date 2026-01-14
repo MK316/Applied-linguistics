@@ -7,6 +7,20 @@ import pandas as pd
 
 st.set_page_config(page_title="Course", layout="wide")
 
+# ✅ 1) 여기에 본인 시트 정보 입력
+SPREADSHEET_ID = "1_6bsBK45diIHvfWLAuAKE8nI77V0_by5wDXluCZQXD0"
+GID = "0"  # 보통 첫 시트는 0, 시트 탭의 gid 값을 넣으면 됨
+
+# ✅ 2) 구글시트 CSV export 주소 (공개되어 있어야 함)
+CSV_URL = f"https://docs.google.com/spreadsheets/d/{1_6bsBK45diIHvfWLAuAKE8nI77V0_by5wDXluCZQXD0}/export?format=csv&gid={0}"
+
+@st.cache_data(ttl=60, show_spinner=False)
+def load_schedule(url: str) -> pd.DataFrame:
+    df = pd.read_csv(url)
+    # 컬럼 이름 표준화(혹시 공백/대소문자 차이 나면 정리)
+    df.columns = [c.strip() for c in df.columns]
+    return df
+    
 tab1, tab2, tab3 = st.tabs(["Syllabus", "Online Links", "Schedule"])
 
 PDF_URL = "https://raw.githubusercontent.com/MK316/Applied-linguistics/main/data/S26-appling-syllabus.pdf"
@@ -85,42 +99,17 @@ with tab2:
     st.write("여기는 탭 2입니다.")
 
 with tab3:
-    st.subheader("📅 Weekly Schedule (W1–W16)")
+    st.subheader("📅 Weekly Schedule (Google Sheet)")
 
-    # --- Edit YEAR if needed ---
-    YEAR = 2026  # change to 2025, 2024, etc. if your course year is different
+    try:
+        df = load_schedule(CSV_URL)
+        st.dataframe(df, use_container_width=True, hide_index=True)
+        st.caption("Schedule is synced from Google Sheets. Updates may take up to 1 minute to appear.")
+    except Exception as e:
+        st.error("Failed to load the Google Sheet schedule.")
+        st.write(e)
+        st.info("Check: (1) Spreadsheet is published or accessible, (2) SPREADSHEET_ID and gid are correct, (3) columns exist.")
 
-    start = date(YEAR, 3, 4)   # Wed, Mar 4
-    end   = date(YEAR, 6, 17)  # Wed, Jun 17
-
-    # Generate Wed dates from start to end (inclusive)
-    dates = []
-    d = start
-    while d <= end:
-        dates.append(d)
-        d += timedelta(days=7)
-
-    # Ensure exactly 16 weeks (W1~W16)
-    dates = dates[:16]
-
-    df = pd.DataFrame({
-        "Week": [f"W{i}" for i in range(1, 17)],
-        "Date": [d.strftime("%b %d (%a)") for d in dates],  # e.g., Mar 04 (Wed)
-        "Topics": [""] * 16,
-        "Remarks": [""] * 16,
-    })
-
-    st.dataframe(df, use_container_width=True, hide_index=True)
-
-    # Optional: download as CSV
-    csv = df.to_csv(index=False).encode("utf-8-sig")
-    st.download_button(
-        "Download schedule (CSV)",
-        data=csv,
-        file_name="weekly_schedule.csv",
-        mime="text/csv",
-        use_container_width=True,
-    )
 
 
 
