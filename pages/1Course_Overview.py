@@ -9,7 +9,7 @@ tab1, tab2, tab3 = st.tabs(["Course Overview", "Online Links", "TBA"])
 with tab1:
     st.markdown("### 📄 Course Overview (PDF)")
 
-    pdf_path = Path("course_overview.pdf")  # ← PDF 파일 경로
+    pdf_path = Path("https://raw.githubusercontent.com/MK316/Applied-linguistics/main/data/S26-appling.pdf")  # ← PDF 파일 경로
     pdf_bytes = pdf_path.read_bytes()
     b64_pdf = base64.b64encode(pdf_bytes).decode("utf-8")
 
