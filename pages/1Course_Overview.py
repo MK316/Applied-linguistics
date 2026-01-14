@@ -12,7 +12,7 @@ SPREADSHEET_ID = "1_6bsBK45diIHvfWLAuAKE8nI77V0_by5wDXluCZQXD0"
 GID = "0"  # 보통 첫 시트는 0, 시트 탭의 gid 값을 넣으면 됨
 
 # ✅ 2) 구글시트 CSV export 주소 (공개되어 있어야 함)
-CSV_URL = f"https://docs.google.com/spreadsheets/d/{1_6bsBK45diIHvfWLAuAKE8nI77V0_by5wDXluCZQXD0}/export?format=csv&gid={0}"
+CSV_URL = f"https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID}/export?format=csv&gid={GID}"
 
 @st.cache_data(ttl=60, show_spinner=False)
 def load_schedule(url: str) -> pd.DataFrame:
