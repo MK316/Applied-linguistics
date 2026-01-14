@@ -1,6 +1,8 @@
 # Applied Linguistics History and Definitions
 **Chapter One Handout Summary**
 
+Davies, Alan (2007) _An Introduction to Applied Linguistics (2nd edition)_. Edinburgh University Press
+
 ## 1 Why Is Applied Linguistics Hard to Define
 
 Applied linguistics does not have a single fixed definition. Scholars have long noted that applied linguistics means different things to different people. This lack of consensus reflects the nature of the field rather than a weakness.
