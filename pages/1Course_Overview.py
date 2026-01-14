@@ -2,10 +2,11 @@ import streamlit as st
 import streamlit.components.v1 as components
 import requests
 import base64
+from datetime import date, timedelta
 
 st.set_page_config(page_title="Course", layout="wide")
 
-tab1, tab2, tab3 = st.tabs(["Syllabus", "Online Links", "TBA"])
+tab1, tab2, tab3 = st.tabs(["Syllabus", "Online Links", "Schedule"])
 
 PDF_URL = "https://raw.githubusercontent.com/MK316/Applied-linguistics/main/data/S26-appling-syllabus.pdf"
 
@@ -83,4 +84,46 @@ with tab2:
     st.write("여기는 탭 2입니다.")
 
 with tab3:
-    st.write("여기는 탭 3입니다.")
+    st.subheader("📅 Weekly Schedule (W1–W16)")
+
+    # --- Edit YEAR if needed ---
+    YEAR = 2026  # change to 2025, 2024, etc. if your course year is different
+
+    start = date(YEAR, 3, 4)   # Wed, Mar 4
+    end   = date(YEAR, 6, 17)  # Wed, Jun 17
+
+    # Generate Wed dates from start to end (inclusive)
+    dates = []
+    d = start
+    while d <= end:
+        dates.append(d)
+        d += timedelta(days=7)
+
+    # Ensure exactly 16 weeks (W1~W16)
+    dates = dates[:16]
+
+    df = pd.DataFrame({
+        "Week": [f"W{i}" for i in range(1, 17)],
+        "Date": [d.strftime("%b %d (%a)") for d in dates],  # e.g., Mar 04 (Wed)
+        "Topics": [""] * 16,
+        "Remarks": [""] * 16,
+    })
+
+    st.dataframe(df, use_container_width=True, hide_index=True)
+
+    # Optional: download as CSV
+    csv = df.to_csv(index=False).encode("utf-8-sig")
+    st.download_button(
+        "Download schedule (CSV)",
+        data=csv,
+        file_name="weekly_schedule.csv",
+        mime="text/csv",
+        use_container_width=True,
+    )
+
+
+
+
+
+
+
