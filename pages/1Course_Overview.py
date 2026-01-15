@@ -95,6 +95,10 @@ with tab1:
     except Exception as e:
         st.error(f"PDF를 불러오지 못했습니다: {e}")
 
+    # audio
+
+    
+    
 with tab2:
     st.write("여기는 탭 2입니다.")
 
