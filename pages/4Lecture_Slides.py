@@ -7,7 +7,7 @@ RAW_BASE = "https://raw.githubusercontent.com/MK316/Applied-linguistics/main"
 
 # Assumption: slide_001.png, slide_002.png, ... (3-digit)
 SLIDE_SETS = {
-    "Ch 1": {"folder": "lectureslides/test", "n": 2, "prefix": "slide_", "ext": "png"},
+    "Ch 1": {"folder": "lectureslides/test", "n": 2, "prefix": "test.", "ext": "png"},
     "Ch 2": {"folder": "lectureslides/ch02", "n": 18, "prefix": "slide_", "ext": "png"},
     "Ch 3": {"folder": "lectureslides/ch03", "n": 30, "prefix": "slide_", "ext": "png"},
 }
