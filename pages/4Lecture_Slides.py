@@ -1,22 +1,55 @@
+import re
+import requests
 import streamlit as st
 
-st.set_page_config(layout="wide")  # ← MUST come first
+st.set_page_config(layout="wide")
 
-#st.markdown("#### Applied Linguistics (Spring 2026)")
-#st.caption("Lecture slide viewer")
+# =========================
+# Repo config
+# =========================
+OWNER = "MK316"
+REPO = "Applied-linguistics"
+BRANCH = "main"
 
+RAW_BASE = f"https://raw.githubusercontent.com/{OWNER}/{REPO}/{BRANCH}"
+API_BASE = f"https://api.github.com/repos/{OWNER}/{REPO}/contents"
 
-
-RAW_BASE = "https://raw.githubusercontent.com/MK316/Applied-linguistics/main"
-
+# Each tab points to a folder. (No n / prefix needed.)
 SLIDE_SETS = {
-    "Ch 1": {"folder": "lectureslides/test", "n": 2, "prefix": "test.", "ext": "png"},
-    "Ch 2": {"folder": "lectureslides/intro", "n": 3, "prefix": "intro.", "ext": "png"},
-    "Ch 3": {"folder": "lectureslides/ch03", "n": 30, "prefix": "slide_", "ext": "png"},
+    "Ch 1": {"folder": "lectureslides/test"},
+    "Ch 2": {"folder": "lectureslides/intro"},
+    "Ch 3": {"folder": "lectureslides/ch03"},
 }
 
-def slide_url(folder: str, idx_1based: int, prefix: str, ext: str) -> str:
-    return f"{RAW_BASE}/{folder}/{prefix}{idx_1based:03d}.{ext}"
+# =========================
+# Helpers
+# =========================
+def extract_numbers(s: str):
+    """Return a tuple of ints found in filename for robust sorting."""
+    nums = re.findall(r"\d+", s)
+    return tuple(int(x) for x in nums) if nums else (10**9,)
+
+@st.cache_data(show_spinner=False)
+def list_png_files_in_folder(folder: str):
+    """
+    Lists .png files in a GitHub folder using GitHub Contents API.
+    Returns a list of filenames sorted by numbers in the name.
+    """
+    url = f"{API_BASE}/{folder}?ref={BRANCH}"
+    r = requests.get(url, timeout=15)
+    if r.status_code != 200:
+        return [], f"GitHub API error {r.status_code}: {r.text[:200]}"
+    data = r.json()
+    if not isinstance(data, list):
+        return [], "Unexpected API response (not a folder listing)."
+
+    pngs = [item["name"] for item in data
+            if item.get("type") == "file"
+            and item.get("name", "").lower().endswith(".png")]
+
+    # Sort: primarily by numbers in filename, secondarily by name
+    pngs.sort(key=lambda name: (extract_numbers(name), name.lower()))
+    return pngs, None
 
 def init_state(key: str, default):
     if key not in st.session_state:
@@ -36,13 +69,20 @@ def go_next(idx_key: str, sel_key: str, n: int):
 def sync_from_select(idx_key: str, sel_key: str):
     st.session_state[idx_key] = int(st.session_state[sel_key])
 
+# =========================
+# UI
+# =========================
+st.markdown("#### Applied Linguistics (Spring 2026)")
+st.caption("Lecture slide viewer")
 
 tab_labels = list(SLIDE_SETS.keys())
 tabs = st.tabs(tab_labels)
 
 for tab, label in zip(tabs, tab_labels):
-    cfg = SLIDE_SETS[label]
-    folder, n, prefix, ext = cfg["folder"], int(cfg["n"]), cfg["prefix"], cfg["ext"]
+    folder = SLIDE_SETS[label]["folder"]
+
+    # Load files for this folder
+    files, err = list_png_files_in_folder(folder)
 
     idx_key = f"idx__{label}"
     sel_key = f"sel__{label}"
@@ -50,7 +90,21 @@ for tab, label in zip(tabs, tab_labels):
     init_state(sel_key, st.session_state[idx_key])
 
     with tab:
-        # ✅ Better alignment: hide label + add spacer
+        if err:
+            st.error(f"Could not load slides from `{folder}`.\n\n{err}")
+            continue
+
+        if not files:
+            st.warning(f"No PNG files found in `{folder}`.")
+            continue
+
+        n = len(files)
+
+        # Keep index safe if files count changed
+        st.session_state[idx_key] = clamp(int(st.session_state[idx_key]), 1, n)
+        st.session_state[sel_key] = st.session_state[idx_key]
+
+        # Controls
         c1, c2, c3 = st.columns([1.2, 1.2, 3.0], vertical_alignment="bottom")
 
         with c1:
@@ -72,9 +126,7 @@ for tab, label in zip(tabs, tab_labels):
             )
 
         with c3:
-            # small spacer to match button baseline
             st.markdown("<div style='height: 2px;'></div>", unsafe_allow_html=True)
-
             st.selectbox(
                 "Select slide",
                 options=list(range(1, n + 1)),
@@ -82,14 +134,17 @@ for tab, label in zip(tabs, tab_labels):
                 index=st.session_state[idx_key] - 1,
                 on_change=sync_from_select,
                 args=(idx_key, sel_key),
-                label_visibility="collapsed",  # ✅ removes label gap
+                label_visibility="collapsed",
             )
 
+        # Display
         idx = int(st.session_state[idx_key])
-        url = slide_url(folder, idx, prefix, ext)  # ✅ define url here
-        
+        filename = files[idx - 1]
+        url = f"{RAW_BASE}/{folder}/{filename}"
+
         st.markdown(f"**{label}** · Slide **{idx} / {n}**")
-        
+
+        # Fit by viewport height (no vertical cutoff)
         st.markdown(
             f"""
             <div style="display:flex; justify-content:center;">
@@ -99,3 +154,6 @@ for tab, label in zip(tabs, tab_labels):
             """,
             unsafe_allow_html=True,
         )
+
+        # Optional: show filename quietly (remove if you prefer)
+        st.caption(filename)
