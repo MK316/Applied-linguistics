@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(layout="wide")  # ← MUST come first
 
-st.markdown("#### Applied Linguistics (Spring 2026)")
+#st.markdown("#### Applied Linguistics (Spring 2026)")
 st.caption("Lecture slide viewer")
 
 
