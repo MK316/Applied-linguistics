@@ -86,20 +86,16 @@ for tab, label in zip(tabs, tab_labels):
             )
 
         idx = int(st.session_state[idx_key])
+        url = slide_url(folder, idx, prefix, ext)  # ✅ define url here
+        
         st.markdown(f"**{label}** · Slide **{idx} / {n}**")
-        # st.image(slide_url(folder, idx, prefix, ext), use_container_width=True)
+        
         st.markdown(
             f"""
-            <div style="display: flex; justify-content: center;">
-                <img src="{url}"
-                     style="
-                         max-height: 80vh;
-                         width: auto;
-                         max-width: 100%;
-                         object-fit: contain;
-                     ">
+            <div style="display:flex; justify-content:center;">
+              <img src="{url}"
+                   style="max-height: 80vh; width:auto; max-width:100%; object-fit:contain;">
             </div>
             """,
             unsafe_allow_html=True,
         )
-
