@@ -1,6 +1,6 @@
-https://github.com/MK316/Applied-linguistics/blob/main/images/AL-bg1.png
-
 import streamlit as st
+
+# url = "https://github.com/MK316/Applied-linguistics/blob/main/images/AL-bg1.png"
 
 st.markdown("#### Applied Linguistics (Spring 2026)")
 st.caption("To be updated soon")
