@@ -36,8 +36,6 @@ def go_next(idx_key: str, sel_key: str, n: int):
 def sync_from_select(idx_key: str, sel_key: str):
     st.session_state[idx_key] = int(st.session_state[sel_key])
 
-st.markdown("#### Applied Linguistics (Spring 2026)")
-st.caption("Lecture slide viewer")
 
 tab_labels = list(SLIDE_SETS.keys())
 tabs = st.tabs(tab_labels)
