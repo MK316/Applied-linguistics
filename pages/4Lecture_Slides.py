@@ -76,6 +76,7 @@ for tab, label in zip(tabs, tab_labels):
         with c3:
             select_key = f"select_slide__{label}"
             st.selectbox(
+                "Select slide",
                 options=list(range(1, n + 1)),
                 index=int(st.session_state[state_key]) - 1,
                 key=select_key,
