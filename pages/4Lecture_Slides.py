@@ -27,19 +27,19 @@ def clamp(x: int, lo: int, hi: int) -> int:
     return max(lo, min(hi, x))
 
 def go_prev(state_key: str, n: int):
-    st.session_state[state_key] = clamp(st.session_state[state_key] - 1, 1, n)
+    st.session_state[state_key] = clamp(int(st.session_state[state_key]) - 1, 1, n)
 
 def go_next(state_key: str, n: int):
-    st.session_state[state_key] = clamp(st.session_state[state_key] + 1, 1, n)
+    st.session_state[state_key] = clamp(int(st.session_state[state_key]) + 1, 1, n)
 
-def set_from_select(state_key: str, n: int, select_key: str):
+def sync_select_to_state(state_key: str, n: int, select_key: str):
     st.session_state[state_key] = clamp(int(st.session_state[select_key]), 1, n)
 
 # =========================
 # UI
 # =========================
 st.markdown("#### Applied Linguistics (Spring 2026)")
-st.caption("Slide viewer (GitHub-hosted images)")
+st.caption("Slide viewer")
 
 tab_labels = list(SLIDE_SETS.keys())
 tabs = st.tabs(tab_labels)
@@ -53,34 +53,39 @@ for tab, label in zip(tabs, tab_labels):
     init_state(state_key, default=1)
 
     with tab:
-        # --- Controls row (no Jump-to, no folder text) ---
         c1, c2, c3 = st.columns([1.1, 1.1, 3.2])
 
         with c1:
-            st.button("◀ Previous", use_container_width=True, on_click=go_prev, args=(state_key, n))
+            st.button(
+                "◀ Previous",
+                use_container_width=True,
+                key=f"btn_prev__{label}",
+                on_click=go_prev,
+                args=(state_key, n),
+            )
+
         with c2:
-            st.button("Next ▶", use_container_width=True, on_click=go_next, args=(state_key, n))
+            st.button(
+                "Next ▶",
+                use_container_width=True,
+                key=f"btn_next__{label}",
+                on_click=go_next,
+                args=(state_key, n),
+            )
 
         with c3:
-            slide_options = list(range(1, n + 1))
             select_key = f"select_slide__{label}"
             st.selectbox(
                 "Select slide",
-                options=slide_options,
+                options=list(range(1, n + 1)),
                 index=int(st.session_state[state_key]) - 1,
                 key=select_key,
-                on_change=set_from_select,
+                on_change=sync_select_to_state,
                 args=(state_key, n, select_key),
             )
 
-        # --- Display ---
         idx = int(st.session_state[state_key])
         url = slide_url(folder, idx, prefix, ext)
 
         st.markdown(f"**{label}** · Slide **{idx} / {n}**")
         st.image(url, use_container_width=True)
-
-        # Optional debug (remove if you want it even cleaner)
-        with st.expander("Troubleshoot (raw URL)"):
-            st.code(url, language="text")
-            st.caption("If this URL does not open in a browser, the path/filename is wrong.")
