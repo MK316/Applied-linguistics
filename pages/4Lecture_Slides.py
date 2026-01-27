@@ -4,6 +4,9 @@ import streamlit as st
 
 st.set_page_config(layout="wide")
 
+# =========================
+# Repo config
+# =========================
 OWNER = "MK316"
 REPO = "Applied-linguistics"
 BRANCH = "main"
@@ -11,6 +14,7 @@ BRANCH = "main"
 RAW_BASE = f"https://raw.githubusercontent.com/{OWNER}/{REPO}/{BRANCH}"
 API_BASE = f"https://api.github.com/repos/{OWNER}/{REPO}/contents"
 
+# Each tab points to a folder (no n / prefix needed).
 SLIDE_SETS = {
     "Ch 1": {"folder": "lectureslides/test"},
     "Ch 2": {"folder": "lectureslides/intro"},
@@ -25,23 +29,35 @@ def extract_numbers(s: str):
     nums = re.findall(r"\d+", s)
     return tuple(int(x) for x in nums) if nums else (10**9,)
 
-@st.cache_data(show_spinner=False)
+@st.cache_data(ttl=3600, show_spinner=False)
 def list_png_files_in_folder(folder: str):
     """
     Lists .png files in a GitHub folder using GitHub Contents API.
-    Returns a list of filenames sorted by numbers in the name.
+    Uses an auth token (st.secrets["GITHUB_TOKEN"]) if provided to avoid rate limits.
     """
+    headers = {}
+
+    # Streamlit Cloud -> App -> Settings -> Secrets:
+    # GITHUB_TOKEN = "ghp_...."
+    token = st.secrets.get("GITHUB_TOKEN", None)
+    if token:
+        headers["Authorization"] = f"token {token}"
+
     url = f"{API_BASE}/{folder}?ref={BRANCH}"
-    r = requests.get(url, timeout=15)
+    r = requests.get(url, headers=headers, timeout=15)
+
     if r.status_code != 200:
         return [], f"GitHub API error {r.status_code}: {r.text[:200]}"
+
     data = r.json()
     if not isinstance(data, list):
         return [], "Unexpected API response (not a folder listing)."
 
-    pngs = [item["name"] for item in data
-            if item.get("type") == "file"
-            and item.get("name", "").lower().endswith(".png")]
+    pngs = [
+        item["name"] for item in data
+        if item.get("type") == "file"
+        and item.get("name", "").lower().endswith(".png")
+    ]
 
     # Sort: primarily by numbers in filename, secondarily by name
     pngs.sort(key=lambda name: (extract_numbers(name), name.lower()))
@@ -88,6 +104,7 @@ for tab, label in zip(tabs, tab_labels):
     with tab:
         if err:
             st.error(f"Could not load slides from `{folder}`.\n\n{err}")
+            st.info("If you see a 403 rate-limit error, add GITHUB_TOKEN to Streamlit Secrets.")
             continue
 
         if not files:
@@ -140,7 +157,7 @@ for tab, label in zip(tabs, tab_labels):
 
         st.markdown(f"**{label}** · Slide **{idx} / {n}**")
 
-        # Fit by viewport height (no vertical cutoff)
+        # Fit by viewport height (prevents vertical cutoff)
         st.markdown(
             f"""
             <div style="display:flex; justify-content:center;">
