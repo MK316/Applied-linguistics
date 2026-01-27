@@ -4,9 +4,6 @@ import streamlit as st
 
 st.set_page_config(layout="wide")
 
-# =========================
-# Repo config
-# =========================
 OWNER = "MK316"
 REPO = "Applied-linguistics"
 BRANCH = "main"
@@ -14,7 +11,6 @@ BRANCH = "main"
 RAW_BASE = f"https://raw.githubusercontent.com/{OWNER}/{REPO}/{BRANCH}"
 API_BASE = f"https://api.github.com/repos/{OWNER}/{REPO}/contents"
 
-# Each tab points to a folder. (No n / prefix needed.)
 SLIDE_SETS = {
     "Ch 1": {"folder": "lectureslides/test"},
     "Ch 2": {"folder": "lectureslides/intro"},
