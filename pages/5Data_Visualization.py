@@ -20,13 +20,13 @@ PALETTES = {
 }
 palette = PALETTES[st.sidebar.selectbox("Color palette", PALETTES.keys())]
 
-tab1, tab2, tab3 = st.tabs(["1) Bar chart", "2) Pie chart", "3) (Empty)"])
+tab1, tab2, tab3 = st.tabs(["📊 1) Bar chart", "🥧 2) Pie chart", "3) (Empty)"])
 
 # =========================================================
 # TAB 1 — BAR CHART
 # =========================================================
 with tab1:
-    st.title("📊 Bar Chart Builder")
+
 
     # 1) size
     st.subheader("1) Data size")
@@ -119,7 +119,7 @@ with tab1:
 # TAB 2 — PIE CHART
 # =========================================================
 with tab2:
-    st.title("🥧 Pie Chart Builder")
+
 
     # 1) size
     st.subheader("1) Data size")
