@@ -29,7 +29,7 @@ tab1, tab2, tab3 = st.tabs(["1) Chart Builder", "2) (Empty)", "3) (Empty)"])
 with tab1:
     st.title("📊 Chart Builder")
 
-    # Title textbox (separate from worksheet)
+    # Chart title textbox (separate)
     st.subheader("0) Chart title")
     chart_title = st.text_input("Chart title", value="")
 
@@ -37,36 +37,72 @@ with tab1:
     st.subheader("1) Set table size")
     c1, c2 = st.columns(2)
     with c1:
-        n_value_cols = st.number_input("Number of value columns", min_value=1, max_value=10, value=3, step=1)
+        n_value_cols = st.number_input("Number of value columns", 1, 10, 3, 1)
     with c2:
-        n_rows = st.number_input("Number of series (rows)", min_value=1, max_value=50, value=5, step=1)
+        n_rows = st.number_input("Number of series (rows)", 1, 50, 5, 1)
 
     # 2) Choose chart type
     st.subheader("2) Choose chart type")
     chart_type = st.radio("Chart type", ["Bar chart", "Pie chart"], horizontal=True)
 
-    # Build worksheet columns
-    value_cols = [f"Value_{i}" for i in range(1, int(n_value_cols) + 1)]
-    columns = ["Series"] + value_cols
+    # Internal (fixed) value columns
+    internal_value_cols = [f"Value_{i}" for i in range(1, int(n_value_cols) + 1)]
+
+    # ---------------------------
+    # NEW: Editable legend/column names table
+    # ---------------------------
+    st.subheader("2.5) Rename legend labels (value columns)")
+    st.caption("여기에서 Value 컬럼의 표시 이름(legend)을 바꿀 수 있습니다.")
+
+    # Initialize in session_state
+    if "value_col_labels" not in st.session_state or len(st.session_state["value_col_labels"]) != len(internal_value_cols):
+        st.session_state["value_col_labels"] = [f"Category {i}" for i in range(1, int(n_value_cols) + 1)]
+
+    labels_df_default = pd.DataFrame(
+        {
+            "Column": internal_value_cols,
+            "Legend label (editable)": st.session_state["value_col_labels"],
+        }
+    )
+
+    labels_df = st.data_editor(
+        labels_df_default,
+        use_container_width=True,
+        hide_index=True,
+        num_rows="fixed",
+        key="labels_editor",
+        disabled=["Column"],  # left column fixed
+    )
+
+    # Save updated labels back
+    new_labels = labels_df["Legend label (editable)"].astype(str).tolist()
+    st.session_state["value_col_labels"] = new_labels
+
+    # Map internal -> display label
+    col_label_map = dict(zip(internal_value_cols, new_labels))
 
     # 3) Spreadsheet-like input
     st.subheader("3) Enter your data (Series + Values)")
     st.caption("• 첫 열은 계열 이름(Series)입니다. • 값 열에는 숫자를 입력하세요.")
 
-    default_df = pd.DataFrame([[""] * len(columns) for _ in range(int(n_rows))], columns=columns)
+    sheet_cols = ["Series"] + internal_value_cols
+    default_df = pd.DataFrame([[""] * len(sheet_cols) for _ in range(int(n_rows))], columns=sheet_cols)
 
     df_input = st.data_editor(
         default_df,
         use_container_width=True,
         hide_index=True,
         num_rows="fixed",
-        key="sheet_v2",
+        key="sheet_data",
     )
 
-    # Pie chart value selection (which value column to use)
-    pie_value_col = None
+    # Pie: choose which value col to use (show display names)
+    pie_value_internal = None
     if chart_type == "Pie chart":
-        pie_value_col = st.selectbox("For pie chart, choose a value column", value_cols, index=0)
+        options_display = [col_label_map[c] for c in internal_value_cols]
+        display_to_internal = {col_label_map[c]: c for c in internal_value_cols}
+        chosen_display = st.selectbox("For pie chart, choose a value column", options_display, index=0)
+        pie_value_internal = display_to_internal[chosen_display]
 
     # 4) Generate button
     st.subheader("4) Generate chart")
@@ -79,22 +115,22 @@ with tab1:
         df["Series"] = df["Series"].astype(str).replace("nan", "").str.strip()
 
         # Convert numeric columns
-        for c in value_cols:
+        for c in internal_value_cols:
             df[c] = pd.to_numeric(df[c], errors="coerce")
 
-        # Drop rows where Series is empty AND all values are NaN
-        mask_all_empty = (df["Series"] == "") & (df[value_cols].isna().all(axis=1))
+        # Drop rows: empty Series AND all NaN values
+        mask_all_empty = (df["Series"] == "") & (df[internal_value_cols].isna().all(axis=1))
         df = df.loc[~mask_all_empty].copy()
 
         if df.empty:
             st.warning("No valid data. Please enter series names and numeric values.")
         else:
-            title_to_show = chart_title.strip()
+            title_to_show = chart_title.strip() if chart_title else None
 
             if chart_type == "Bar chart":
                 long_df = df.melt(
                     id_vars="Series",
-                    value_vars=value_cols,
+                    value_vars=internal_value_cols,
                     var_name="Category",
                     value_name="Value",
                 ).dropna(subset=["Value"])
@@ -102,6 +138,9 @@ with tab1:
                 if long_df.empty:
                     st.warning("No numeric values found for the bar chart.")
                 else:
+                    # Replace internal category names with user labels
+                    long_df["Category"] = long_df["Category"].map(col_label_map)
+
                     fig = px.bar(
                         long_df,
                         x="Series",
@@ -109,33 +148,35 @@ with tab1:
                         color="Category",
                         barmode="group",
                         color_discrete_sequence=palette,
-                        title=title_to_show if title_to_show else None,
+                        title=title_to_show,
                     )
                     fig.update_layout(
                         height=520,
-                        title=dict(x=0.5, xanchor="center", font=dict(size=22)),
-                        legend_title="Category",
-                        margin=dict(l=20, r=20, t=70, b=20),
+                        title=dict(x=0.5, xanchor="center", font=dict(size=24)),
+                        legend_title_text="",
+                        margin=dict(l=20, r=20, t=80, b=20),
                     )
                     st.plotly_chart(fig, use_container_width=True)
 
             else:  # Pie chart
-                pie_df = df[["Series", pie_value_col]].dropna(subset=[pie_value_col]).copy()
+                pie_df = df[["Series", pie_value_internal]].dropna(subset=[pie_value_internal]).copy()
 
                 if pie_df.empty:
                     st.warning("No numeric values found for the pie chart.")
                 else:
+                    pie_title = title_to_show if title_to_show else col_label_map[pie_value_internal]
+
                     fig = px.pie(
                         pie_df,
                         names="Series",
-                        values=pie_value_col,
+                        values=pie_value_internal,
                         color_discrete_sequence=palette,
-                        title=title_to_show if title_to_show else None,
+                        title=pie_title,
                     )
                     fig.update_layout(
                         height=520,
-                        title=dict(x=0.5, xanchor="center", font=dict(size=22)),
-                        margin=dict(l=20, r=20, t=70, b=20),
+                        title=dict(x=0.5, xanchor="center", font=dict(size=24)),
+                        margin=dict(l=20, r=20, t=80, b=20),
                     )
                     st.plotly_chart(fig, use_container_width=True)
 
