@@ -175,7 +175,7 @@ with tab2:
 # TAB 3 — CSV UPLOAD (Bar/Pie 선택 → 자동 차트)
 # =========================================================
 with tab3:
-    st.title("📁 CSV Upload → Chart")
+    st.caption("Each column must include a column name.")
 
     # 먼저 차트 타입 선택
     st.subheader("0) Choose chart type")
