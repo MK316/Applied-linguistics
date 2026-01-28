@@ -32,7 +32,13 @@ with tab1:
     # Chart title textbox (separate)
     st.subheader("0) Chart title")
     chart_title = st.text_input("Chart title", value="")
+    
+    # NEW: Y-axis label (bar chart only)
+    st.subheader("0.5) Y-axis label (for bar chart)")
+    y_axis_label = st.text_input("Y-axis label", value="")
 
+
+    
     # 1) Ask rows/cols
     st.subheader("1) Set table size")
     c1, c2 = st.columns(2)
@@ -150,13 +156,15 @@ with tab1:
                         color_discrete_sequence=palette,
                         title=title_to_show,
                     )
+                    
                     fig.update_layout(
                         height=520,
                         title=dict(x=0.5, xanchor="center", font=dict(size=24)),
+                        yaxis_title=y_axis_label if y_axis_label else "Value",
                         legend_title_text="",
                         margin=dict(l=20, r=20, t=80, b=20),
                     )
-                    st.plotly_chart(fig, use_container_width=True)
+
 
             else:  # Pie chart
                 pie_df = df[["Series", pie_value_internal]].dropna(subset=[pie_value_internal]).copy()
