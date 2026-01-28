@@ -7,3 +7,4 @@ Pillow
 wordcloud
 gTTS
 streamlit-drawable-canvas
+plotly
