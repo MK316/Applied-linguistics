@@ -63,7 +63,7 @@ def tokenize_words(text: str):
 # ----------------------------
 st.title("Text Processing Tools")
 
-tabs = st.tabs(["Word Count", "Remove Line Breaks", "Word Frequency", "Application 4", "Application 5"])
+tabs = st.tabs(["Word Count", "Remove Line Breaks", "Word Frequency", "TTR", "Reading level"])
 
 # ---- Tab 1: Word Count ----
 with tabs[0]:
