@@ -4,6 +4,7 @@ import pandas as pd
 import io
 import matplotlib.pyplot as plt
 import math
+import textstat
 
 
 
@@ -312,5 +313,77 @@ with tabs[3]:
 
 # ---- Tab 5 ----
 with tabs[4]:
-    st.header("Application 5")
-    st.write("Details for Application 5 will be added here.")
+    st.header("📚 Reading Level & Lexical Analyzer")
+    st.markdown("""
+    This app estimates the complexity of your text using standard readability formulas.  
+    Since the official **Lexile®** formula is proprietary, this tool uses  
+    **Flesch–Kincaid** and **Text Standard** scores as educational proxies.
+    """)
+
+    # Input Section
+    text_input = st.text_area(
+        "Paste your text here (minimum 100 words recommended):",
+        height=300,
+        key="lexile_text_input",
+    )
+
+    if text_input.strip():
+        # ----------------------------
+        # Core counts
+        # ----------------------------
+        word_count = textstat.lexicon_count(text_input, removepunct=True)
+        sentence_count = textstat.sentence_count(text_input)
+
+        # ----------------------------
+        # Readability metrics
+        # ----------------------------
+        fk_grade = textstat.flesch_kincaid_grade(text_input)
+        consensus_grade = textstat.text_standard(text_input)
+
+        # ----------------------------
+        # Lexical Diversity (simple TTR)
+        # ----------------------------
+        words = re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?", text_input.lower())
+        unique_words = set(words)
+        ttr = len(unique_words) / len(words) if words else 0
+
+        # ----------------------------
+        # Display Metrics
+        # ----------------------------
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.metric("Grade Level", f"Grade {fk_grade}")
+            st.caption("Flesch–Kincaid Estimate")
+
+        with col2:
+            st.metric("Lexical Diversity", f"{ttr:.2f}")
+            st.caption("Type–Token Ratio (TTR)")
+
+        with col3:
+            st.metric("Word Count", word_count)
+
+        st.divider()
+
+        # ----------------------------
+        # Interpretation
+        # ----------------------------
+        st.subheader("📝 Analysis Summary")
+        st.write(f"**Recommended Audience:** {consensus_grade}")
+
+        # Lexile proxy (heuristic)
+        lexile_proxy = int((fk_grade * 150) + 150) if fk_grade > 0 else 0
+        st.info(
+            f"**Estimated Lexile Range:** "
+            f"{max(0, lexile_proxy - 50)}L – {lexile_proxy + 50}L"
+        )
+
+        # Visual indicator
+        st.progress(
+            min(fk_grade / 12.0, 1.0),
+            text=f"Text Complexity (relative): {fk_grade} / 12",
+        )
+
+    else:
+        st.info("Waiting for text input…")
+
