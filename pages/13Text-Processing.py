@@ -312,7 +312,10 @@ with tabs[3]:
 
 
 # ---- Tab 5 ----
+# ---- Tab 5 ----
 with tabs[4]:
+    import textstat
+    import math
 
     st.header("📚 Reading Level & Lexical Analyzer")
     st.markdown("""
@@ -320,6 +323,47 @@ with tabs[4]:
     Since the official **Lexile®** formula is proprietary, this tool uses  
     **Flesch–Kincaid** and **Text Standard** scores as educational proxies.
     """)
+
+    # ---------- Helper: Grade interpretation ----------
+    def grade_help_text(fk: float) -> str:
+        """
+        Short, teacher-friendly interpretation.
+        Note: FK grade is an estimate based mainly on sentence length + word syllables.
+        """
+        if fk is None or (isinstance(fk, float) and (math.isnan(fk) or math.isinf(fk))):
+            return "Grade level could not be calculated for this text."
+
+        g = int(round(fk))
+        g = max(0, min(g, 16))  # clamp (0 ~ 16)
+
+        if g <= 1:
+            band = "Early elementary (Grades K–1)"
+            note = "Very short sentences and very common words. Suitable for beginners."
+        elif g <= 3:
+            band = "Elementary (Grades 2–3)"
+            note = "Simple sentence patterns with familiar vocabulary."
+        elif g <= 5:
+            band = "Upper elementary (Grades 4–5)"
+            note = "Longer sentences appear; content can include basic explanations."
+        elif g <= 7:
+            band = "Middle school (Grades 6–7)"
+            note = "Moderate complexity. Good for short informational texts and guided reading."
+        elif g <= 9:
+            band = "Middle to early high school (Grades 8–9)"
+            note = "More complex syntax and academic vocabulary may appear. Suitable for most school tasks."
+        elif g <= 12:
+            band = "High school (Grades 10–12)"
+            note = "Longer sentences and denser information. May require pre-teaching key terms."
+        else:
+            band = "College-level (13+)"
+            note = "High density and complex structure. Best for advanced learners."
+
+        caution = (
+            "Interpretation tip: FK is sensitive to sentence length and syllable counts. "
+            "For fair comparisons, use texts of similar length and genre."
+        )
+
+        return f"{band}. {note} {caution}"
 
     # Input Section
     text_input = st.text_area(
@@ -351,11 +395,18 @@ with tabs[4]:
         # ----------------------------
         # Display Metrics
         # ----------------------------
+        grade_hint = grade_help_text(fk_grade)
+
         col1, col2, col3 = st.columns(3)
 
         with col1:
-            st.metric("Grade Level", f"Grade {fk_grade}")
+            # Streamlit version dependent: metric(help=...) may or may not show.
+            st.metric("Grade Level", f"Grade {fk_grade:.2f}", help=grade_hint)
             st.caption("Flesch–Kincaid Estimate")
+
+            # Fallback: always visible short help
+            with st.expander("How to interpret Grade Level"):
+                st.write(grade_hint)
 
         with col2:
             st.metric("Lexical Diversity", f"{ttr:.2f}")
@@ -382,9 +433,8 @@ with tabs[4]:
         # Visual indicator
         st.progress(
             min(fk_grade / 12.0, 1.0),
-            text=f"Text Complexity (relative): {fk_grade} / 12",
+            text=f"Text Complexity (relative): {fk_grade:.2f} / 12",
         )
 
     else:
         st.info("Waiting for text input…")
-
