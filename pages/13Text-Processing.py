@@ -2,6 +2,8 @@ import streamlit as st
 import re
 import pandas as pd
 import io
+import matplotlib.pyplot as plt
+
 
 # ----------------------------
 # Functions
