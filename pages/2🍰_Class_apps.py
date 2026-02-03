@@ -22,7 +22,7 @@ tabs = st.tabs(["✏️Blackboard", "📈QR", "⏳Timer", "🐤GS","🔊TTS", "�
 
 # QR Code tab
 with tabs[0]:
-    st.subheader("🖤 Blackboard")
+    st.subheader("📚 Blackboard")
 
     # ---- Controls ----
     c1, c2 = st.columns([1, 1])
