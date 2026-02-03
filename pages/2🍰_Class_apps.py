@@ -20,7 +20,7 @@ def create_wordcloud(text):
 tabs = st.tabs([
     "✏️Blackboard", "📈QR", "⏳Timer",
     "☁️WordCloud",           # ✅ NEW 4th tab
-    "🐤GS", "🔊TTS", "🎨Drawing", "👥Grouping",
+    "🐤GS", "🔊TTS", "🎨Drawing", "👥Grouping", "DOC",
 ])
 
 # --- Tab 0: Blackboard ---
@@ -298,3 +298,42 @@ with tabs[7]:
                 )
     else:
         st.error("The file must contain both `Course` and `Name_ori` columns.")
+
+with tabs[8]:
+    st.subheader("📄 Shared Google Doc")
+    st.caption("Read the document here. Click the button below to edit.")
+
+    DOC_ID = "1olgbyInMLUFaYPjt8G_V-tNtb1Kfhjts4gq4hxPYNmQ"
+    VIEW_URL = f"https://docs.google.com/document/d/{DOC_ID}/preview"
+    EDIT_URL = f"https://docs.google.com/document/d/{DOC_ID}/edit"
+
+    # ✏️ Edit button (opens new tab)
+    st.markdown(
+        f"""
+        <a href="{EDIT_URL}" target="_blank" rel="noopener noreferrer"
+           style="
+             display:inline-block;
+             padding:0.6rem 1.1rem;
+             border-radius:8px;
+             background:#0ea5e9;
+             color:white;
+             text-decoration:none;
+             font-weight:600;
+             margin-bottom:12px;
+           ">
+           ✏️ Open & edit in Google Docs
+        </a>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # 📄 Document preview
+    st.components.v1.html(
+        f"""
+        <iframe src="{VIEW_URL}"
+                style="width:100%; height:85vh; border:none;">
+        </iframe>
+        """,
+        height=900,
+    )
+
