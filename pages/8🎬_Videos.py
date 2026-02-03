@@ -21,46 +21,12 @@ def youtube_embed_url(url: str) -> str:
     vid = extract_youtube_id(url)
     return f"https://www.youtube.com/embed/{vid}?rel=0&modestbranding=1" if vid else ""
 
-def render_video_player(video_dict: dict, sidebar_key: str, sidebar_title: str):
-    """
-    video_dict: {label: url}
-    sidebar_key: unique key per tab (prevents widget collision)
-    sidebar_title: title shown in sidebar
-    """
-    st.sidebar.header(sidebar_title)
+def render_player(selected_label: str, selected_url: str):
+    st.subheader(f"Now Playing: {selected_label}")
 
-    labels = list(video_dict.keys())
-    if not labels:
-        st.warning("No videos available.")
-        return
-
-    # ✅ unique selectbox key per tab
-    selected = st.sidebar.selectbox(
-        "Select",
-        labels,
-        index=0,
-        label_visibility="collapsed",
-        key=sidebar_key,
-    )
-
-    st.sidebar.caption("Link")
-    st.sidebar.code(video_dict[selected], language="text")
-
-    st.sidebar.markdown(
-        f"""
-        <a href="{video_dict[selected]}" target="_blank" rel="noopener noreferrer"
-           style="text-decoration:none;">
-           ▶️ Open on YouTube
-        </a>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.subheader(f"Now Playing: {selected}")
-
-    embed = youtube_embed_url(video_dict[selected])
+    embed = youtube_embed_url(selected_url)
     if not embed:
-        st.error("Invalid YouTube link format. Please check the URL in the sidebar.")
+        st.error("Invalid YouTube link format. Please check the URL.")
         return
 
     st.markdown(
@@ -98,49 +64,74 @@ def render_video_player(video_dict: dict, sidebar_key: str, sidebar_title: str):
         unsafe_allow_html=True,
     )
 
-
-# ---------- Tab 1 videos (your original list) ----------
+# ---------- Video lists ----------
 VIDEOS = {
     "SW교육과 AI교육, 왜 배워야 할까요?": "https://youtu.be/lQ2kAukmWQE?si=-m1vxlwy46tQGrTp",
     "2015-1": "https://www.youtube.com/watch?v=VIDEO_ID_2",
     "2005-2": "https://www.youtube.com/watch?v=VIDEO_ID_3",
-    "2013-2": "https://www.youtube.com/watch?v=VIDEO_ID_4",
-    "2015-2": "https://www.youtube.com/watch?v=VIDEO_ID_5",
-    "2005-1": "https://www.youtube.com/watch?v=VIDEO_ID_6",
-    "2008-2": "https://www.youtube.com/watch?v=VIDEO_ID_7",
-    "2007-1": "https://www.youtube.com/watch?v=VIDEO_ID_8",
-    "2012-2": "https://www.youtube.com/watch?v=VIDEO_ID_9",
-    "2011-1": "https://www.youtube.com/watch?v=VIDEO_ID_10",
-    "2020-2": "https://www.youtube.com/watch?v=VIDEO_ID_11",
-    "2018-3": "https://www.youtube.com/watch?v=VIDEO_ID_12",
 }
 
-# ---------- Tab 2 videos (Class videos) ----------
 CLASS_VIDEOS = {
     "Week 01 · Orientation": "https://www.youtube.com/watch?v=VIDEO_ID_A",
     "Week 02 · Digital tools overview": "https://www.youtube.com/watch?v=VIDEO_ID_B",
-    # 필요하면 계속 추가
 }
 
-# ---------- Tabs ----------
-tab1, tab2 = st.tabs(["Video Library", "Class videos"])
-
-# ✅ 핵심: sidebar는 페이지 전체에서 공유되므로
-#    '현재 활성 탭'에 맞는 sidebar UI만 출력해야 충돌이 없습니다.
-#    -> 탭별로 렌더링 함수를 호출하되, selectbox key를 다르게.
-
-with tab1:
-    st.caption("🎬 Select a video from the left menu to play it here.")
-    render_video_player(
-        video_dict=VIDEOS,
-        sidebar_key="sidebar_select_video_library",  # ✅ unique key
-        sidebar_title="Choose a video",
+# ---------- "Tabs" selector (acts like tabs, but controllable) ----------
+# Streamlit 버전에 따라 segmented_control이 없을 수 있어 fallback 포함
+try:
+    view = st.segmented_control(
+        "View",
+        options=["Video Library", "Class videos"],
+        default="Video Library",
+        label_visibility="collapsed",
+    )
+except Exception:
+    view = st.radio(
+        "View",
+        options=["Video Library", "Class videos"],
+        horizontal=True,
+        label_visibility="collapsed",
     )
 
-with tab2:
-    st.caption("🎓 Class videos (select from the left menu).")
-    render_video_player(
-        video_dict=CLASS_VIDEOS,
-        sidebar_key="sidebar_select_class_videos",   # ✅ unique key
-        sidebar_title="Choose a class video",
+st.caption("🎬 Select a video from the left menu to play it here.")
+
+# ---------- Sidebar: show ONLY ONE menu depending on view ----------
+if view == "Video Library":
+    st.sidebar.header("Choose a video")
+    labels = list(VIDEOS.keys())
+    selected = st.sidebar.selectbox(
+        "Select",
+        labels,
+        index=0,
+        key="sidebar_video_library_select",
+        label_visibility="collapsed",
     )
+    st.sidebar.caption("Link")
+    st.sidebar.code(VIDEOS[selected], language="text")
+    st.sidebar.markdown(
+        f"""<a href="{VIDEOS[selected]}" target="_blank" rel="noopener noreferrer"
+            style="text-decoration:none;">▶️ Open on YouTube</a>""",
+        unsafe_allow_html=True,
+    )
+
+    render_player(selected, VIDEOS[selected])
+
+else:  # Class videos
+    st.sidebar.header("Choose a class video")
+    labels = list(CLASS_VIDEOS.keys())
+    selected = st.sidebar.selectbox(
+        "Select",
+        labels,
+        index=0,
+        key="sidebar_class_videos_select",
+        label_visibility="collapsed",
+    )
+    st.sidebar.caption("Link")
+    st.sidebar.code(CLASS_VIDEOS[selected], language="text")
+    st.sidebar.markdown(
+        f"""<a href="{CLASS_VIDEOS[selected]}" target="_blank" rel="noopener noreferrer"
+            style="text-decoration:none;">▶️ Open on YouTube</a>""",
+        unsafe_allow_html=True,
+    )
+
+    render_player(selected, CLASS_VIDEOS[selected])
