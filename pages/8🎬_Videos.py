@@ -22,7 +22,6 @@ def youtube_embed_url(url: str) -> str:
     return f"https://www.youtube.com/embed/{vid}?rel=0&modestbranding=1" if vid else ""
 
 def render_player(selected_label: str, selected_url: str):
-    st.subheader(f"Now Playing: {selected_label}")
 
     embed = youtube_embed_url(selected_url)
     if not embed:
