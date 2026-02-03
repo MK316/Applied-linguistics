@@ -39,7 +39,7 @@ with tabs[0]:
     with c2:
         text_color = st.color_picker(
             "Text color",
-            value="#ffffff",   # white (blackboard 느낌)
+            value="#006666",   # white (blackboard 느낌)
         )
 
     # ---- Input area ----
