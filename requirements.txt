@@ -10,3 +10,4 @@ streamlit-drawable-canvas
 plotly
 gspread
 google-auth
+openpyxl
