@@ -82,36 +82,87 @@ with tabs[1]:
 # ---- Tab 3: Word Frequency (NEW) ----
 with tabs[2]:
     st.header("📊 Word Frequency")
-    st.caption("Paste text below to see word frequency counts (case-insensitive). You can download the table as an Excel file.")
+    st.caption(
+        "Paste text to see word frequency (case-insensitive). "
+        "You can optionally provide stop words separated by commas."
+    )
 
-    text_for_freq = st.text_area("Paste your text here:", height=260, key="freq_text")
+    text_for_freq = st.text_area(
+        "Paste your text here:",
+        height=240,
+        key="freq_text",
+    )
+
+    stop_words_input = st.text_input(
+        "Stop words (comma-separated, optional)",
+        placeholder="e.g., the, a, an, and, of, to",
+        key="stop_words_input",
+    )
 
     c1, c2 = st.columns([1, 1])
     with c1:
-        top_n = st.number_input("Show top N words (0 = show all)", min_value=0, max_value=5000, value=200, step=50)
+        top_n = st.number_input(
+            "Show top N words (0 = show all)",
+            min_value=0,
+            max_value=5000,
+            value=200,
+            step=50,
+        )
     with c2:
-        min_count = st.number_input("Minimum frequency (filter)", min_value=1, max_value=9999, value=1, step=1)
+        min_count = st.number_input(
+            "Minimum frequency (filter)",
+            min_value=1,
+            max_value=9999,
+            value=1,
+            step=1,
+        )
 
     if text_for_freq.strip():
-        df_freq = word_frequency_df(text_for_freq, top_n=None if top_n == 0 else int(top_n))
+        # ---- Normalize text ----
+        text_lower = text_for_freq.lower()
+        tokens = re.findall(r"\w+", text_lower)
 
-        # Apply minimum count filter
-        df_freq = df_freq[df_freq["count"] >= int(min_count)].reset_index(drop=True)
+        # ---- Parse stop words ----
+        stop_words = set()
+        if stop_words_input.strip():
+            stop_words = {
+                w.strip().lower()
+                for w in stop_words_input.split(",")
+                if w.strip()
+            }
 
-        if df_freq.empty:
-            st.warning("No tokens found (or all filtered out).")
+        # ---- Remove stop words ----
+        if stop_words:
+            tokens = [t for t in tokens if t not in stop_words]
+
+        if not tokens:
+            st.warning("No tokens left after applying stop words.")
         else:
+            s = pd.Series(tokens, dtype="string")
+            df_freq = s.value_counts().reset_index()
+            df_freq.columns = ["word", "count"]
+            df_freq = df_freq.sort_values(
+                by=["count", "word"],
+                ascending=[False, True],
+                ignore_index=True,
+            )
+
+            if top_n != 0:
+                df_freq = df_freq.head(int(top_n))
+
+            df_freq = df_freq[df_freq["count"] >= int(min_count)].reset_index(drop=True)
+
             st.write(f"✅ Unique words: **{len(df_freq)}**")
             st.dataframe(df_freq, use_container_width=True, hide_index=True)
 
-            # Excel download
-            excel_bytes = df_to_excel_bytes(df_freq)
+            # ---- CSV download (no extra modules) ----
+            csv_data = df_freq.to_csv(index=False).encode("utf-8-sig")
             st.download_button(
-                label="⬇️ Download Excel (.xlsx)",
-                data=excel_bytes,
-                file_name="word_frequency.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                key="download_freq_xlsx",
+                label="⬇️ Download CSV",
+                data=csv_data,
+                file_name="word_frequency.csv",
+                mime="text/csv",
+                key="download_freq_csv",
             )
     else:
         st.info("Paste some text to generate the frequency table.")
