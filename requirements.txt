@@ -1,4 +1,6 @@
-streamlit
+streamlit>=1.30
+requests>=2.31
+
 pandas
 numpy
 matplotlib
