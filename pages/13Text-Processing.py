@@ -3,6 +3,8 @@ import re
 import pandas as pd
 import io
 import matplotlib.pyplot as plt
+import math
+
 
 
 # ----------------------------
@@ -46,6 +48,14 @@ def df_to_excel_bytes(df: pd.DataFrame, sheet_name: str = "word_frequency") -> b
         df.to_excel(writer, index=False, sheet_name=sheet_name)
     output.seek(0)
     return output.getvalue()
+
+def tokenize_words(text: str):
+    """
+    교육용 기본 토큰화:
+    - 알파벳 단어 + 아포스트로피 포함 (don't, teacher's)
+    - 모두 소문자로 정규화
+    """
+    return re.findall(r"[a-zA-Z]+(?:'[a-zA-Z]+)?", text.lower())
 
 # ----------------------------
 # Streamlit UI
@@ -216,9 +226,89 @@ with tabs[2]:
         st.info("Paste some text to generate the frequency table.")
 
 # ---- Tab 4 ----
+
+
 with tabs[3]:
-    st.header("Application 4")
-    st.write("Details for Application 4 will be added here.")
+    st.header("📚 Token–Type Statistics (TTS) + Lexical Diversity")
+    st.caption("Paste text to compute token/type counts and common lexical diversity indices (case-insensitive).")
+
+    text = st.text_area("Paste your text here:", height=260, key="tts_text")
+
+    stop_words_input = st.text_input(
+        "Stop words (comma-separated, optional)",
+        placeholder="e.g., the, a, an, and, of, to",
+        key="tts_stopwords",
+    )
+
+    c1, c2 = st.columns([1, 1])
+    with c1:
+        min_count = st.number_input("Minimum frequency (optional filter)", 1, 9999, 1, 1, key="tts_min_count")
+    with c2:
+        show_top = st.slider("Show top frequent words", 5, 50, 20, 5, key="tts_topn")
+
+    if text.strip():
+        # ---- stop words parse (case-insensitive) ----
+        stop_words = set()
+        if stop_words_input.strip():
+            stop_words = {w.strip().lower() for w in stop_words_input.split(",") if w.strip()}
+
+        # ---- tokenize ----
+        tokens = tokenize_words(text)
+
+        # ---- remove stop words ----
+        if stop_words:
+            tokens = [t for t in tokens if t not in stop_words]
+
+        if not tokens:
+            st.warning("No tokens found (or all tokens removed by stop words).")
+        else:
+            # ---- frequency table ----
+            freq = pd.Series(tokens).value_counts().reset_index()
+            freq.columns = ["word", "count"]
+
+            # optional filter by min_count
+            freq = freq[freq["count"] >= int(min_count)].reset_index(drop=True)
+
+            if freq.empty:
+                st.warning("All tokens were filtered out by the minimum frequency setting.")
+            else:
+                # reconstruct filtered token list (so TTS indices match filtering)
+                # (교육용이라 'min_count 필터' 적용 시 지표도 그 기준으로 맞추는 방식)
+                filtered_tokens = []
+                for _, row in freq.iterrows():
+                    filtered_tokens.extend([row["word"]] * int(row["count"]))
+
+                N = len(filtered_tokens)                 # tokens
+                V = int(freq.shape[0])                   # types
+
+                # ---- common lexical diversity indices ----
+                ttr = V / N
+                root_ttr = V / math.sqrt(N)              # Guiraud
+                cttr = V / math.sqrt(2 * N)              # corrected TTR
+                log_ttr = (math.log(V) / math.log(N)) if (V > 1 and N > 1) else float("nan")
+
+                # ---- summary table ----
+                summary = pd.DataFrame(
+                    [
+                        ["Tokens (N)", N],
+                        ["Types (V)", V],
+                        ["TTR = V/N", round(ttr, 4)],
+                        ["Root TTR (Guiraud) = V/√N", round(root_ttr, 4)],
+                        ["CTTR = V/√(2N)", round(cttr, 4)],
+                        ["Log TTR = log(V)/log(N)", "" if math.isnan(log_ttr) else round(log_ttr, 4)],
+                    ],
+                    columns=["Metric", "Value"],
+                )
+
+                st.subheader("✅ Token–Type Summary")
+                st.dataframe(summary, use_container_width=True, hide_index=True)
+
+                st.subheader("📌 Top word frequencies")
+                st.dataframe(freq.head(int(show_top)), use_container_width=True, hide_index=True)
+
+    else:
+        st.info("Paste text to compute token–type statistics.")
+
 
 # ---- Tab 5 ----
 with tabs[4]:
