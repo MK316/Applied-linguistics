@@ -18,10 +18,58 @@ def create_wordcloud(text):
     return wordcloud
 
 # Streamlit tabs
-tabs = st.tabs(["📈 QR", "⏳ Timer", "👥 Grouping", "🐤 GS","🔊 TTS", "🎨 Drawing"])
+tabs = st.tabs(["", "📈 QR", "⏳ Timer", "👥 Grouping", "🐤 GS","🔊 TTS", "🎨 Drawing"])
 
 # QR Code tab
 with tabs[0]:
+    st.subheader("🖤 Blackboard")
+
+    # ---- Controls ----
+    c1, c2 = st.columns([1, 1])
+
+    with c1:
+        font_size = st.slider(
+            "Text size",
+            min_value=16,
+            max_value=72,
+            value=32,
+            step=2,
+        )
+
+    with c2:
+        text_color = st.color_picker(
+            "Text color",
+            value="#ffffff",   # white (blackboard 느낌)
+        )
+
+    # ---- Input area ----
+    text = st.text_area(
+        "✍️ Write on the board",
+        height=200,
+        placeholder="Type your ideas here...",
+    )
+
+    # ---- Blackboard display ----
+    st.markdown(
+        f"""
+        <div style="
+            background-color: #111;
+            padding: 1.5rem;
+            border-radius: 10px;
+            min-height: 250px;
+            font-size: {font_size}px;
+            color: {text_color};
+            line-height: 1.6;
+            white-space: pre-wrap;
+        ">
+        {text if text.strip() else " "}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+with tabs[1]:
     st.caption("QR code generator")
 
     # ✅ Place link input, caption input, and button in the same row
@@ -57,7 +105,7 @@ with tabs[0]:
 
 
 # Timer tab
-with tabs[1]:
+with tabs[2]:
     # Embed the Hugging Face space as an iframe
     huggingface_space_url = "https://MK-316-mytimer.hf.space"
     
@@ -67,7 +115,7 @@ with tabs[1]:
     """, height=600)
 
 # Grouping tab
-with tabs[2]:
+with tabs[3]:
     st.subheader("👥 Grouping Tool")
     st.caption("Your CSV should have at least the columns `Course` and `Name_ori`.")
 
@@ -145,9 +193,7 @@ with tabs[2]:
 
 #--------Tab 3
 
-import streamlit as st
-
-with tabs[3]:
+with tabs[4]:
     st.markdown("#### Google Sheet to share for Class Activities")
     st.markdown("""
     + Grouping (1st week)
@@ -183,7 +229,7 @@ with tabs[3]:
 
 
 # Text-to-Speech tab
-with tabs[4]:
+with tabs[5]:
     st.subheader("Text-to-Speech Converter (using Google TTS)")
     text_input = st.text_area("Enter the text you want to convert to speech:")
     language = st.selectbox("Choose a language: 🇰🇷 🇺🇸 🇬🇧 🇷🇺 🇫🇷 🇪🇸 🇯🇵 ", ["Korean", "English (American)", "English (British)", "Russian", "Spanish", "French", "Japanese"])
@@ -225,7 +271,7 @@ with tabs[4]:
     st.caption("🇨🇳 Chinese: 由教师设计的编程应用程序为学习者提供个性化的学习体验，通过互动和适应性工具使复杂的概念更容易理解。它们增强学习参与度，提供即时反馈，并支持主动学习。")
     st.caption("🇯🇵 Japanese: 教師が設計したコーディングアプリケーションは、学習者のニーズに合わせた学習体験を提供し、複雑な概念をインタラクティブで適応性のあるツールを通じて理解しやすくします。また、学習への集中力を高め、即時フィードバックを提供し、主体的な学習をサポートします。")
 
-with tabs[5]:
+with tabs[6]:
     st.caption("Use the canvas below to draw freely. You can change the stroke width and color.")
 
    # Place Stroke Width, Stroke Color, and Background Color in the same row
