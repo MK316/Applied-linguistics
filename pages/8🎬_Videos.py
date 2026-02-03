@@ -47,6 +47,14 @@ def render_player(selected_label: str, selected_url: str):
             height: 100%;
             border: 0;
         }
+        .meta-box {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0.75rem auto 0;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            background: rgba(0,0,0,0.03);
+        }
         </style>
         """,
         unsafe_allow_html=True,
@@ -64,20 +72,34 @@ def render_player(selected_label: str, selected_url: str):
         unsafe_allow_html=True,
     )
 
-# ---------- Video lists ----------
+# ---------- Video lists (label -> {url, caption}) ----------
 VIDEOS = {
-    "SW교육과 AI교육, 왜 배워야 할까요?": "https://youtu.be/lQ2kAukmWQE?si=-m1vxlwy46tQGrTp",
-    "2015-1": "https://www.youtube.com/watch?v=VIDEO_ID_2",
-    "2005-2": "https://www.youtube.com/watch?v=VIDEO_ID_3",
+    "SW교육과 AI교육, 왜 배워야 할까요?": {
+        "url": "https://youtu.be/lQ2kAukmWQE?si=-m1vxlwy46tQGrTp",
+        "caption": "AI 시대에 왜 SW·AI 교육이 중요한지 개관하는 입문 영상",
+    },
+    "2015-1": {
+        "url": "https://www.youtube.com/watch?v=VIDEO_ID_2",
+        "caption": "임용 대비 핵심 개념 정리(예시 캡션).",
+    },
+    "2005-2": {
+        "url": "https://www.youtube.com/watch?v=VIDEO_ID_3",
+        "caption": "기출 유형 분석(예시 캡션).",
+    },
 }
 
 CLASS_VIDEOS = {
-    "Week 01 · Orientation": "https://www.youtube.com/watch?v=VIDEO_ID_A",
-    "Week 02 · Digital tools overview": "https://www.youtube.com/watch?v=VIDEO_ID_B",
+    "Week 01 · Orientation": {
+        "url": "https://www.youtube.com/watch?v=VIDEO_ID_A",
+        "caption": "수업 목표, 평가 방식, 프로젝트 개요 안내",
+    },
+    "Week 02 · Digital tools overview": {
+        "url": "https://www.youtube.com/watch?v=VIDEO_ID_B",
+        "caption": "수업에서 사용할 디지털 도구와 활동 흐름 소개",
+    },
 }
 
-# ---------- "Tabs" selector (acts like tabs, but controllable) ----------
-# Streamlit 버전에 따라 segmented_control이 없을 수 있어 fallback 포함
+# ---------- "Tabs" selector (segmented if available; fallback to radio) ----------
 try:
     view = st.segmented_control(
         "View",
@@ -95,43 +117,69 @@ except Exception:
 
 st.caption("🎬 Select a video from the left menu to play it here.")
 
-# ---------- Sidebar: show ONLY ONE menu depending on view ----------
+# ---------- Sidebar + Main (show ONLY one menu depending on view) ----------
 if view == "Video Library":
     st.sidebar.header("Choose a video")
-    labels = list(VIDEOS.keys())
-    selected = st.sidebar.selectbox(
-        "Select",
-        labels,
-        index=0,
-        key="sidebar_video_library_select",
-        label_visibility="collapsed",
-    )
-    st.sidebar.caption("Link")
-    st.sidebar.code(VIDEOS[selected], language="text")
-    st.sidebar.markdown(
-        f"""<a href="{VIDEOS[selected]}" target="_blank" rel="noopener noreferrer"
-            style="text-decoration:none;">▶️ Open on YouTube</a>""",
-        unsafe_allow_html=True,
-    )
 
-    render_player(selected, VIDEOS[selected])
+    labels = list(VIDEOS.keys())
+    if not labels:
+        st.warning("No videos available in Video Library.")
+    else:
+        selected = st.sidebar.selectbox(
+            "Select",
+            labels,
+            index=0,
+            key="sidebar_video_library_select",
+            label_visibility="collapsed",
+        )
+
+        selected_url = VIDEOS[selected]["url"]
+        selected_caption = VIDEOS[selected].get("caption", "")
+
+        st.sidebar.caption("Link")
+        st.sidebar.code(selected_url, language="text")
+
+        st.sidebar.markdown(
+            f"""<a href="{selected_url}" target="_blank" rel="noopener noreferrer"
+                style="text-decoration:none;">▶️ Open on YouTube</a>""",
+            unsafe_allow_html=True,
+        )
+
+        st.subheader(f"Now Playing: {selected}")
+        if selected_caption:
+            st.caption(selected_caption)
+
+        render_player(selected, selected_url)
 
 else:  # Class videos
     st.sidebar.header("Choose a class video")
-    labels = list(CLASS_VIDEOS.keys())
-    selected = st.sidebar.selectbox(
-        "Select",
-        labels,
-        index=0,
-        key="sidebar_class_videos_select",
-        label_visibility="collapsed",
-    )
-    st.sidebar.caption("Link")
-    st.sidebar.code(CLASS_VIDEOS[selected], language="text")
-    st.sidebar.markdown(
-        f"""<a href="{CLASS_VIDEOS[selected]}" target="_blank" rel="noopener noreferrer"
-            style="text-decoration:none;">▶️ Open on YouTube</a>""",
-        unsafe_allow_html=True,
-    )
 
-    render_player(selected, CLASS_VIDEOS[selected])
+    labels = list(CLASS_VIDEOS.keys())
+    if not labels:
+        st.warning("No videos available in Class videos.")
+    else:
+        selected = st.sidebar.selectbox(
+            "Select",
+            labels,
+            index=0,
+            key="sidebar_class_videos_select",
+            label_visibility="collapsed",
+        )
+
+        selected_url = CLASS_VIDEOS[selected]["url"]
+        selected_caption = CLASS_VIDEOS[selected].get("caption", "")
+
+        st.sidebar.caption("Link")
+        st.sidebar.code(selected_url, language="text")
+
+        st.sidebar.markdown(
+            f"""<a href="{selected_url}" target="_blank" rel="noopener noreferrer"
+                style="text-decoration:none;">▶️ Open on YouTube</a>""",
+            unsafe_allow_html=True,
+        )
+
+        st.subheader(f"Now Playing: {selected}")
+        if selected_caption:
+            st.caption(selected_caption)
+
+        render_player(selected, selected_url)
