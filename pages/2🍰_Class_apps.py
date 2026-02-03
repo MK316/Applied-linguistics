@@ -39,7 +39,7 @@ with tabs[0]:
     with c2:
         text_color = st.color_picker(
             "Text color",
-            value="#006666",   # white (blackboard 느낌)
+            value="#ffffff",   # white (blackboard 느낌)
         )
 
     # ---- Input area ----
@@ -53,7 +53,7 @@ with tabs[0]:
     st.markdown(
         f"""
         <div style="
-            background-color: #111;
+            background-color: #006666;
             padding: 1.5rem;
             border-radius: 10px;
             min-height: 250px;
