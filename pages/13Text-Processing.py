@@ -230,7 +230,7 @@ with tabs[2]:
 
 
 with tabs[3]:
-    st.header("📚 Token–Type Statistics (TTS) + Lexical Diversity")
+    st.header("📚 Token–Type Ratio (TTR) + Lexical Diversity")
     st.caption("Paste text to compute token/type counts and common lexical diversity indices (case-insensitive).")
 
     text = st.text_area("Paste your text here:", height=260, key="tts_text")
@@ -241,11 +241,25 @@ with tabs[3]:
         key="tts_stopwords",
     )
 
-    c1, c2 = st.columns([1, 1])
+    c1, c2, c3 = st.columns([1, 1, 1])
+    
     with c1:
-        min_count = st.number_input("Minimum frequency (optional filter)", 1, 9999, 1, 1, key="tts_min_count")
+        min_count = st.number_input(
+            "Minimum frequency (optional filter)",
+            1, 9999, 1, 1, key="tts_min_count"
+        )
+    
     with c2:
-        show_top = st.slider("Show top frequent words", 5, 50, 20, 5, key="tts_topn")
+        show_top = st.slider(
+            "Show top frequent words",
+            5, 50, 20, 5, key="tts_topn"
+        )
+    
+    with c3:
+        show_bottom = st.slider(
+            "Show low-frequency words",
+            5, 50, 10, 5, key="tts_bottomn"
+        )
 
     if text.strip():
         # ---- stop words parse (case-insensitive) ----
@@ -306,6 +320,17 @@ with tabs[3]:
 
                 st.subheader("📌 Top word frequencies")
                 st.dataframe(freq.head(int(show_top)), use_container_width=True, hide_index=True)
+
+                st.subheader("📉 Low-frequency words")
+
+                low_freq = (
+                    freq.sort_values("count", ascending=True)
+                        .head(int(show_bottom))
+                        .reset_index(drop=True)
+                )
+                
+                st.dataframe(low_freq, use_container_width=True, hide_index=True)
+
 
     else:
         st.info("Paste text to compute token–type statistics.")
