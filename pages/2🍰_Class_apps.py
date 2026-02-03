@@ -41,7 +41,7 @@ with tabs[0]:
             background-color: #006666;
             padding: 1.5rem;
             border-radius: 10px;
-            min-height: 250px;
+            min-height: 350px;
             font-size: {font_size}px;
             color: {text_color};
             line-height: 1.6;
