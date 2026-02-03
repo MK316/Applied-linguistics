@@ -3,8 +3,7 @@ import re
 
 st.set_page_config(page_title="Video Library", layout="wide")
 
-st.title("🎬 Video Library")
-st.caption("Select a video from the left menu to play it here.")
+st.caption("🎬 Select a video from the left menu to play it here.")
 
 # ---------- Video list (label -> YouTube URL) ----------
 VIDEOS = {
