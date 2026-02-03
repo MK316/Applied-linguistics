@@ -30,8 +30,8 @@ with tabs[0]:
     with c1:
         font_size = st.slider(
             "Text size",
-            min_value=16,
-            max_value=72,
+            min_value=12,
+            max_value=124,
             value=32,
             step=2,
         )
@@ -45,7 +45,7 @@ with tabs[0]:
     # ---- Input area ----
     text = st.text_area(
         "✍️ Write on the board",
-        height=200,
+        height=100,
         placeholder="Type your ideas here...",
     )
 
