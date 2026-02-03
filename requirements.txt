@@ -8,3 +8,5 @@ wordcloud
 gTTS
 streamlit-drawable-canvas
 plotly
+gspread
+google-auth
