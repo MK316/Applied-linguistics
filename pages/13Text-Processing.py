@@ -4,7 +4,7 @@ import pandas as pd
 import io
 import matplotlib.pyplot as plt
 import math
-import textstat
+
 
 
 
@@ -313,6 +313,7 @@ with tabs[3]:
 
 # ---- Tab 5 ----
 with tabs[4]:
+    import textstat
     st.header("📚 Reading Level & Lexical Analyzer")
     st.markdown("""
     This app estimates the complexity of your text using standard readability formulas.  
