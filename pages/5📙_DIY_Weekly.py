@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 
 st.set_page_config(page_title="GitHub Markdown Viewer", layout="wide")
+RAW_MD_URL = "https://raw.githubusercontent.com/MK316/Applied-linguistics/main/pages/DIY.md"
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def fetch_md(url: str) -> tuple[str | None, str | None]:
