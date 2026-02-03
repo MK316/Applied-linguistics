@@ -196,8 +196,7 @@ with tabs[3]:
 with tabs[4]:
     st.markdown("#### Google Sheet to share for Class Activities")
     st.markdown("""
-    + Grouping (1st week)
-    + Quiz schedule
+    + Working group (1st week)
 
     """)
 
