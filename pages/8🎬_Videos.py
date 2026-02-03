@@ -9,7 +9,7 @@ st.caption("Select a video from the dropdown to play it on this page.")
 
 # ---------- Video list (label -> YouTube URL) ----------
 VIDEOS = {
-    "2016-3": "https://www.youtube.com/watch?v=VIDEO_ID_1",
+    "SW교육과 AI교육, 왜 배워야 할까요?": "https://youtu.be/lQ2kAukmWQE?si=-m1vxlwy46tQGrTp",
     "2015-1": "https://www.youtube.com/watch?v=VIDEO_ID_2",
     "2005-2": "https://www.youtube.com/watch?v=VIDEO_ID_3",
     "2013-2": "https://www.youtube.com/watch?v=VIDEO_ID_4",
