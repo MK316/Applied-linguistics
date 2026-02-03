@@ -1,11 +1,10 @@
 import streamlit as st
 import re
 
-# ---------- Page setup ----------
 st.set_page_config(page_title="Video Library", layout="wide")
 
 st.title("🎬 Video Library")
-st.caption("Select a video from the dropdown to play it on this page.")
+st.caption("Select a video from the left menu to play it here.")
 
 # ---------- Video list (label -> YouTube URL) ----------
 VIDEOS = {
@@ -25,12 +24,11 @@ VIDEOS = {
 
 # ---------- Helpers ----------
 def extract_youtube_id(url: str) -> str | None:
-    """Extract YouTube video ID from common URL patterns."""
     patterns = [
-        r"(?:v=)([A-Za-z0-9_-]{11})",          # watch?v=xxxxxxxxxxx
-        r"(?:youtu\.be/)([A-Za-z0-9_-]{11})",  # youtu.be/xxxxxxxxxxx
-        r"(?:embed/)([A-Za-z0-9_-]{11})",      # /embed/xxxxxxxxxxx
-        r"(?:shorts/)([A-Za-z0-9_-]{11})",     # /shorts/xxxxxxxxxxx
+        r"(?:v=)([A-Za-z0-9_-]{11})",
+        r"(?:youtu\.be/)([A-Za-z0-9_-]{11})",
+        r"(?:embed/)([A-Za-z0-9_-]{11})",
+        r"(?:shorts/)([A-Za-z0-9_-]{11})",
     ]
     for p in patterns:
         m = re.search(p, url)
@@ -40,62 +38,66 @@ def extract_youtube_id(url: str) -> str | None:
 
 def youtube_embed_url(url: str) -> str:
     vid = extract_youtube_id(url)
-    if not vid:
-        return ""
-    # modestbranding + rel=0 for cleaner player
-    return f"https://www.youtube.com/embed/{vid}?rel=0&modestbranding=1"
+    return f"https://www.youtube.com/embed/{vid}?rel=0&modestbranding=1" if vid else ""
 
-# ---------- UI: controls ----------
-left, right = st.columns([1.2, 3.8], vertical_alignment="top")
+# ---------- Sidebar (Left Menu) ----------
+st.sidebar.header("Choose a video")
 
-with left:
-    st.subheader("Choose")
-    options = list(VIDEOS.keys())
-    selected = st.selectbox("Select a video", options, index=0, label_visibility="collapsed")
+labels = list(VIDEOS.keys())
+selected = st.sidebar.selectbox("Select", labels, index=0, label_visibility="collapsed")
 
-    # Optional: show the raw link for copying
-    st.caption("Link")
-    st.code(VIDEOS[selected], language="text")
+st.sidebar.caption("Link")
+st.sidebar.code(VIDEOS[selected], language="text")
 
-with right:
-    st.subheader(f"Now Playing: {selected}")
+# Optional: open in YouTube
+st.sidebar.markdown(
+    f"""
+    <a href="{VIDEOS[selected]}" target="_blank" rel="noopener noreferrer"
+       style="text-decoration:none;">
+       ▶️ Open on YouTube
+    </a>
+    """,
+    unsafe_allow_html=True,
+)
 
-    embed = youtube_embed_url(VIDEOS[selected])
-    if not embed:
-        st.error("Invalid YouTube link format. Please check the URL.")
-    else:
-        # Clean, responsive container
-        st.markdown(
-            """
-            <style>
-            .video-wrap {
-                width: 100%;
-                max-width: 1100px;
-                margin: 0 auto;
-                aspect-ratio: 16 / 9;
-                border-radius: 14px;
-                overflow: hidden;
-                box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-                background: #000;
-            }
-            .video-wrap iframe {
-                width: 100%;
-                height: 100%;
-                border: 0;
-            }
-            </style>
-            """,
-            unsafe_allow_html=True,
-        )
+# ---------- Main display ----------
+st.subheader(f"Now Playing: {selected}")
 
-        st.markdown(
-            f"""
-            <div class="video-wrap">
-              <iframe src="{embed}"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen>
-              </iframe>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+embed = youtube_embed_url(VIDEOS[selected])
+if not embed:
+    st.error("Invalid YouTube link format. Please check the URL in the sidebar.")
+else:
+    st.markdown(
+        """
+        <style>
+        .video-wrap {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            aspect-ratio: 16 / 9;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            background: #000;
+        }
+        .video-wrap iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        f"""
+        <div class="video-wrap">
+          <iframe src="{embed}"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen>
+          </iframe>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
