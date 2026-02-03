@@ -20,7 +20,7 @@ def create_wordcloud(text):
 tabs = st.tabs([
     "✏️Blackboard", "📈QR", "⏳Timer",
     "☁️WordCloud",           # ✅ NEW 4th tab
-    "🐤GS", "🔊TTS", "🎨Drawing", "👥Grouping", "DOC",
+    "🐤GS", "🔊TTS", "🎨Drawing", "👥Grouping", "📓DOC",
 ])
 
 # --- Tab 0: Blackboard ---
