@@ -11,3 +11,10 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+st.write("---")
+
+st.text_area(
+    "✍️ Write your reflection here",
+    height=300,
+    placeholder="Type your ideas here..."
+)
