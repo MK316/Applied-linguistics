@@ -1,6 +1,7 @@
 import re
 import requests
 import streamlit as st
+from urllib.parse import quote
 
 st.set_page_config(layout="wide")
 
@@ -22,22 +23,55 @@ def extract_numbers(s: str):
     nums = re.findall(r"\d+", s)
     return tuple(int(x) for x in nums) if nums else (10**9,)
 
+# @st.cache_data(ttl=3600, show_spinner=False)
+# def list_png_files_in_folder(folder: str):
+#     headers = {}
+#     token = st.secrets.get("GITHUB_TOKEN", None)
+#     if token:
+#         headers["Authorization"] = f"token {token}"
+
+#     url = f"{API_BASE}/{folder}?ref={BRANCH}"
+#     r = requests.get(url, headers=headers, timeout=15)
+
+#     if r.status_code != 200:
+#         return [], f"GitHub API error {r.status_code}: {r.text[:200]}"
+
+#     data = r.json()
+#     if not isinstance(data, list):
+#         return [], "Unexpected API response (not a folder listing)."
+
+#     pngs = [
+#         item["name"] for item in data
+#         if item.get("type") == "file"
+#         and item.get("name", "").lower().endswith(".png")
+#     ]
+#     pngs.sort(key=lambda name: (extract_numbers(name), name.lower()))
+#     return pngs, None
+
+
 @st.cache_data(ttl=3600, show_spinner=False)
 def list_png_files_in_folder(folder: str):
-    headers = {}
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+
     token = st.secrets.get("GITHUB_TOKEN", None)
     if token:
-        headers["Authorization"] = f"token {token}"
+        # Works better with modern fine-grained tokens
+        headers["Authorization"] = f"Bearer {token}"
 
-    url = f"{API_BASE}/{folder}?ref={BRANCH}"
-    r = requests.get(url, headers=headers, timeout=15)
+    # Encode folder safely (keep slashes)
+    folder_enc = quote(folder, safe="/")
+    url = f"{API_BASE}/{folder_enc}"
+    r = requests.get(url, headers=headers, params={"ref": BRANCH}, timeout=15)
 
     if r.status_code != 200:
         return [], f"GitHub API error {r.status_code}: {r.text[:200]}"
 
     data = r.json()
     if not isinstance(data, list):
-        return [], "Unexpected API response (not a folder listing)."
+        return [], f"Unexpected API response: {type(data)}"
 
     pngs = [
         item["name"] for item in data
@@ -46,6 +80,8 @@ def list_png_files_in_folder(folder: str):
     ]
     pngs.sort(key=lambda name: (extract_numbers(name), name.lower()))
     return pngs, None
+
+
 
 def clamp(x: int, lo: int, hi: int) -> int:
     return max(lo, min(hi, x))
