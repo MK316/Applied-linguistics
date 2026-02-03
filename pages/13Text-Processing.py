@@ -84,12 +84,13 @@ with tabs[2]:
     st.header("📊 Word Frequency")
     st.caption(
         "Paste text to see word frequency (case-insensitive). "
-        "You can optionally provide stop words separated by commas."
+        "You can provide stop words separated by commas. "
+        "You can also draw a bar chart for the most frequent words."
     )
 
     text_for_freq = st.text_area(
         "Paste your text here:",
-        height=240,
+        height=220,
         key="freq_text",
     )
 
@@ -101,12 +102,13 @@ with tabs[2]:
 
     c1, c2 = st.columns([1, 1])
     with c1:
-        top_n = st.number_input(
-            "Show top N words (0 = show all)",
+        top_n_table = st.number_input(
+            "Show top N words in table (0 = show all)",
             min_value=0,
             max_value=5000,
             value=200,
             step=50,
+            key="top_n_table",
         )
     with c2:
         min_count = st.number_input(
@@ -115,14 +117,17 @@ with tabs[2]:
             max_value=9999,
             value=1,
             step=1,
+            key="min_count",
         )
 
+    # ---- Build frequency table once (used by both table + chart) ----
+    df_freq = pd.DataFrame(columns=["word", "count"])
+
     if text_for_freq.strip():
-        # ---- Normalize text ----
         text_lower = text_for_freq.lower()
         tokens = re.findall(r"\w+", text_lower)
 
-        # ---- Parse stop words ----
+        # Parse stop words
         stop_words = set()
         if stop_words_input.strip():
             stop_words = {
@@ -131,7 +136,7 @@ with tabs[2]:
                 if w.strip()
             }
 
-        # ---- Remove stop words ----
+        # Remove stop words
         if stop_words:
             tokens = [t for t in tokens if t not in stop_words]
 
@@ -147,23 +152,64 @@ with tabs[2]:
                 ignore_index=True,
             )
 
-            if top_n != 0:
-                df_freq = df_freq.head(int(top_n))
-
+            # Apply min_count first (so both table and chart reflect it)
             df_freq = df_freq[df_freq["count"] >= int(min_count)].reset_index(drop=True)
 
-            st.write(f"✅ Unique words: **{len(df_freq)}**")
-            st.dataframe(df_freq, use_container_width=True, hide_index=True)
+            if df_freq.empty:
+                st.warning("All words were filtered out by the minimum frequency setting.")
+            else:
+                # ---- Table (optionally top N) ----
+                df_table = df_freq if top_n_table == 0 else df_freq.head(int(top_n_table))
 
-            # ---- CSV download (no extra modules) ----
-            csv_data = df_freq.to_csv(index=False).encode("utf-8-sig")
-            st.download_button(
-                label="⬇️ Download CSV",
-                data=csv_data,
-                file_name="word_frequency.csv",
-                mime="text/csv",
-                key="download_freq_csv",
-            )
+                st.write(f"✅ Unique words (after filters): **{len(df_freq)}**")
+                st.dataframe(df_table, use_container_width=True, hide_index=True)
+
+                # ---- CSV download (table content you see) ----
+                csv_data = df_table.to_csv(index=False).encode("utf-8-sig")
+                st.download_button(
+                    label="⬇️ Download CSV (table)",
+                    data=csv_data,
+                    file_name="word_frequency.csv",
+                    mime="text/csv",
+                    key="download_freq_csv",
+                )
+
+                st.markdown("---")
+
+                # ---- Chart controls (button -> reveal options) ----
+                if "show_chart_opts" not in st.session_state:
+                    st.session_state["show_chart_opts"] = False
+
+                if st.button("📊 Show chart options", key="toggle_chart_opts"):
+                    st.session_state["show_chart_opts"] = not st.session_state["show_chart_opts"]
+
+                if st.session_state["show_chart_opts"]:
+                    st.subheader("Bar chart")
+
+                    chart_top_n = st.slider(
+                        "Top N for chart",
+                        min_value=5,
+                        max_value=min(50, len(df_freq)),
+                        value=min(20, len(df_freq)),
+                        step=1,
+                        key="chart_top_n",
+                    )
+
+                    if st.button("Draw bar chart", key="draw_bar_chart"):
+                        plot_df = df_freq.head(int(chart_top_n)).copy()
+
+                        # Make y labels readable (shorten if extremely long)
+                        plot_df["word"] = plot_df["word"].astype(str).str.slice(0, 35)
+
+                        fig, ax = plt.subplots(figsize=(10, max(4, 0.35 * len(plot_df))))
+                        ax.barh(plot_df["word"][::-1], plot_df["count"][::-1])
+                        ax.set_xlabel("Frequency")
+                        ax.set_ylabel("Word")
+                        ax.set_title(f"Top {chart_top_n} Words by Frequency")
+                        plt.tight_layout()
+
+                        st.pyplot(fig)
+
     else:
         st.info("Paste some text to generate the frequency table.")
 
