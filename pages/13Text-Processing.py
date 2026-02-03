@@ -6,7 +6,8 @@ def count_words(text):
     return len(re.findall(r'\w+', text))
 
 def count_sentences(text):
-    return len(re.findall(r'[.!?]+', text)) + 1
+    return len(re.findall(r'[.!?]+', text))
+
 
 def remove_line_breaks(text):
     return re.sub(r'[\r\n]+', ' ', text)
