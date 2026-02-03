@@ -12,7 +12,7 @@ RAW_BASE = f"https://raw.githubusercontent.com/{OWNER}/{REPO}/{BRANCH}"
 API_BASE = f"https://api.github.com/repos/{OWNER}/{REPO}/contents"
 
 SLIDE_SETS = {
-    "Intro": {"folder": "lectureslides/intro"},
+    "Intro": {"folder": "lectureslides/introduction"},
     "Ch 2": {"folder": "lectureslides/test"},
     "Ch 3": {"folder": "lectureslides/ch03"},
 }
