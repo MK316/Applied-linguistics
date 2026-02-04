@@ -64,7 +64,7 @@ st.markdown("""
         border-radius: 20px; background: #606060;
         border-left: 5px solid #ff4b4b; color: #ffffff; font-size: 18px;
       }
-      .answer-title { font-weight: bold; color: #ff4b4b; margin-bottom: 10px; text-transform: uppercase; font-size: 14px; }
+      .answer-title { font-weight: bold; color: #CCE5FF; margin-bottom: 10px; text-transform: uppercase; font-size: 14px; }
     </style>
     """, unsafe_allow_html=True)
 
