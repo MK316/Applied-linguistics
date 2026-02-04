@@ -8,7 +8,7 @@ st.set_page_config(page_title="Phonetics Flashcards", layout="wide")
 # 1) Put your GitHub RAW CSV URLs here
 # =========================
 CHAPTERS = {
-    "Chapter 1": "https://raw.githubusercontent.com/MK316/Applied-linguistics/refs/heads/main/data/CH01_flashcards.csv",
+    "Chapter 1": "https://raw.githubusercontent.com/MK316/Applied-linguistics/main/data/ch01.csv",
     "Chapter 2": "https://raw.githubusercontent.com/YOURNAME/YOURREPO/main/data/ch02.csv",
     "Chapter 3": "https://raw.githubusercontent.com/YOURNAME/YOURREPO/main/data/ch03.csv",
     "Chapter 4": "https://raw.githubusercontent.com/YOURNAME/YOURREPO/main/data/ch04.csv",
