@@ -53,12 +53,12 @@ st.markdown("""
       .card-wrap { display: flex; justify-content: center; padding: 20px 0; }
       .flashcard {
         width: min(600px, 100%); min-height: 350px;
-        background: #2f3133; border-radius: 30px; padding: 50px;
+        background: #003366; border-radius: 30px; padding: 50px;
         box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         display: flex; flex-direction: column; justify-content: center; align-items: center;
         border: 1px solid #444;
       }
-      .qtext { color: #ffffff; font-size: 32px; font-weight: 700; text-align: center; }
+      .qtext { color: #CCE5FF; font-size: 32px; font-weight: 700; text-align: center; }
       .answer-box {
         width: min(600px, 100%); margin: 20px auto; padding: 25px;
         border-radius: 20px; background: #1e1e1e;
