@@ -170,8 +170,12 @@ for tab, (chapter_name, csv_url) in zip(tabs, CHAPTERS.items()):
     with tab:
         st.subheader(chapter_name)
 
-        # Load
-        df = load_cards(csv_url)
+        try:
+            df = load_cards(csv_url)
+        except Exception as e:
+            st.error(str(e))
+            st.stop()
+
 
         if df is None or df.empty:
             st.error("No cards found. Please check the CSV URL and file contents.")
