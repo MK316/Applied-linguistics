@@ -1,7 +1,8 @@
+import streamlit as st
+import pandas as pd
+import random
 import io
 import requests
-import pandas as pd
-import streamlit as st
 
 
 
