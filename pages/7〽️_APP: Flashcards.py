@@ -26,48 +26,58 @@ def _norm_cols(df: pd.DataFrame) -> dict:
     """Map lowercase column names -> original names."""
     return {c.lower().strip(): c for c in df.columns}
 
+import io
+import requests
+import pandas as pd
+import streamlit as st
+
 def pick_qa_columns(df: pd.DataFrame) -> tuple[str, str]:
-    """
-    Try to auto-detect question/answer columns.
-    Accepts: question/answer, q/a, front/back, term/definition, prompt/response
-    """
-    m = _norm_cols(df)
+    # normalize column names
+    cols = {c.lower().strip(): c for c in df.columns}
 
     q_candidates = ["question", "q", "front", "term", "prompt"]
     a_candidates = ["answer", "a", "back", "definition", "response"]
 
-    q_col = next((m[k] for k in q_candidates if k in m), None)
-    a_col = next((m[k] for k in a_candidates if k in m), None)
+    q_col = next((cols[k] for k in q_candidates if k in cols), None)
+    a_col = next((cols[k] for k in a_candidates if k in cols), None)
 
-    if q_col and a_col:
-        return q_col, a_col
+    # fallback: first two columns
+    if not q_col or not a_col:
+        if df.shape[1] < 2:
+            raise ValueError(f"CSV needs at least 2 columns. Found: {list(df.columns)}")
+        q_col, a_col = df.columns[0], df.columns[1]
 
-    # Fallback: first two columns
-    if df.shape[1] >= 2:
-        return df.columns[0], df.columns[1]
-
-    raise ValueError("CSV must have at least 2 columns for (question, answer).")
+    return q_col, a_col
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def load_cards(csv_url: str) -> pd.DataFrame:
-    headers = {
-        "User-Agent": "Mozilla/5.0"   # ✅ sometimes helps with github raw
-    }
-
-    # Optional: private repo token
+    headers = {"User-Agent": "Mozilla/5.0"}
     token = st.secrets.get("GITHUB_TOKEN", None)
     if token:
         headers["Authorization"] = f"token {token}"
 
     r = requests.get(csv_url, headers=headers, timeout=20)
-
     if r.status_code != 200:
-        # ✅ streamlit will show the reason
-        raise RuntimeError(
-            f"Failed to load CSV.\nURL: {csv_url}\nHTTP {r.status_code}: {r.text[:200]}"
-        )
+        raise RuntimeError(f"Failed to load CSV. HTTP {r.status_code}: {r.text[:200]}")
 
-    return pd.read_csv(io.BytesIO(r.content))
+    df = pd.read_csv(io.BytesIO(r.content))
+
+    if df.empty:
+        return df
+
+    q_col, a_col = pick_qa_columns(df)
+
+    # ✅ enforce canonical column names
+    out = df[[q_col, a_col]].copy()
+    out.columns = ["question", "answer"]
+
+    # clean up blanks
+    out["question"] = out["question"].astype(str).str.strip()
+    out["answer"] = out["answer"].astype(str).str.strip()
+    out = out[(out["question"] != "") & (out["answer"] != "")]
+    out = out.reset_index(drop=True)
+
+    return out
 
 def clamp(x: int, lo: int, hi: int) -> int:
     return max(lo, min(hi, x))
@@ -170,6 +180,7 @@ for tab, (chapter_name, csv_url) in zip(tabs, CHAPTERS.items()):
 
     with tab:
         st.subheader(chapter_name)
+        st.write("Loaded columns:", list(df.columns))
 
         try:
             df = load_cards(csv_url)
