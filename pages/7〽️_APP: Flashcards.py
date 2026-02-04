@@ -58,11 +58,11 @@ st.markdown("""
         display: flex; flex-direction: column; justify-content: center; align-items: center;
         border: 1px solid #444;
       }
-      .qtext { color: #CCE5FF; font-size: 32px; font-weight: 700; text-align: center; }
+      .qtext { color: #ffffff; font-size: 32px; font-weight: 700; text-align: center; }
       .answer-box {
         width: min(600px, 100%); margin: 20px auto; padding: 25px;
         border-radius: 20px; background: #1e1e1e;
-        border-left: 5px solid #ff4b4b; color: #eee; font-size: 18px;
+        border-left: 5px solid #ff4b4b; color: #CCE5FF; font-size: 18px;
       }
       .answer-title { font-weight: bold; color: #ff4b4b; margin-bottom: 10px; text-transform: uppercase; font-size: 14px; }
     </style>
