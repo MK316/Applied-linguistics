@@ -1,0 +1,71 @@
+﻿Question,Answer
+What is the primary concern of the field of phonetics?,Describing speech sounds.
+Which physiological system provides the basic source of power for nearly all speech sounds?,The respiratory system.
+What is the technical term for the windpipe?,Trachea.
+The two small muscular folds within the larynx that can vibrate during speech are called the _____.,Vocal folds
+"In phonetics, what is the term for sounds produced when the vocal folds are vibrating?",Voiced sounds
+"In phonetics, what is the term for sounds produced when the vocal folds are held apart?",Voiceless sounds
+What is the collective name for the air passages located above the larynx?,The vocal tract
+The vocal tract is divided into which two main sections?,The oral tract and the nasal tract.
+"What are the parts of the vocal tract used to form sounds, such as the tongue and lips, called?",Articulators
+Which of the four main speech processes includes the ways air is pushed out to provide power for speech?,The airstream process
+Which of the four main speech processes involves the actions of the vocal folds?,The phonation process
+Which of the four main speech processes determines if air passes through the mouth or the nose?,The oro-nasal process
+Which of the four main speech processes involves the movements of the tongue and lips interacting with the roof of the mouth and pharynx?,The articulatory process
+Speech sounds can differ from one another in which three acoustic ways?,"Pitch, loudness, and quality."
+What is the term for the small variations in air pressure that move through the air to be heard as speech?,Sound waves
+"In a sound waveform graph, what does the vertical axis (ordinate) represent?",Air pressure.
+"In a sound waveform graph, what does the horizontal axis (abscissa) represent?",Time.
+Which type of spectral analysis of sound simulates how the ear breaks down frequency components?,Sound spectrogram
+"On a spectrogram, what does the vertical axis represent?",Frequency.
+"On a spectrogram, how is the amplitude (intensity) of a sound coded?",On a grey scale (darker indicates higher amplitude).
+What is the name of the small protuberance just behind the upper teeth?,Alveolar ridge
+What is the bony structure forming the front part of the roof of the mouth?,Hard palate
+What is the muscular flap at the back of the mouth that can shut off the nasal tract?,Soft palate (or velum)
+What is the term for the closure formed when the soft palate is raised against the back of the pharynx?,Velic closure
+What is the small appendage hanging down from the lower end of the soft palate?,Uvula
+Which part of the vocal tract is located between the uvula and the larynx?,Pharynx
+Which part of the tongue lies underneath the hard palate when the tongue is at rest?,The front
+Which part of the tongue is located opposite the back wall of the pharynx?,The root
+What is the name of the structure attached to the lower part of the root of the tongue?,Epiglottis
+Why is a mid-sagittal diagram of the vocal organs considered a simplified view?,It only shows two dimensions and represents only the midline of the tongue.
+What is the general term for speech gestures using the lips?,Labial articulations
+What is the general term for speech gestures using the tip or blade of the tongue?,Coronal articulations
+What is the general term for speech gestures using the back of the tongue?,Dorsal articulations
+What is a bilabial place of articulation?,A sound made with both lips.
+What is a labiodental place of articulation?,A sound made with the lower lip and upper front teeth.
+What is a dental place of articulation?,A sound made with the tongue tip or blade and the upper front teeth.
+What is an interdental sound?,A dental sound where the tongue protrudes between the upper and lower teeth.
+What is an alveolar place of articulation?,A sound made with the tongue tip or blade and the alveolar ridge.
+What is a retroflex place of articulation?,A sound made with the tongue tip and the back of the alveolar ridge.
+What is a post-alveolar (or palato-alveolar) place of articulation?,A sound made with the tongue blade and the back part of the alveolar ridge.
+What is a palatal place of articulation?,A sound made with the front of the tongue and the hard palate.
+What is a velar place of articulation?,A sound made with the back of the tongue and the soft palate.
+"In the context of the oro-nasal process, how is a nasal sound produced?","The soft palate is lowered, allowing air to escape through the nose."
+Manner: Oral Stop (Plosive),"Definition: Complete closure of the articulators in the mouth with the soft palate raised, resulting in a burst of air upon release."
+Manner: Nasal Stop,"Definition: Complete closure in the oral cavity while the soft palate is lowered, allowing air to flow through the nose."
+Manner: Fricative,Definition: Close approximation of two articulators causing turbulent airflow and a hissing sound.
+What is a sibilant?,"A higher-pitched fricative sound with a more obvious hiss, such as [s] or [sh]."
+Manner: Approximant,Definition: One articulator is close to another without narrowing the vocal tract enough to produce turbulent airflow.
+Manner: Lateral (Approximant),"Definition: Obstruction of the airstream at the center of the oral tract, while air flows freely over the side(s) of the tongue."
+What is an affricate?,A sound combining a stop closure immediately followed by a fricative at the same place of articulation.
+What is a tap (or flap)?,"A manner of articulation where the tongue makes a single, rapid contact against the alveolar ridge."
+What are the three primary factors used to describe vowel targets?,"Tongue height, front-back tongue position, and degree of lip rounding."
+Vowels where the highest point of the tongue is in the front of the mouth are called _____.,Front vowels
+Vowels where the tongue is close to the back surface of the vocal tract are called _____.,Back vowels
+The vowel in 'heed' is classified by height as a _____ vowel.,High (front)
+The vowel in 'had' is classified by height as a _____ vowel.,Low (front)
+What are the two possible states for lip gestures during vowel production?,Rounded and unrounded.
+What are the characteristic overtone pitches of vowels called?,Formants
+Which vowel formant is the lower-pitched one and is distinguishable in a creaky voice?,The first formant ($F_1$).
+Which vowel formant is the higher-pitched one and corresponds roughly to front-back tongue position?,The second formant ($F_2$).
+The first formant ($F_1$) is related inversely to which articulatory parameter?,Vowel height (lower $F_1$ means higher tongue position).
+"What term refers to features superimposed on syllables, such as stress, pitch, and length?",Suprasegmentals
+How is the stress pattern typically used to distinguish 'insult' (noun) from 'insult' (verb)?,The noun is stressed on the first syllable; the verb is stressed on the last.
+What are the three ways stress is produced in English?,"Increased respiratory activity, exaggeration of consonant/vowel properties, and pitch exaggeration."
+What is the technical acoustic term for the number of cycles of air pressure variation per second?,Frequency
+What is the standard unit of measurement for frequency?,Hertz ($\text{Hz}$)
+What is the auditory property that allows a listener to place a sound on a scale from low to high?,Pitch
+What is the term for the pitch pattern observed across a sentence?,Intonation
+Which manner of articulation is used for the first sound in the word 'yacht'?,Approximant
+"Which manner of articulation involves the tongue tip making a series of rapid vibrations, as in the Spanish 'rolled r'?",Trill (or roll)
