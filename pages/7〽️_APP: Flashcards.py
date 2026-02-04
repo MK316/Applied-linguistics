@@ -1,6 +1,9 @@
-import streamlit as st
+import io
+import requests
 import pandas as pd
-import random
+import streamlit as st
+
+
 
 st.set_page_config(page_title="Phonetics Flashcards", layout="wide")
 
@@ -46,20 +49,24 @@ def pick_qa_columns(df: pd.DataFrame) -> tuple[str, str]:
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def load_cards(csv_url: str) -> pd.DataFrame:
-    df = pd.read_csv(csv_url)
-    if df.empty:
-        return df
+    headers = {
+        "User-Agent": "Mozilla/5.0"   # ✅ sometimes helps with github raw
+    }
 
-    q_col, a_col = pick_qa_columns(df)
-    out = df[[q_col, a_col]].copy()
-    out.columns = ["question", "answer"]
+    # Optional: private repo token
+    token = st.secrets.get("GITHUB_TOKEN", None)
+    if token:
+        headers["Authorization"] = f"token {token}"
 
-    # Drop empty rows
-    out["question"] = out["question"].astype(str).str.strip()
-    out["answer"] = out["answer"].astype(str).str.strip()
-    out = out[(out["question"] != "") & (out["answer"] != "")]
-    out = out.reset_index(drop=True)
-    return out
+    r = requests.get(csv_url, headers=headers, timeout=20)
+
+    if r.status_code != 200:
+        # ✅ streamlit will show the reason
+        raise RuntimeError(
+            f"Failed to load CSV.\nURL: {csv_url}\nHTTP {r.status_code}: {r.text[:200]}"
+        )
+
+    return pd.read_csv(io.BytesIO(r.content))
 
 def clamp(x: int, lo: int, hi: int) -> int:
     return max(lo, min(hi, x))
