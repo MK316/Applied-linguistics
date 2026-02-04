@@ -61,8 +61,8 @@ st.markdown("""
       .qtext { color: #ffffff; font-size: 32px; font-weight: 700; text-align: center; }
       .answer-box {
         width: min(600px, 100%); margin: 20px auto; padding: 25px;
-        border-radius: 20px; background: #1e1e1e;
-        border-left: 5px solid #ff4b4b; color: #CCE5FF; font-size: 18px;
+        border-radius: 20px; background: #606060;
+        border-left: 5px solid #ff4b4b; color: #ffffff; font-size: 18px;
       }
       .answer-title { font-weight: bold; color: #ff4b4b; margin-bottom: 10px; text-transform: uppercase; font-size: 14px; }
     </style>
