@@ -62,7 +62,7 @@ st.markdown("""
       .answer-box {
         width: min(600px, 100%); margin: 20px auto; padding: 25px;
         border-radius: 20px; background: #606060;
-        border-left: 5px solid #CCE5FF; color: #ffffff; font-size: 18px;
+        border-left: 5px solid #FF9933; color: #ffffff; font-size: 18px;
       }
       .answer-title { font-weight: bold; color: #CCE5FF; margin-bottom: 10px; text-transform: uppercase; font-size: 14px; }
     </style>
