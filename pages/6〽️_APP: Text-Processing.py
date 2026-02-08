@@ -117,7 +117,7 @@ with tabs[2]:
     c1, c2, c3, c4 = st.columns([1, 1, 1, 1])
     with c1:
         top_n_table = st.number_input(
-            "Show top N words in table (0 = show all)",
+            "Show top N words in table (0 = all)",
             min_value=0,
             max_value=5000,
             value=200,
@@ -126,7 +126,7 @@ with tabs[2]:
         )
     with c2:
         min_count = st.number_input(
-            "Minimum frequency (filter)",
+            "Minimum frequency",
             min_value=1,
             max_value=9999,
             value=1,
