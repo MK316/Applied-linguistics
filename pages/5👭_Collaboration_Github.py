@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-tab1, tab2, tab3 = st.tabs(["❄️ Online platforms", "❄️ Github collaboration", "❄️ Tab 3"])
+tab1, tab2, tab3 = st.tabs(["🌵 Online platforms", "🌵 Github collaboration", "🌵 Tab 3"])
 
 README_URL = "https://raw.githubusercontent.com/MK316/Collaboration26/main/README.md"
 
