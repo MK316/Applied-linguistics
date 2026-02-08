@@ -1,21 +1,11 @@
 import streamlit as st
 import requests
 
-tab1, tab2, tab3 = st.tabs(["Github collaboration", "Online platforms", "Tab 3"])
+tab1, tab2, tab3 = st.tabs(["❄️ Online platforms", "❄️ Github collaboration", "❄️ Tab 3"])
 
 README_URL = "https://raw.githubusercontent.com/MK316/Collaboration26/main/README.md"
 
 with tab1:
-    st.markdown("📄 Github repository for class collaboration: [link](https://github.com/MK316/Collaboration26/blob/main/README.md)")
-
-    try:
-        r = requests.get(README_URL, timeout=10)
-        r.raise_for_status()
-        st.markdown(r.text)
-    except Exception as e:
-        st.error(f"Could not load README file.\n{e}")
-
-with tab2:
     st.markdown("### 🌐 Online Platforms & Learning Resources")
 
     st.markdown("""
@@ -48,7 +38,15 @@ with tab2:
 
     These platforms will help you move from **learning concepts** to **building real educational tools**.
     """)
+with tab2:
+    st.markdown("📄 Github repository for class collaboration: [link](https://github.com/MK316/Collaboration26/blob/main/README.md)")
 
+    try:
+        r = requests.get(README_URL, timeout=10)
+        r.raise_for_status()
+        st.markdown(r.text)
+    except Exception as e:
+        st.error(f"Could not load README file.\n{e}")
 
 with tab3:
     st.write("This is Tab 3")
