@@ -24,9 +24,9 @@ with tab2:
 
     **🔹 GitHub**  
     + https://github.com
-    + File sharing and version control for course materials  
+    + File sharing and version control for app code  
     + Collaboration on group projects  
-    + Hosting code, data files, and documentation (README)
+    + Hosting code, data files, and documentation: markdown(e.g., readme.md) file
 
     **🔹 Google Colab**  
     + https://colab.google/
