@@ -75,7 +75,7 @@ def render_pdf_with_pdfjs(pdf_bytes: bytes, height: int = 900):
     components.html(html, height=height, scrolling=True)
 
 with tab1:
-    st.subheader("📅 Weekly Schedule (Google Sheet)")
+    st.subheader("📅 Weekly Schedule")
 
     try:
         df = load_schedule(CSV_URL)
