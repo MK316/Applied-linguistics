@@ -349,9 +349,10 @@ with tabs[3]:
                 )
 
                 st.subheader("✅ Token–Type Summary")
+                st.caption("📌 Note: A higher TTR reflects greater lexical diversity, while a lower TTR indicates more repetition. Since TTR decreases as text length increases, it should be interpreted with caution, especially when comparing texts of different lengths.")
                 st.dataframe(summary, use_container_width=True, hide_index=True)
 
-                st.subheader("📌 Top word frequencies")
+                st.subheader("🌀 Top word frequencies")
                 st.dataframe(freq.head(int(show_top)), use_container_width=True, hide_index=True)
 
                 st.subheader("📉 Low-frequency words")
