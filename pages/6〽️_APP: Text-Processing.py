@@ -68,6 +68,7 @@ tabs = st.tabs(["Word Count", "Remove Line Breaks", "Word Frequency", "TTR", "Re
 # ---- Tab 1: Word Count ----
 with tabs[0]:
     st.header("🔍 Word and Sentence Counter")
+    st.markdown("[sample text](https://raw.githubusercontent.com/MK316/Applied-linguistics/refs/heads/main/data/readme.md)")
     st.caption(
         "This application will display the number of words and sentences in your text. "
         "After pasting your text in the box below, hit 'Control + Enter' key to see the result."
