@@ -24,6 +24,11 @@ with tab1:
     + Running and testing code directly in the browser  
     + Useful for beginners practicing Python and data processing
 
+    **🔹 Python**  
+    + Manual online: https://wikidocs.net/5
+    + Manual 2: [Coding4ET](https://github.com/MK316/Coding4ET/blob/main/README.md)
+    + Basic Python manual in Korean
+    
     **🔹 Streamlit**  
     + https://streamlit.io
     + Tool for turning Python scripts into interactive web apps  
