@@ -114,7 +114,7 @@ with tabs[2]:
         key="stop_words_input",
     )
 
-    c1, c2 = st.columns([1, 1])
+    c1, c2, c3, c4 = st.columns([1, 1, 1, 1])
     with c1:
         top_n_table = st.number_input(
             "Show top N words in table (0 = show all)",
@@ -133,9 +133,17 @@ with tabs[2]:
             step=1,
             key="min_count",
         )
+    with c3:
+        sort_by = st.selectbox(
+            "Sort table by",
+            ["Frequency (high→low)", "Alphabetical (A→Z)", "Word length (long→short)"],
+            key="freq_sort_by",
+        )
+    with c4:
+        sort_ascending = st.checkbox("Ascending", value=False, key="freq_sort_asc")
 
     # ---- Build frequency table once (used by both table + chart) ----
-    df_freq = pd.DataFrame(columns=["word", "count"])
+    df_freq = pd.DataFrame(columns=["word", "count", "length"])
 
     if text_for_freq.strip():
         text_lower = text_for_freq.lower()
@@ -160,11 +168,9 @@ with tabs[2]:
             s = pd.Series(tokens, dtype="string")
             df_freq = s.value_counts().reset_index()
             df_freq.columns = ["word", "count"]
-            df_freq = df_freq.sort_values(
-                by=["count", "word"],
-                ascending=[False, True],
-                ignore_index=True,
-            )
+
+            # ✅ Add word length column
+            df_freq["length"] = df_freq["word"].astype(str).str.len()
 
             # Apply min_count first (so both table and chart reflect it)
             df_freq = df_freq[df_freq["count"] >= int(min_count)].reset_index(drop=True)
@@ -172,6 +178,27 @@ with tabs[2]:
             if df_freq.empty:
                 st.warning("All words were filtered out by the minimum frequency setting.")
             else:
+                # ✅ Table sorting (now includes length)
+                if sort_by == "Frequency (high→low)":
+                    # default: count desc, then word asc
+                    df_freq = df_freq.sort_values(
+                        by=["count", "word"],
+                        ascending=[sort_ascending, True],
+                        ignore_index=True,
+                    )
+                elif sort_by == "Alphabetical (A→Z)":
+                    df_freq = df_freq.sort_values(
+                        by=["word", "count"],
+                        ascending=[sort_ascending, False],
+                        ignore_index=True,
+                    )
+                else:  # "Word length (long→short)"
+                    df_freq = df_freq.sort_values(
+                        by=["length", "count", "word"],
+                        ascending=[sort_ascending, False, True],
+                        ignore_index=True,
+                    )
+
                 # ---- Table (optionally top N) ----
                 df_table = df_freq if top_n_table == 0 else df_freq.head(int(top_n_table))
 
@@ -210,9 +237,14 @@ with tabs[2]:
                     )
 
                     if st.button("Draw bar chart", key="draw_bar_chart"):
-                        plot_df = df_freq.head(int(chart_top_n)).copy()
+                        # Chart stays frequency-based (most common words),
+                        # regardless of table sort.
+                        plot_df = df_freq.sort_values(
+                            by=["count", "word"],
+                            ascending=[False, True],
+                            ignore_index=True,
+                        ).head(int(chart_top_n)).copy()
 
-                        # Make y labels readable (shorten if extremely long)
                         plot_df["word"] = plot_df["word"].astype(str).str.slice(0, 35)
 
                         fig, ax = plt.subplots(figsize=(10, max(4, 0.35 * len(plot_df))))
