@@ -21,7 +21,7 @@ def load_schedule(url: str) -> pd.DataFrame:
     df.columns = [c.strip() for c in df.columns]
     return df
     
-tab1, tab2, tab3 = st.tabs(["Syllabus", "Online Links", "Schedule"])
+tab1, tab2, tab3 = st.tabs(["🌱 Schedule", "🌱 Syllabus", "🌱 TBA"])
 
 PDF_URL = "https://raw.githubusercontent.com/MK316/Applied-linguistics/main/data/S26-appling-syllabus.pdf"
 
@@ -75,6 +75,18 @@ def render_pdf_with_pdfjs(pdf_bytes: bytes, height: int = 900):
     components.html(html, height=height, scrolling=True)
 
 with tab1:
+    st.subheader("📅 Weekly Schedule (Google Sheet)")
+
+    try:
+        df = load_schedule(CSV_URL)
+        st.dataframe(df, use_container_width=True, hide_index=True)
+        st.markdown("Schedule is synced from Google Sheets. Updates may take up to 1 minute to appear. [Google Sheet link](https://docs.google.com/spreadsheets/d/1_6bsBK45diIHvfWLAuAKE8nI77V0_by5wDXluCZQXD0/edit?usp=sharing)")
+    except Exception as e:
+        st.error("Failed to load the Google Sheet schedule.")
+        st.write(e)
+        st.info("Check: (1) Spreadsheet is published or accessible, (2) SPREADSHEET_ID and gid are correct, (3) columns exist.")
+    
+with tab2:
     st.markdown("### 📄 Course Overview (PDF)")
 
     try:
@@ -98,21 +110,10 @@ with tab1:
     # audio
 
     
-    
-with tab2:
-    st.write("여기는 탭 2입니다.")
 
 with tab3:
-    st.subheader("📅 Weekly Schedule (Google Sheet)")
+    st.caption("TBA")
 
-    try:
-        df = load_schedule(CSV_URL)
-        st.dataframe(df, use_container_width=True, hide_index=True)
-        st.markdown("Schedule is synced from Google Sheets. Updates may take up to 1 minute to appear. [Google Sheet link](https://docs.google.com/spreadsheets/d/1_6bsBK45diIHvfWLAuAKE8nI77V0_by5wDXluCZQXD0/edit?usp=sharing)")
-    except Exception as e:
-        st.error("Failed to load the Google Sheet schedule.")
-        st.write(e)
-        st.info("Check: (1) Spreadsheet is published or accessible, (2) SPREADSHEET_ID and gid are correct, (3) columns exist.")
 
     
 
