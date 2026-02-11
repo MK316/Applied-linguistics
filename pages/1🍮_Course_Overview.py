@@ -21,7 +21,7 @@ def load_schedule(url: str) -> pd.DataFrame:
     df.columns = [c.strip() for c in df.columns]
     return df
     
-tab1, tab2, tab3 = st.tabs(["🌱 Schedule", "🌱 Syllabus", "🌱 TBA"])
+tab1, tab2, tab3 = st.tabs(["🌱 Schedule", "🌱 Syllabus", "🌱 G-sheet"])
 
 PDF_URL = "https://raw.githubusercontent.com/MK316/Applied-linguistics/main/data/S26-appling-syllabus.pdf"
 
@@ -112,7 +112,35 @@ with tab2:
     
 
 with tab3:
-    st.caption("TBA")
+    st.markdown("#### Google Sheet to share for Class Activities")
+    st.markdown("""
+    + Working group (1st week)
+    """)
+    st.markdown("---")
+
+    button_html = """
+        <style>
+            .custom-button {
+                background-color: #003366;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+            }
+            .custom-button:hover {
+                background-color: #002244;
+            }
+        </style>
+        <a href="https://docs.google.com/spreadsheets/d/1JsW8sRnnVAMwgUSpXK3ygO0YvJqzLC5ZucOF_523Lzg/edit?usp=sharing" target="_blank">
+            <button class="custom-button">🎯 Click: Go to Google Sheet</button>
+        </a>
+    """
+    st.markdown(button_html, unsafe_allow_html=True)
 
 
     
