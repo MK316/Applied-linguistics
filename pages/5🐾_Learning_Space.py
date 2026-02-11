@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-tab1, tab2, tab3, tab4 = st.tabs(["🌵 Online platforms", "🌵Vibe coding", "🌵 Github collaboration", "🌵 Python coding"])
+tab1, tab2, tab3, tab4 = st.tabs(["🌵 Online platforms", "🌵 Vibe coding", "🌵 Github collaboration", "🌵 Python coding"])
 
 README_URL = "https://raw.githubusercontent.com/MK316/Collaboration26/main/README.md"
 
@@ -48,7 +48,8 @@ with tab2:
     
     st.markdown("""
     + [Understanding Vibe coding](https://github.com/MK316/Applied-linguistics/blob/main/mdfiles/vibe01.md)
-    + Online platform: [Cursor](https://cursor.com/), [Replit Agent](https://replit.com/?utm_source=youtube&utm_medium=youtube&utm_campaign=youtube&gad_source=1&gad_campaignid=22257718739&gbraid=0AAAAA-k_HqIrzlum39bUXIpKSBAcWHWFk&gclid=Cj0KCQiA7rDMBhCjARIsAGDBuEBb4hwKyYOy0AlRtuzvp3xYmu2TpMo6Du7M7NhpQvpEIhb0eoRqLwUaAiBYEALw_wcB), GitHub Spark, [Lovable](https://lovable.dev/videos/vibe%20coding)
+    + Online platform: [Cursor](https://cursor.com/), [Replit Agent](https://replit.com/?utm_source=youtube&utm_medium=youtube&utm_campaign=youtube&gad_source=1&gad_campaignid=22257718739&gbraid=0AAAAA-k_HqIrzlum39bUXIpKSBAcWHWFk&gclid=Cj0KCQiA7rDMBhCjARIsAGDBuEBb4hwKyYOy0AlRtuzvp3xYmu2TpMo6Du7M7NhpQvpEIhb0eoRqLwUaAiBYEALw_wcB), GitHub Spark, [Lovable](https://lovable.dev/videos/vibe%20coding).
+    """)
 
 with tab3:
     st.markdown("📄 Github repository for class collaboration: [link](https://github.com/MK316/Collaboration26/blob/main/README.md)")
