@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import streamlit.components.v1 as components
 
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📮 Padlet", "🌵 Links", "🌵 Github", "🌵 Vibe coding", "🌵 Collaboration", "🌵 Python", "🌵 Streamlit"])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["📮 Padlet", "🌵 Links", "🌵 Github", "🌵 Vibe coding", "🌵 Collaboration", "🌵 Python", "🌵 Streamlit"])
 
 README_URL = "https://raw.githubusercontent.com/MK316/Collaboration26/main/README.md"
 
