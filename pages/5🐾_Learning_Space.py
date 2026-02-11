@@ -47,7 +47,7 @@ with tab1:
 with tab2:
     
     st.markdown("""
-    + [Understanding Vibe coding](https://github.com/MK316/Applied-linguistics/raw/main/mdfiles/vibe01.md)
+    + [Understanding Vibe coding](https://github.com/MK316/Applied-linguistics/blob/main/mdfiles/vibe01.md)
     + Online platform: [Cursor](https://cursor.com/), [Replit Agent](https://replit.com/?utm_source=youtube&utm_medium=youtube&utm_campaign=youtube&gad_source=1&gad_campaignid=22257718739&gbraid=0AAAAA-k_HqIrzlum39bUXIpKSBAcWHWFk&gclid=Cj0KCQiA7rDMBhCjARIsAGDBuEBb4hwKyYOy0AlRtuzvp3xYmu2TpMo6Du7M7NhpQvpEIhb0eoRqLwUaAiBYEALw_wcB), GitHub Spark, [Lovable](https://lovable.dev/videos/vibe%20coding).
     """)
 
