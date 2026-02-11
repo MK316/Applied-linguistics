@@ -65,49 +65,68 @@ with tab2:
 with tab3:
     st.caption("GitHub for Beginners")
     st.markdown("""
-    #### Step 1: Introduction to Markdown
+    ### Learning Path: From GitHub to Live Web App
+    
+    #### Step 1: Getting Started with GitHub
+    The first step into the world of open source.
+    
+    💧 **Keywords**: Sign up, Username, Profile, Verification.
+    
+    🌀 **Activity**: Create your account at [GitHub.com](https://github.com/), verify your email, and set up your profile bio.
+
+    #### Step 2: Introduction to Markdown
     Start with writing rather than coding to lower the barrier to entry.
     
-    💧Keywords: .md extension, Headers (#), Lists (*), Links, and Images.
+    💧 **Keywords**: `.md` extension, Headers (#), Lists (*), Links, and Images.
     
-    💧Activity: Create a personal profile or a "My Interests" list using Markdown syntax.
+    🌀 **Activity**: Write a personal profile or a "My Interests" list using Markdown syntax.
+    """)
     
-    ####  Step 2: Understanding Repositories
-    Learn the concept of an online "folder" for projects.
     
-    💧Keywords: Public vs. Private, README.md, Commit (Saving changes).
     
-    💧Activity: Create your first repository (Repo) and upload your Markdown file directly on the GitHub website.
+    st.markdown("""
+    #### Step 3: Understanding Repositories
+    Learn the concept of an online "folder" for your projects.
     
-     #### Step 3: Collaboration (The Power of Open Source)
+    💧 **Keywords**: Public vs. Private, README.md, Commit (Saving changes).
+    
+    🌀 **Activity**: Create your **first repository (Repo)** named "my-first-app" and upload your Markdown file directly.
+
+    #### Step 4: Collaboration (The Power of Open Source)
     Learn how to contribute to other people's work—the core of GitHub.
     
-    💧Keywords: Fork (Copying), Edit, Pull Request (PR) (Requesting to merge changes).
+    💧 **Keywords**: Fork (Copying), Edit, Pull Request (PR).
     
-    💧Activity: Fork the teacher's repository, add your name to a "Student List," and send a Pull Request.
+    🌀 **Activity**: Fork the teacher's repository, add your name to the "Student List," and send a **Pull Request**.
+    """)
     
-    ####  Step 4: Creating a Streamlit App
-    Prepare a simple Python script that will turn into a web page.
     
-    💧Keywords: import streamlit as st, st.title(), requirements.txt.
     
-    💧Activity: Write a 5-line Python script that displays a welcome message or a simple flashcard.
+    st.markdown("""
+    #### Step 5: Creating a Streamlit App
+    Prepare a simple Python script that will turn into a live web page.
     
-     #### Step 5: Deployment to the Web
-    Connect GitHub to Streamlit Cloud to make the app accessible via a URL.
+    💧 **Keywords**: `import streamlit as st`, `st.title()`, `requirements.txt`.
     
-    💧Keywords: Streamlit Cloud, Reboot, Live URL.
-    
-    💧Activity: Link your GitHub repo to Streamlit Cloud, click "Deploy," and share the link with classmates.
-    
-    ####  Step 6: Maintenance & Continuous Integration
-    Understand that software is a living thing that needs updates.
-    
-    💧Keywords: Live Sync (Auto-update), Debugging, Version History.
-    
-    💧Activity: Edit the code on GitHub and watch the live website update automatically within seconds.
+    🌀 **Activity**: Write a 5-line Python script that displays a welcome message or a simple flashcard.
 
-
+    #### Step 6: Deployment to the Web
+    Connect GitHub to **Streamlit Cloud** to make your app accessible via a URL.
+    
+    💧 **Keywords**: Streamlit Cloud, Deploy, Live URL.
+    
+    🌀 **Activity**: Link your GitHub repo to Streamlit Cloud, click "Deploy," and share the link with your friends!
+    """)
+    
+    
+    
+    st.markdown("""
+    #### Step 7: Maintenance & Continuous Integration
+    Understand that software is a "living thing" that needs updates.
+    
+    💧 **Keywords**: Live Sync (Auto-update), Debugging, Version History.
+    
+    🌀 **Activity**: Edit your code on GitHub and watch your live website update automatically within seconds!
     """)
 
 with tab4:
