@@ -54,7 +54,7 @@ with tab2:
         st.error(f"Could not load README file.\n{e}")
 
 with tab3:
-    st.markdown("### 📄 Coding4ET – Python manual for English Teachers")
+    st.caption("Python manual for English Teachers (workbook manual)")
 
     README_URL = "https://raw.githubusercontent.com/MK316/Coding4ET/main/README.md"
 
