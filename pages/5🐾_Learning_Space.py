@@ -72,14 +72,14 @@ with tab3:
     
     💧 **Keywords**: Sign up, Username, Profile, Verification.
     
-    🌀 **Activity**: Create your account at [GitHub.com](https://github.com/), verify your email, and set up your profile bio.
+    🍰 **Activity**: Create your account at [GitHub.com](https://github.com/), verify your email, and set up your profile bio.
 
     #### Step 2: Introduction to Markdown
     Start with writing rather than coding to lower the barrier to entry.
     
     💧 **Keywords**: `.md` extension, Headers (#), Lists (*), Links, and Images.
     
-    🌀 **Activity**: Write a personal profile or a "My Interests" list using Markdown syntax.
+    🍰 **Activity**: Write a personal profile or a "My Interests" list using Markdown syntax.
     """)
     
     
@@ -90,14 +90,14 @@ with tab3:
     
     💧 **Keywords**: Public vs. Private, README.md, Commit (Saving changes).
     
-    🌀 **Activity**: Create your **first repository (Repo)** named "my-first-app" and upload your Markdown file directly.
+    🍰 **Activity**: Create your **first repository (Repo)** named "my-first-app" and upload your Markdown file directly.
 
     #### Step 4: Collaboration (The Power of Open Source)
     Learn how to contribute to other people's work—the core of GitHub.
     
     💧 **Keywords**: Fork (Copying), Edit, Pull Request (PR).
     
-    🌀 **Activity**: Fork the teacher's repository, add your name to the "Student List," and send a **Pull Request**.
+    🍰 **Activity**: Fork the teacher's repository, add your name to the "Student List," and send a **Pull Request**.
     """)
     
     
@@ -108,14 +108,14 @@ with tab3:
     
     💧 **Keywords**: `import streamlit as st`, `st.title()`, `requirements.txt`.
     
-    🌀 **Activity**: Write a 5-line Python script that displays a welcome message or a simple flashcard.
+    🍰 **Activity**: Write a 5-line Python script that displays a welcome message or a simple flashcard.
 
     #### Step 6: Deployment to the Web
     Connect GitHub to **Streamlit Cloud** to make your app accessible via a URL.
     
     💧 **Keywords**: Streamlit Cloud, Deploy, Live URL.
     
-    🌀 **Activity**: Link your GitHub repo to Streamlit Cloud, click "Deploy," and share the link with your friends!
+    🍰 **Activity**: Link your GitHub repo to Streamlit Cloud, click "Deploy," and share the link with your friends!
     """)
     
     
@@ -126,7 +126,7 @@ with tab3:
     
     💧 **Keywords**: Live Sync (Auto-update), Debugging, Version History.
     
-    🌀 **Activity**: Edit your code on GitHub and watch your live website update automatically within seconds!
+    🍰 **Activity**: Edit your code on GitHub and watch your live website update automatically within seconds!
     """)
 
 with tab4:
