@@ -18,9 +18,9 @@ def create_wordcloud(text):
 
 # Streamlit tabs (✅ WordCloud tab inserted as 4th)
 tabs = st.tabs([
-    "✏️Blackboard", "📈QR", "⏳Timer",
+    "✏️Blackboard", "🎨Drawing", "📈QR", "⏳Timer",
     "☁️WordCloud",           # ✅ NEW 4th tab
-    "🔊TTS", "🎨Drawing", "👥Grouping"
+    "🔊TTS", "👥Grouping"
 ])
 
 # --- Tab 0: Blackboard ---
@@ -53,8 +53,38 @@ with tabs[0]:
         unsafe_allow_html=True,
     )
 
-# --- Tab 1: QR ---
+# ---- Tab2 Drawing
 with tabs[1]:
+    st.caption("Use the canvas below to draw freely. You can change the stroke width and color.")
+
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col1:
+        stroke_width = st.slider("✏️ Stroke Width", 1, 10, 5)
+    with col2:
+        stroke_color = st.color_picker("🖌 Stroke Color", "#000000")
+    with col3:
+        bg_color = st.color_picker("🖼 Background Color", "#FFFFFF")
+
+    if "clear_canvas" not in st.session_state:
+        st.session_state["clear_canvas"] = False
+
+    canvas_result = st_canvas(
+        fill_color="rgba(255, 165, 0, 0.3)",
+        stroke_width=stroke_width,
+        stroke_color=stroke_color,
+        background_color=bg_color,
+        height=400,
+        width=600,
+        drawing_mode="freedraw",
+        key="main_canvas" if not st.session_state["clear_canvas"] else "new_canvas"
+    )
+
+    if st.button("🗑️ Clear Canvas"):
+        st.session_state["clear_canvas"] = not st.session_state["clear_canvas"]
+        st.rerun()
+        
+# --- Tab 3: QR ---
+with tabs[2]:
     st.caption("QR code generator")
 
     col1, col2, col3 = st.columns([3, 3, 2])
@@ -79,8 +109,11 @@ with tabs[1]:
         qr_img = qr.make_image(fill='black', back_color='white').convert('RGB').resize((600, 600))
         st.image(qr_img, caption=caption if caption else "Generate", use_container_width=False, width=400)
 
-# --- Tab 2: Timer ---
-with tabs[2]:
+# ---
+
+
+# --- Tab 4: Timer ---
+with tabs[3]:
     huggingface_space_url = "https://MK-316-mytimer.hf.space"
     st.components.v1.html(
         f"""
@@ -92,7 +125,7 @@ with tabs[2]:
     )
 
 # --- Tab 3: ✅ NEW WordCloud ---
-with tabs[3]:
+with tabs[4]:
     st.subheader("☁️ WordCloud Generator")
     st.caption("Paste text below and generate a word cloud.")
 
@@ -130,7 +163,7 @@ with tabs[3]:
             st.pyplot(fig)
 
 # --- Tab 4: (was tabs[4]) TTS ---
-with tabs[4]:
+with tabs[5]:
     st.subheader("Text-to-Speech Converter (using Google TTS)")
     text_input = st.text_area("Enter the text you want to convert to speech:")
     language = st.selectbox(
@@ -171,34 +204,7 @@ with tabs[4]:
     st.caption("🇯🇵 Japanese: 教師が設計したコーディングアプリケーションは、学習者のニーズに合わせた学習体験を提供し、複雑な概念をインタラクティブで適応性のあるツールを通じて理解しやすくします。また、学習への集中力を高め、即時フィードバックを提供し、主体的な学習をサポートします。")
 
 # --- Tab 6: (was tabs[5]) Drawing ---
-with tabs[5]:
-    st.caption("Use the canvas below to draw freely. You can change the stroke width and color.")
 
-    col1, col2, col3 = st.columns([1, 1, 1])
-    with col1:
-        stroke_width = st.slider("✏️ Stroke Width", 1, 10, 5)
-    with col2:
-        stroke_color = st.color_picker("🖌 Stroke Color", "#000000")
-    with col3:
-        bg_color = st.color_picker("🖼 Background Color", "#FFFFFF")
-
-    if "clear_canvas" not in st.session_state:
-        st.session_state["clear_canvas"] = False
-
-    canvas_result = st_canvas(
-        fill_color="rgba(255, 165, 0, 0.3)",
-        stroke_width=stroke_width,
-        stroke_color=stroke_color,
-        background_color=bg_color,
-        height=400,
-        width=600,
-        drawing_mode="freedraw",
-        key="main_canvas" if not st.session_state["clear_canvas"] else "new_canvas"
-    )
-
-    if st.button("🗑️ Clear Canvas"):
-        st.session_state["clear_canvas"] = not st.session_state["clear_canvas"]
-        st.rerun()
 
 # --- Tab 7: (was tabs[6]) Grouping ---
 with tabs[6]:
