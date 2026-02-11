@@ -1,11 +1,29 @@
 import streamlit as st
 import requests
+import streamlit.components.v1 as components
 
-tab1, tab2, tab3, tab4 = st.tabs(["🌵 Online platforms", "🌵 Vibe coding", "🌵 Github collaboration", "🌵 Python coding"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["Padlet", "🌵 Online platforms", "🌵 Vibe coding", "🌵 Github collaboration", "🌵 Python coding"])
 
 README_URL = "https://raw.githubusercontent.com/MK316/Collaboration26/main/README.md"
 
 with tab1:
+    
+    def main():
+        st.caption("💙 Class Board: Padlet")
+        st.write("➡️ Click the '+' sign to write.")
+        # Padlet embed URL (you need to replace this with your actual Padlet embed URL)
+        padlet_url = "https://padlet.com/mirankim316/appliedlinguistics"
+    
+        # Create an iframe to embed the Padlet
+        padlet_iframe = f"<iframe src='{padlet_url}' width='100%' height='600' frameborder='0' allow='autoplay'></iframe>"
+    
+        # Display the iframe in Streamlit
+        components.html(padlet_iframe, height=600)
+    
+    if __name__ == "__main__":
+        main()
+
+with tab2:
     st.markdown("### 🌐 Online Platforms & Learning Resources")
 
     st.markdown("""
@@ -44,14 +62,14 @@ with tab1:
     These platforms will help you move from **learning concepts** to **building real educational tools**.
     """)
 
-with tab2:
+with tab3:
     
     st.markdown("""
     + [Understanding Vibe coding](https://github.com/MK316/Applied-linguistics/blob/main/mdfiles/vibe01.md)
     + Online platform: [Cursor](https://cursor.com/), [Replit Agent](https://replit.com/?utm_source=youtube&utm_medium=youtube&utm_campaign=youtube&gad_source=1&gad_campaignid=22257718739&gbraid=0AAAAA-k_HqIrzlum39bUXIpKSBAcWHWFk&gclid=Cj0KCQiA7rDMBhCjARIsAGDBuEBb4hwKyYOy0AlRtuzvp3xYmu2TpMo6Du7M7NhpQvpEIhb0eoRqLwUaAiBYEALw_wcB), GitHub Spark, [Lovable](https://lovable.dev/videos/vibe%20coding).
     """)
 
-with tab3:
+with tab4:
     st.markdown("📄 Github repository for class collaboration: [link](https://github.com/MK316/Collaboration26/blob/main/README.md)")
 
     try:
@@ -61,7 +79,7 @@ with tab3:
     except Exception as e:
         st.error(f"Could not load README file.\n{e}")
 
-with tab4:
+with tab5:
     st.caption("Python manual for English Teachers (workbook manual)")
 
     README_URL = "https://raw.githubusercontent.com/MK316/Coding4ET/main/README.md"
