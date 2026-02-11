@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import streamlit.components.v1 as components
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["Padlet", "🌵 Online platforms", "🌵 Vibe coding", "🌵 Github collaboration", "🌵 Python coding"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📮 Padlet", "🌵 Online platforms", "🌵 Vibe coding", "🌵 Collaboration", "🌵 Python coding", "🌵 Streamlit"])
 
 README_URL = "https://raw.githubusercontent.com/MK316/Collaboration26/main/README.md"
 
@@ -92,4 +92,5 @@ with tab5:
         st.error(f"Could not load the README file.\n{e}")
 
 
-
+with tab6:
+    st.caption("Learn how to deploy your code to build a web application.")
