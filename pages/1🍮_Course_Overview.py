@@ -21,7 +21,7 @@ def load_schedule(url: str) -> pd.DataFrame:
     df.columns = [c.strip() for c in df.columns]
     return df
     
-tab1, tab2, tab3 = st.tabs(["🌱 Schedule", "🌱 Syllabus", "🌱 G-sheet"])
+tab1, tab2, tab3, tab4 = st.tabs(["🌱 Schedule", "🌱 Syllabus", "🌱 G-sheet", "G-doc"])
 
 PDF_URL = "https://raw.githubusercontent.com/MK316/Applied-linguistics/main/data/S26-appling-syllabus.pdf"
 
@@ -141,6 +141,44 @@ with tab3:
         </a>
     """
     st.markdown(button_html, unsafe_allow_html=True)
+
+with tab4:
+    st.subheader("📄 Shared Google Doc")
+    st.caption("Read the document here. Click the button below to edit.")
+
+    DOC_ID = "1olgbyInMLUFaYPjt8G_V-tNtb1Kfhjts4gq4hxPYNmQ"
+    VIEW_URL = f"https://docs.google.com/document/d/{DOC_ID}/preview"
+    EDIT_URL = f"https://docs.google.com/document/d/{DOC_ID}/edit"
+
+    # ✏️ Edit button (opens new tab)
+    st.markdown(
+        f"""
+        <a href="{EDIT_URL}" target="_blank" rel="noopener noreferrer"
+           style="
+             display:inline-block;
+             padding:0.6rem 1.1rem;
+             border-radius:8px;
+             background:#0ea5e9;
+             color:white;
+             text-decoration:none;
+             font-weight:600;
+             margin-bottom:12px;
+           ">
+           ✏️ Open & edit in Google Docs
+        </a>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # 📄 Document preview
+    st.components.v1.html(
+        f"""
+        <iframe src="{VIEW_URL}"
+                style="width:100%; height:85vh; border:none;">
+        </iframe>
+        """,
+        height=900,
+    )
 
 
     
