@@ -65,7 +65,8 @@ with tab2:
 with tab3:
     st.caption("GitHub for Beginners")
     st.markdown("""
-    ### Learning Path: From GitHub to Live Web App
+    ### 📚 Learning Path: From GitHub to Live Web App
+    ---
     
     #### Step 1: Getting Started with GitHub
     The first step into the world of open source.
