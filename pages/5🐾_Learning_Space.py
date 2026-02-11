@@ -74,7 +74,7 @@ with tab3:
     
     🍰 **Activity**: Create your account at [GitHub.com](https://github.com/), verify your email, and set up your profile bio.
 
-    #### Step 2: Introduction to Markdown
+    #### Step 2: [Introduction to Markdown](https://github.com/MK316/Coding4ET/blob/main/Lessons/Lesson02-3.md)
     Start with writing rather than coding to lower the barrier to entry.
     
     💧 **Keywords**: `.md` extension, Headers (#), Lists (*), Links, and Images.
