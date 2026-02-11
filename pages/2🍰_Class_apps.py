@@ -20,7 +20,7 @@ def create_wordcloud(text):
 tabs = st.tabs([
     "✏️Blackboard", "📈QR", "⏳Timer",
     "☁️WordCloud",           # ✅ NEW 4th tab
-    "🐤GS", "🔊TTS", "🎨Drawing", "👥Grouping", "📓DOC",
+    "🔊TTS", "🎨Drawing", "👥Grouping"
 ])
 
 # --- Tab 0: Blackboard ---
@@ -129,40 +129,8 @@ with tabs[3]:
             ax.axis("off")
             st.pyplot(fig)
 
-# --- Tab 4: (was tabs[3]) Google Sheet ---
+# --- Tab 4: (was tabs[4]) TTS ---
 with tabs[4]:
-    st.markdown("#### Google Sheet to share for Class Activities")
-    st.markdown("""
-    + Working group (1st week)
-    """)
-    st.markdown("---")
-
-    button_html = """
-        <style>
-            .custom-button {
-                background-color: #003366;
-                color: white;
-                padding: 10px 20px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                border: none;
-                border-radius: 8px;
-                cursor: pointer;
-            }
-            .custom-button:hover {
-                background-color: #002244;
-            }
-        </style>
-        <a href="https://docs.google.com/spreadsheets/d/1JsW8sRnnVAMwgUSpXK3ygO0YvJqzLC5ZucOF_523Lzg/edit?usp=sharing" target="_blank">
-            <button class="custom-button">🎯 Click: Go to Google Sheet</button>
-        </a>
-    """
-    st.markdown(button_html, unsafe_allow_html=True)
-
-# --- Tab 5: (was tabs[4]) TTS ---
-with tabs[5]:
     st.subheader("Text-to-Speech Converter (using Google TTS)")
     text_input = st.text_area("Enter the text you want to convert to speech:")
     language = st.selectbox(
@@ -203,7 +171,7 @@ with tabs[5]:
     st.caption("🇯🇵 Japanese: 教師が設計したコーディングアプリケーションは、学習者のニーズに合わせた学習体験を提供し、複雑な概念をインタラクティブで適応性のあるツールを通じて理解しやすくします。また、学習への集中力を高め、即時フィードバックを提供し、主体的な学習をサポートします。")
 
 # --- Tab 6: (was tabs[5]) Drawing ---
-with tabs[6]:
+with tabs[5]:
     st.caption("Use the canvas below to draw freely. You can change the stroke width and color.")
 
     col1, col2, col3 = st.columns([1, 1, 1])
@@ -233,7 +201,7 @@ with tabs[6]:
         st.rerun()
 
 # --- Tab 7: (was tabs[6]) Grouping ---
-with tabs[7]:
+with tabs[6]:
     st.subheader("👥 Grouping Tool")
     st.caption("Your CSV should have at least the columns `Course` and `Name_ori`.")
 
@@ -298,42 +266,4 @@ with tabs[7]:
                 )
     else:
         st.error("The file must contain both `Course` and `Name_ori` columns.")
-
-with tabs[8]:
-    st.subheader("📄 Shared Google Doc")
-    st.caption("Read the document here. Click the button below to edit.")
-
-    DOC_ID = "1olgbyInMLUFaYPjt8G_V-tNtb1Kfhjts4gq4hxPYNmQ"
-    VIEW_URL = f"https://docs.google.com/document/d/{DOC_ID}/preview"
-    EDIT_URL = f"https://docs.google.com/document/d/{DOC_ID}/edit"
-
-    # ✏️ Edit button (opens new tab)
-    st.markdown(
-        f"""
-        <a href="{EDIT_URL}" target="_blank" rel="noopener noreferrer"
-           style="
-             display:inline-block;
-             padding:0.6rem 1.1rem;
-             border-radius:8px;
-             background:#0ea5e9;
-             color:white;
-             text-decoration:none;
-             font-weight:600;
-             margin-bottom:12px;
-           ">
-           ✏️ Open & edit in Google Docs
-        </a>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    # 📄 Document preview
-    st.components.v1.html(
-        f"""
-        <iframe src="{VIEW_URL}"
-                style="width:100%; height:85vh; border:none;">
-        </iframe>
-        """,
-        height=900,
-    )
 
