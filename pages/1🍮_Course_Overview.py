@@ -21,7 +21,7 @@ def load_schedule(url: str) -> pd.DataFrame:
     df.columns = [c.strip() for c in df.columns]
     return df
     
-tab1, tab2, tab3, tab4 = st.tabs(["🌱 Schedule", "🌱 Syllabus", "🌱 G-sheet", "G-doc"])
+tab1, tab2, tab3, tab4 = st.tabs(["🌱 Schedule", "🌱 Syllabus", "🌱 G-sheet", "🌱 G-doc"])
 
 PDF_URL = "https://raw.githubusercontent.com/MK316/Applied-linguistics/main/data/S26-appling-syllabus.pdf"
 
