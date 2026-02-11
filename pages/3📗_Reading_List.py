@@ -11,5 +11,5 @@ st.markdown("""
   + Reading #5: [UNESCO](https://www.unesco.org/en/digital-education/artificial-intelligence) (2025) _AI in education_.
   + Reading #6: 
 
-  📗 Spplementary book: An Introduction to Applied Linguistics (2007; 2nd ed.) by A. Davies, Edinburgh University Press.
+  📗 Spplementary book: _An Introduction to Applied Linguistics_ (2007; 2nd ed.) by A. Davies, Edinburgh University Press.
   """)
