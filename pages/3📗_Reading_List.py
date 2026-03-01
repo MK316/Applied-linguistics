@@ -49,5 +49,32 @@ with tab2:
         st.error(f"An error occurred while fetching the file: {e}")
 
 with tab3:
-    st.header("Discussions")
-    st.info("This is where your GitHub repositories will be listed.")
+    st.header("🖼️ Infographics")
+    st.write("Select an image from the repository to view it.")
+
+    # 1. Define your images (Replace these with your actual filenames and raw links)
+    # Format: "Display Name": "Raw GitHub URL"
+    image_options = {
+        "Select an image...": None,
+        "Supplementary book Chapter 1": "https://raw.githubusercontent.com/MK316/Collaboration26/main/infographic/CH01_infographic.png",
+        "Reading #1": "https://raw.githubusercontent.com/MK316/Applied-linguistics/main/images/ipa_chart.jpeg",
+        "Reading #2": "https://raw.githubusercontent.com/MK316/Collaboration26/main/images/workflow.png"
+    }
+
+    # 2. Create the dropdown box
+    selected_image_name = st.selectbox("Choose an image to display:", options=list(image_options.keys()))
+
+    # 3. Display the selected image
+    if selected_image_name and image_options[selected_image_name]:
+        image_url = image_options[selected_image_name]
+        
+        st.divider()
+        st.subheader(f"Viewing: {selected_image_name}")
+        
+        # use_container_width=True makes the image fit the tab width automatically
+        st.image(image_url, caption=f"Source: {selected_image_name}", use_container_width=True)
+        
+        # Optional: Add a download link or direct link
+        st.caption(f"[Open original image in new tab]({image_url})")
+    else:
+        st.info("Please select an image from the dropdown menu above.")
