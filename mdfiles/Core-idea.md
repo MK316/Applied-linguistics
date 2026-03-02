@@ -96,7 +96,7 @@ Activities such as:
 
 + Designing interpretive projects: Conducting comparative sentiment analysis between original literary texts (e.g., Shakespeare) and modern-day AI-translated versions to explore nuances in tone and style.
 
-+ Building AI-mediated applications: Developing simple Streamlit-based automated feedback tools or "VOT (Voice Onset Time) visualizers" that help students analyze their own pronunciation or linguistic patterns in real-time.
++ Building AI-mediated applications: Developing simple Streamlit-based automated feedback tools or "VOT (Voice Onset Time) visualizers" that help students analyze their own pronunciation or linguistic patterns in real-time. [🌀 VOT application](https://englishvot.streamlit.app/)
 
 👉 **Engagement arises from participation and ownership; students transform from consumers into creators.**
 
