@@ -16,7 +16,7 @@ Humanities concepts are often abstract, interpretive, and conceptually dense. Ed
 
 **Key Idea:** Learning occurs when complex ideas become cognitively reachable.
 
-#### 🧠 Key Concepts
+#### 🔑 Key Concepts
 
 * **Scaffolding** *(Wood, D., Bruner, J. S., & Ross, G., 1976; based on Vygotsky, 1978)*: Temporary support provided by an expert to help a learner master a task. This assistance is gradually removed as the learner gains independence and competence.
 * **Zone of Proximal Development (ZPD)** *(Vygotsky, L. S., 1978)*: The gap between what a learner can do alone and what they can achieve with guidance. It represents the optimal "learning window" where challenge meets potential.
@@ -44,7 +44,7 @@ Once learners grasp basic ideas, the challenge shifts from comprehension to inte
 
 **Key Idea:** Simple knowledge becomes meaningful through analytical depth.
 
-#### 🧠 Key Concepts
+#### 🔑 Key Concepts
 
 * **Deep Learning** *(Marton, F., & Säljö, R., 1976)*: A learning approach where students seek to understand the underlying meaning and integrate new knowledge with prior experience, rather than just memorizing facts.
 * **Critical Thinking** *(Ennis, R. H., 1985)*: The process of disciplined thinking that is clear, rational, open-minded, and informed by evidence. In the AI era, this involves questioning AI-generated outputs.
@@ -74,7 +74,7 @@ Engagement in humanities is not mere fun but **epistemic engagement**—where st
 
 **Key Idea:** Interest emerges when learners experience agency and relevance in their learning process.
 
-#### 🧠 Key Concepts
+#### 🔑 Key Concepts
 
 * **Constructivist Learning** *(Piaget, J., 1952; Vygotsky, L. S., 1978)*: The theory that learners construct new knowledge through their experiences and reflections, rather than passively absorbing information.
 * **Learner Agency** *(Bandura, A., 2001)*: The capacity of students to act intentionally and exert influence over their learning process, making choices that align with their goals.
@@ -101,7 +101,7 @@ Activities such as:
 
 AI changes access to information but exponentially increases the need for humanistic competencies. Humanities education shifts from transmitting knowledge to cultivating **interpretive intelligence**.
 
-#### 🚀 Emerging Humanities Competencies
+#### ✏️ Emerging Humanities Competencies
 
 * **Interpretation over Information Retrieval**: The ability to synthesize meaning when data is already abundant and easily accessible.
 * **Critical Evaluation of AI Outputs**: The skill to detect bias, hallucination, and oversimplification in generative models.
