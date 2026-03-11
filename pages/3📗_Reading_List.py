@@ -19,8 +19,8 @@ with tab1:
     st.caption("To be updated continuously")
     st.markdown("""
       
-      + Reading #1: Translanguaging [Li, Wei (2018)](https://www.researchgate.net/publication/323720294_Translanguaging_as_a_Practical_Theory_of_Language)
-      + Reading #2: Alignment issues [Curry et al. (2025)](https://github.com/MK316/Applied-linguistics/raw/main/readings/02_Curry_etal_2025.pdf)
+      + Reading #1: Translanguaging [Li, Wei (2018)](https://www.researchgate.net/publication/323720294_Translanguaging_as_a_Practical_Theory_of_Language) [📎 Handout](https://github.com/MK316/Applied-linguistics/raw/main/handouts/CH01_handout.pdf)
+      + Reading #2: Alignment issues [Curry et al. (2025)](https://github.com/MK316/Applied-linguistics/raw/main/readings/02_Curry_etal_2025.pdf) [📎 Handout](https://github.com/MK316/Applied-linguistics/raw/main/handouts/Reading01_Summary_handout.pdf)
       + Reading #3: [Jacob, S. R. & M. Warschauer](https://www.researchgate.net/publication/327217492_Computational_Thinking_and_Literacy) (2018). Computational Thinking and Literacy. _Journal of Computer Science Integration_, 1(1).
       + Reading #4: [UNESCO](https://www.unesco.org/en/digital-education/artificial-intelligence) (2025) _AI in education_.
       + Reading #5: [Zawacki-Richter et al. (2019)](https://www.researchgate.net/publication/336846972_Systematic_review_of_research_on_artificial_intelligence_applications_in_higher_education_-where_are_the_educators) Zawacki-Richter, O., Marín, V. I., Bond, M., & Gouverneur, F. (2019). Systematic review of research on artificial intelligence applications in higher education. _International Journal of Educational Technology in Higher Education_, 16(1), 1–27. https://doi.org/10.1186/s41239-019-0171-0
