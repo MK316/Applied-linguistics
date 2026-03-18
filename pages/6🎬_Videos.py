@@ -96,6 +96,10 @@ CLASS_VIDEOS = {
         "url": "https://youtu.be/pKKR7RVBlc0",
         "caption": "수업에서 사용할 디지털 도구와 활동 흐름 소개",
     },
+    "Week 02 · Alignment Problem: Curry et al. (2025)": {
+        "url": "https://youtu.be/JqBV-wug-WQ",
+        "caption": "인간의 지식처리와 인공지능의 데이터처리 방식",
+    },
 }
 
 # ---------- "Tabs" selector (segmented if available; fallback to radio) ----------
