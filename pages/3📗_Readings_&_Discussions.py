@@ -101,7 +101,7 @@ SUMMARY_FILES = {
     "Reading #1: Translanguaging (Li, 2018)": "Reading01.md",
     "Reading #2: Alignment Issues (Curry, 2025)": "Reading02.md",
     "Reading #3: Computational Thinking (Jacob & Warschauer, 2018)": "Reading03.md",
-    "Reading #4: Computational Thinking (UNESCO, 2025)": "Reading04.md",
+    "Reading #4: AI Competency Framework for Teachers (UNESCO, 2024)": "Reading04.md",
     "Reading #5: AI application in higher education (Zawacki-Richter et al., 2019)": "Reading05.md",
     "Reading #6: AI from a translanguaging perspective (Jeon et al., 2025)": "Reading06.md",
     "Reading #7: Digital activities and Vocabulary (Lai et al, 2025)": "Reading07.md",
@@ -121,7 +121,7 @@ with tab1:
       + Reading #1: Translanguaging [Li, Wei (2018)](https://www.researchgate.net/publication/323720294_Translanguaging_as_a_Practical_Theory_of_Language) 📓 [Handout](https://github.com/MK316/Collaboration26/raw/main/Hanouts/CH01_handout.pdf)
       + Reading #2: Alignment issues [Curry et al. (2025)](https://github.com/MK316/Applied-linguistics/raw/main/readings/02_Curry_etal_2025.pdf) 📓 [Handout](https://github.com/MK316/Collaboration26/raw/main/Hanouts/Reading01_Summary_handout.pdf)
       + Reading #3: [Jacob, S. R. & M. Warschauer](https://www.researchgate.net/publication/327217492_Computational_Thinking_and_Literacy) (2018). Computational Thinking and Literacy. _Journal of Computer Science Integration_, 1(1).
-      + Reading #4: [UNESCO](https://www.UNESCO.org/en/digital-education/artificial-intelligence) (2025) _AI in education_.
+      + Reading #4: [UNESCO](https://www.UNESCO.org/en/digital-education/artificial-intelligence) (2025) _AI in education_. [pdf download](https://github.com/MK316/Applied-linguistics/raw/main/readings/UNESCO-2024-Compentency.pdf)
       + Reading #5: [Zawacki-Richter et al. (2019)](https://www.researchgate.net/publication/336846972_Systematic_review_of_research_on_artificial_intelligence_applications_in_higher_education_-where_are_the_educators) Zawacki-Richter, O., Marín, V. I., Bond, M., & Gouverneur, F. (2019). Systematic review of research on artificial intelligence applications in higher education. _International Journal of Educational Technology in Higher Education_, 16(1), 1–27.
       + Reading #6: [Jeon et al.](https://www.researchgate.net/publication/394128596_Generative_AI_and_its_dilemmas_Exploring_AI_from_a_translanguaging_perspective) (2025). Generative AI and its dilemmas. _Applied Linguistics_, 46, 709-717.
       + Reading #7: [Lai et al. (2025)](https://academic.oup.com/applij/article/46/1/128/7420497) Informal English digital activities. _Applied Linguistics_ 46, 128-145.
