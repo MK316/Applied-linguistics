@@ -2,10 +2,10 @@ import streamlit as st
 import requests
 import re
 
-# --- 1. 페이지 설정 ---
+# --- 1. 페이지 설정 (레이아웃을 넓게 설정) ---
 st.set_page_config(page_title="Readings and in-class discussion", layout="wide")
 
-# ---------- [비디오 라이브러리용 헬퍼 함수] ----------
+# ---------- [헬퍼 함수: 유튜브 및 마크다운 처리] ----------
 def extract_youtube_id(url: str) -> str | None:
     patterns = [
         r"(?:v=)([A-Za-z0-9_-]{11})",
@@ -15,8 +15,7 @@ def extract_youtube_id(url: str) -> str | None:
     ]
     for p in patterns:
         m = re.search(p, url)
-        if m:
-            return m.group(1)
+        if m: return m.group(1)
     return None
 
 def youtube_embed_url(url: str) -> str:
@@ -28,7 +27,6 @@ def render_player(selected_url: str):
     if not embed:
         st.error("Invalid YouTube link format. Please check the URL.")
         return
-
     st.markdown(
         f"""
         <style>
@@ -58,7 +56,7 @@ def render_player(selected_url: str):
         unsafe_allow_html=True,
     )
 
-# ---------- [비디오 데이터베이스] ----------
+# ---------- [데이터베이스: 비디오 및 요약본 리스트] ----------
 VIDEOS = {
     "SW교육과 AI교육, 왜 배워야 할까요?": {
         "url": "https://youtu.be/lQ2kAukmWQE",
@@ -97,9 +95,18 @@ CLASS_VIDEOS = {
     },  
 }
 
+# Reading Summary 파일 목록 (파일명이 정확해야 함)
+SUMMARY_FILES = {
+    "Select a summary...": None,
+    "Reading #1: Translanguaging (Li, 2018)": "Reading01_summary.md",
+    "Reading #2: Alignment Issues (Curry, 2025)": "Reading02_summary.md",
+    "Reading #3: Computational Thinking (Jacob, 2018)": "Reading03_summary.md",
+    "Reading #5: AI in Higher Education (Zawacki, 2019)": "Reading05_summary.md",
+}
+
 # --- 2. 탭 생성 ---
-tab_labels = ["🏠 Reading list", "🌱 Core idea", "💦 In-class presentation", "🖼️ Infographics", "🎬 Video"]
-tab1, tab2, tab3, tab4, tab5 = st.tabs(tab_labels)
+tab_labels = ["🏠 Reading list", "🌱 Core idea", "💦 In-class presentation", "🖼️ Infographics", "📝 Reading Summary", "🎬 Video"]
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(tab_labels)
 
 # --- 3. 탭별 콘텐츠 구성 ---
 
@@ -127,10 +134,9 @@ with tab2:
     try:
         response = requests.get(url)
         if response.status_code == 200:
-            md_content = response.text
-            st.markdown(md_content)
+            st.markdown(response.text)
         else:
-            st.error(f"파일을 불러오지 못했습니다. (Status Code: {response.status_code})")
+            st.error(f"파일을 불러오지 못했습니다. (HTTP {response.status_code})")
     except Exception as e:
         st.error(f"오류가 발생했습니다: {e}")
 
@@ -157,7 +163,7 @@ with tab4:
         "Reading #5": "https://raw.githubusercontent.com/MK316/Collaboration26/main/infographic/Reading05_infographic.png",
         "Reading #6": "https://raw.githubusercontent.com/MK316/Collaboration26/main/infographic/Reading06_infographic.png",
     }
-    selected_image_name = st.selectbox("Choose an image to display:", options=list(image_options.keys()))
+    selected_image_name = st.selectbox("Choose an image to display:", options=list(image_options.keys()), key="img_select")
     if selected_image_name and image_options[selected_image_name]:
         image_url = image_options[selected_image_name]
         st.divider()
@@ -167,14 +173,37 @@ with tab4:
     else:
         st.info("Please select an image from the dropdown menu above.")
 
-# 🎬 4. Video 탭 (완전 통합 버전)
+# 📝 4. Reading Summary 탭 (Infographics와 Video 사이에 위치)
 with tab5:
+    st.markdown("### 📝 Reading Summary")
+    st.caption("Github [Collaboration26/Reading_summary](https://github.com/MK316/Collaboration26/tree/main/Reading_summary)")
+    
+    selected_summary = st.selectbox("Choose a Reading Summary to display:", options=list(SUMMARY_FILES.keys()), key="summary_select")
+    
+    if selected_summary and SUMMARY_FILES[selected_summary]:
+        file_name = SUMMARY_FILES[selected_summary]
+        raw_summary_url = f"https://raw.githubusercontent.com/MK316/Collaboration26/main/Reading_summary/{file_name}"
+        
+        try:
+            with st.spinner('Loading summary content...'):
+                response = requests.get(raw_summary_url)
+                if response.status_code == 200:
+                    st.divider()
+                    st.markdown(response.text)
+                else:
+                    st.error(f"파일을 가져오지 못했습니다. (HTTP {response.status_code})")
+        except Exception as e:
+            st.error(f"오류가 발생했습니다: {e}")
+    else:
+        st.info("드롭다운 메뉴에서 읽고 싶은 요약본을 선택하세요.")
+
+# 🎬 5. Video 탭
+with tab6:
     st.markdown("### 🎬 Class Video Library")
     
-    # 상단 카테고리 선택
     try:
         view = st.segmented_control(
-            "Video Type",
+            "Video Category",
             options=["Video Library", "Class videos"],
             default="Video Library",
             label_visibility="collapsed"
@@ -184,18 +213,15 @@ with tab5:
 
     dataset = VIDEOS if view == "Video Library" else CLASS_VIDEOS
     
-    # 재생 화면과 리스트 분할
-    v_col1, v_col2 = st.columns([1, 2])
+    v_col1, v_col2 = st.columns([1, 2.5])
     
     with v_col1:
         st.subheader("📋 Playlist")
         selected_label = st.selectbox("Select a video:", options=list(dataset.keys()), key="video_final_selector")
-        
         target = dataset[selected_label]
         st.info(f"**Caption:** {target.get('caption', '')}")
-        st.code(target['url'], language="text")
-        st.markdown(f"[Open on YouTube ▶️]({target['url']})")
+        st.markdown(f"[Watch on YouTube ▶️]({target['url']})")
 
     with v_col2:
-        st.subheader(f"📺 Now Playing: {selected_label}")
+        st.subheader(f"📺 Playing: {selected_label}")
         render_player(target['url'])
