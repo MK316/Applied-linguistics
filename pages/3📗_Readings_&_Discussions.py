@@ -97,6 +97,9 @@ CLASS_VIDEOS = {
         "url": "https://youtu.be/eehiwV8_3fQ?si=sGWmka1OTSnrDzng",
         "caption": "인공지능 시대, 교사를 위한 AI 역량 프레임워크 (UNESCO, 2024)",
     },
+    "Week 05 · Systematic review of research on artificial intelligence applications in higher education": {
+        "url": "https://www.youtube.com/watch?v=4Ino7xIV8So",
+        "caption": "대학에서 인공 지능(AI) 응용에 관한 연구의 체계적 검토(2019)",
 }
 
 SUMMARY_FILES = {
