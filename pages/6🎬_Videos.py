@@ -108,7 +108,9 @@ CLASS_VIDEOS = {
         "url": "https://youtu.be/bRVTDYAfj3M",
         "caption": "인공지능 시대의 새로운 문해력 정의 및 접근방식",
     },  
-    
+    "Week 05 ·  Zawacki-Richter et al. (2019) ": {
+        "url": "https://www.youtube.com/watch?v=4Ino7xIV8So",
+        "caption": "고등 교육 분야에서 인공지능 응용에 관한 연구에 대한 체계적 문헌 고찰",
 }
 
 # ---------- "Tabs" selector (segmented if available; fallback to radio) ----------
