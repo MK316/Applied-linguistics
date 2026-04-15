@@ -8,7 +8,7 @@
 + Checkout Collaboration repository [from my Gihtub account](https://github.com/MK316/Collaboration26): Once your ids are collected, you'll be invited as collaborators to this repository. Reading summaries should be made in [this space](https://github.com/MK316/Collaboration26/tree/main/Reading_summary). (MK316 > Collaboration26 > Reading_summary)
 
 ## 📅 Week 06 Exercise Guide (4/15 ~ 4/21)
-#### **Topic: Coding4ET Exercises**
+#### **Topic: Coding4ET Exercises** (함수 연습)
 
 이번 주차 연습문제를 풀고 본인의 GitHub 레포지토리에 과제를 제출하는 방법입니다. 아래 단계를 순서대로 따라하세요.
 
