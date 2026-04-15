@@ -26,7 +26,7 @@ with tab1:
     PROJECTS = {
         "Select a project": None,
         "Overview & guidelines": "https://raw.githubusercontent.com/MK316/Collaboration26/main/mini-project/readme.md",
-        "Sample - Multi-language TTS": "https://raw.githubusercontent.com/USERNAME/REPO/main/sample.md",
+        "Sample - Multi-language TTS": "https://raw.githubusercontent.com/MK316/Collaboration26/main/mini-project/sample.md",
         "Pair 1 - Project title": "https://raw.githubusercontent.com/USERNAME/REPO/main/project2.md",
         "Pair 2 - Project title": "https://raw.githubusercontent.com/USERNAME/REPO/main/project3.md",
         "Pair 3 - Project title": "https://raw.githubusercontent.com/USERNAME/REPO/main/project4.md",
