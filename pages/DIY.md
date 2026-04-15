@@ -19,7 +19,7 @@
 * 이 공간은 이번 학기 여러분의 모든 코딩 결과물이 저장될 포트폴리오가 됩니다.
 
 ### **Step 2. 연습문제 열기 (Colab 연동)**
-* **[Coding4ET GitHub 링크](https://github.com/MK316/Coding4ET/blob/main/README.md)**로 접속합니다.
+* [Coding4ET GitHub 링크](https://github.com/MK316/Coding4ET/blob/main/README.md)로 접속합니다.
 * 연습문제 중 EX3.5 파일을 연 후, 페이지에 있는 **`Open in Colab`** 버튼을 클릭하여 코랩 환경에서 문제를 엽니다.
 
 ### **Step 3. 코드 완성 및 실행 (DIY Sections)**
