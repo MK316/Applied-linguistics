@@ -9,7 +9,7 @@
 
 ### 2. App deployment online
 + Gradio
-+ [Huggingface](https://github.com/MK316/Coding4ET/blob/main/Lessons/huggingface_deploy.ipynb)
++ [Huggingface sample](https://huggingface.co/spaces/FrameAI4687/Omni-Video-Factory), [Huggingface practice](https://github.com/MK316/Coding4ET/blob/main/Lessons/huggingface_deploy.ipynb)
 + Streamlit
 + And more
 
