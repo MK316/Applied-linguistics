@@ -9,4 +9,4 @@
 
 ### 2. Deployment: Step by step
 
-![streamlit](https://github.com/MK316/Applied-linguistics/raw/main/pages/images/deploy.png)
+![streamlit](https://github.com/MK316/Applied-linguistics/raw/main/pages/images/deploy1.png)
