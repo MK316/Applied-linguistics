@@ -1,7 +1,7 @@
 
 # ❄️ App deployment online
 + Gradio
-+ [Huggingface sample](https://huggingface.co/spaces/FrameAI4687/Omni-Video-Factory), [Gradio and Huggingface practice](https://github.com/MK316/Coding4ET/blob/main/Lessons/huggingface_deploy.ipynb)
++ [Huggingface sample](https://huggingface.co/spaces/FrameAI4687/Omni-Video-Factory), [Gradio and Huggingface practice](https://github.com/MK316/Coding4ET/blob/main/Lessons/huggingface_deploy.ipynb), [sample images to download](https://github.com/MK316/Applied-linguistics/tree/main/pages/images)
 + Streamlit
 + And more
   
