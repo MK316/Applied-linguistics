@@ -163,6 +163,6 @@ with tab6:
 with tab7:
     st.caption("Learn how to deploy your code to build a web application using Streamlit.")    
     with open("https://github.com/MK316/Applied-linguistics/blob/main/pages/streamlit.md", "r", encoding="utf-8") as f:
-    md_text = f.read()
+        md_text = f.read()
 
     st.markdown(md_text)
