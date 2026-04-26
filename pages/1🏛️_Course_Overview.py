@@ -41,7 +41,7 @@ st.markdown(
         font-size:30px;
         margin-bottom:18px;
     ">
-        ✨ Course Menu
+        ✨ Course objectives
     </h2>
     """,
     unsafe_allow_html=True
