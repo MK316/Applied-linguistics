@@ -3,13 +3,12 @@ import streamlit as st
 st.set_page_config(page_title="Tense Practice", layout="centered")
 
 st.title("⏳ Tense Practice")
-st.caption("현재형, 현재진행형, 과거형, 미래형 중 알맞은 표현을 고르세요.")
+st.caption("한 문제씩 풀고, 맞으면 풍선이 터집니다. 틀린 문제는 2차에서 다시 풉니다.")
 
 TOTAL_QUESTIONS = 20
 
 # ---------------------------
 # 문제 목록
-# 학생마다 같은 순서로 나오도록 random 사용 안 함
 # ---------------------------
 quiz_data = [
     {
@@ -118,22 +117,40 @@ quiz_data = [
 # 세션 상태 초기화
 # ---------------------------
 if "stage" not in st.session_state:
-    # stage 1: 전체 문제 풀이
-    # stage 2: 오답 문제 다시 풀이
-    # stage 3: 최종 결과 및 정답 공개
-    st.session_state.stage = 1
+    # round1: 1차 풀이
+    # round2: 오답 다시 풀기
+    # final: 최종 결과
+    st.session_state.stage = "round1"
 
-if "wrong_indices" not in st.session_state:
-    st.session_state.wrong_indices = []
+if "q_index" not in st.session_state:
+    st.session_state.q_index = 0
+
+if "checked" not in st.session_state:
+    st.session_state.checked = False
+
+if "feedback" not in st.session_state:
+    st.session_state.feedback = ""
 
 if "first_score" not in st.session_state:
     st.session_state.first_score = 0
 
-if "final_score" not in st.session_state:
-    st.session_state.final_score = 0
+if "second_score" not in st.session_state:
+    st.session_state.second_score = 0
+
+if "wrong_indices" not in st.session_state:
+    st.session_state.wrong_indices = []
+
+if "final_wrong_indices" not in st.session_state:
+    st.session_state.final_wrong_indices = []
+
+if "first_answers" not in st.session_state:
+    st.session_state.first_answers = {}
+
+if "second_answers" not in st.session_state:
+    st.session_state.second_answers = {}
 
 # ---------------------------
-# 다시 시작
+# 처음부터 다시 시작
 # ---------------------------
 if st.button("처음부터 다시 시작"):
     for key in list(st.session_state.keys()):
@@ -143,126 +160,187 @@ if st.button("처음부터 다시 시작"):
 st.markdown("---")
 
 # ---------------------------
-# 문제 출력 함수
+# 정답 확인 함수
 # ---------------------------
-def show_question(i, item, key_prefix, label):
+def check_answer(item, user_answer):
+    return user_answer == item["answer"]
+
+# ---------------------------
+# 다음 문제로 이동
+# ---------------------------
+def go_next_round1():
+    st.session_state.q_index += 1
+    st.session_state.checked = False
+    st.session_state.feedback = ""
+
+    if st.session_state.q_index >= TOTAL_QUESTIONS:
+        if len(st.session_state.wrong_indices) > 0:
+            st.session_state.stage = "round2"
+            st.session_state.q_index = 0
+        else:
+            st.session_state.stage = "final"
+
+def go_next_round2():
+    st.session_state.q_index += 1
+    st.session_state.checked = False
+    st.session_state.feedback = ""
+
+    if st.session_state.q_index >= len(st.session_state.wrong_indices):
+        st.session_state.stage = "final"
+
+# ---------------------------
+# 1차 풀이
+# ---------------------------
+if st.session_state.stage == "round1":
+    st.subheader("1차 풀이")
+
+    progress_text = f"{st.session_state.q_index + 1} / {TOTAL_QUESTIONS}"
+    st.progress((st.session_state.q_index + 1) / TOTAL_QUESTIONS)
+    st.caption(f"진행 상황: {progress_text}")
+
+    i = st.session_state.q_index
+    item = quiz_data[i]
+
     st.write(f"### {i+1}. {item['sentence']}")
 
-    st.radio(
-        label,
+    user_answer = st.radio(
+        "정답을 고르세요.",
         item["choices"],
-        key=f"{key_prefix}_{i}",
+        key=f"q1_{i}",
         index=None
     )
 
-    st.markdown("---")
-
-# ---------------------------
-# 1단계: 전체 문제 풀이
-# ---------------------------
-if st.session_state.stage == 1:
-    st.subheader("1차 풀이")
-    st.caption("알맞은 시제 표현을 고르세요.")
-
-    for i, item in enumerate(quiz_data):
-        show_question(i, item, "q1", "정답을 고르세요.")
-
-    if st.button("1차 제출"):
-        wrong_indices = []
-        correct_count = 0
-
-        for i, item in enumerate(quiz_data):
-            user_answer = st.session_state.get(f"q1_{i}")
-
-            if user_answer == item["answer"]:
-                correct_count += 1
+    if not st.session_state.checked:
+        if st.button("정답 확인"):
+            if user_answer is None:
+                st.warning("먼저 답을 고르세요.")
             else:
-                wrong_indices.append(i)
+                st.session_state.first_answers[i] = user_answer
 
-        st.session_state.first_score = correct_count
-        st.session_state.wrong_indices = wrong_indices
+                if check_answer(item, user_answer):
+                    st.session_state.first_score += 1
+                    st.session_state.feedback = "correct"
+                    st.session_state.checked = True
+                    st.balloons()
+                else:
+                    if i not in st.session_state.wrong_indices:
+                        st.session_state.wrong_indices.append(i)
+                    st.session_state.feedback = "wrong"
+                    st.session_state.checked = True
 
-        if len(wrong_indices) == 0:
-            st.session_state.final_score = TOTAL_QUESTIONS
-            st.session_state.stage = 3
-        else:
-            st.session_state.stage = 2
+                st.rerun()
 
-        st.rerun()
+    else:
+        if st.session_state.feedback == "correct":
+            st.success("정답입니다! 🎉")
+        elif st.session_state.feedback == "wrong":
+            st.error("오답입니다. 이 문제는 2차에서 다시 나옵니다.")
 
-# ---------------------------
-# 2단계: 오답 문제 다시 풀이
-# ---------------------------
-elif st.session_state.stage == 2:
-    st.subheader("1차 결과")
-    st.write(f"점수: **{st.session_state.first_score} / {TOTAL_QUESTIONS}**")
-    st.warning(f"틀린 문제 수: {len(st.session_state.wrong_indices)}문제")
-
-    st.markdown("---")
-    st.subheader("오답 다시 풀기")
-    st.caption("틀린 문제만 다시 풀어 보세요. 이 단계가 끝나면 정답이 공개됩니다.")
-
-    for idx in st.session_state.wrong_indices:
-        item = quiz_data[idx]
-        show_question(idx, item, "q2", "다시 정답을 고르세요.")
-
-    if st.button("다시 풀기 제출"):
-        additional_correct = 0
-
-        for idx in st.session_state.wrong_indices:
-            item = quiz_data[idx]
-            retry_answer = st.session_state.get(f"q2_{idx}")
-
-            if retry_answer == item["answer"]:
-                additional_correct += 1
-
-        st.session_state.final_score = st.session_state.first_score + additional_correct
-        st.session_state.stage = 3
-        st.rerun()
+        if st.button("다음 문제"):
+            go_next_round1()
+            st.rerun()
 
 # ---------------------------
-# 3단계: 최종 결과 + 정답 공개
+# 2차 풀이: 1차 오답만 다시 풀기
 # ---------------------------
-elif st.session_state.stage == 3:
+elif st.session_state.stage == "round2":
+    st.subheader("2차 풀이")
+    st.caption("1차에서 틀린 문제만 다시 풉니다.")
+
+    total_wrong = len(st.session_state.wrong_indices)
+    current_retry_number = st.session_state.q_index + 1
+
+    st.progress(current_retry_number / total_wrong)
+    st.caption(f"오답 다시 풀기: {current_retry_number} / {total_wrong}")
+
+    original_idx = st.session_state.wrong_indices[st.session_state.q_index]
+    item = quiz_data[original_idx]
+
+    st.write(f"### {original_idx + 1}. {item['sentence']}")
+
+    user_answer = st.radio(
+        "다시 정답을 고르세요.",
+        item["choices"],
+        key=f"q2_{original_idx}",
+        index=None
+    )
+
+    if not st.session_state.checked:
+        if st.button("정답 확인"):
+            if user_answer is None:
+                st.warning("먼저 답을 고르세요.")
+            else:
+                st.session_state.second_answers[original_idx] = user_answer
+
+                if check_answer(item, user_answer):
+                    st.session_state.second_score += 1
+                    st.session_state.feedback = "correct"
+                    st.session_state.checked = True
+                    st.balloons()
+                else:
+                    if original_idx not in st.session_state.final_wrong_indices:
+                        st.session_state.final_wrong_indices.append(original_idx)
+                    st.session_state.feedback = "wrong"
+                    st.session_state.checked = True
+
+                st.rerun()
+
+    else:
+        if st.session_state.feedback == "correct":
+            st.success("2차에서 정답입니다! 🎉")
+        elif st.session_state.feedback == "wrong":
+            st.error("아쉽습니다. 최종 오답으로 기록됩니다.")
+
+        if st.button("다음 문제"):
+            go_next_round2()
+            st.rerun()
+
+# ---------------------------
+# 최종 결과
+# ---------------------------
+elif st.session_state.stage == "final":
+    final_score = st.session_state.first_score + st.session_state.second_score
+
     st.subheader("최종 결과")
 
     st.write(f"1차 점수: **{st.session_state.first_score} / {TOTAL_QUESTIONS}**")
-    st.write(f"최종 점수: **{st.session_state.final_score} / {TOTAL_QUESTIONS}**")
+    st.write(f"2차에서 맞힌 문제 수: **{st.session_state.second_score} / {len(st.session_state.wrong_indices)}**")
+    st.write(f"최종 점수: **{final_score} / {TOTAL_QUESTIONS}**")
 
-    if st.session_state.final_score == TOTAL_QUESTIONS:
-        st.success("만점입니다!")
+    if final_score == TOTAL_QUESTIONS:
+        st.success("만점입니다! 아주 잘했습니다! 🎉")
         st.balloons()
-    elif st.session_state.final_score >= 16:
+    elif final_score >= 16:
         st.success("아주 잘했습니다!")
-    elif st.session_state.final_score >= 12:
+    elif final_score >= 12:
         st.info("잘했습니다.")
     else:
         st.warning("조금 더 연습해 봅시다.")
 
     st.markdown("---")
-    st.subheader("정답 확인")
+    st.subheader("정답 및 오답 확인")
+
+    if len(st.session_state.final_wrong_indices) == 0:
+        st.success("최종 오답이 없습니다.")
+    else:
+        st.error(f"최종 오답: {len(st.session_state.final_wrong_indices)}문제")
 
     for i, item in enumerate(quiz_data):
-        first_answer = st.session_state.get(f"q1_{i}")
-        second_answer = st.session_state.get(f"q2_{i}") if f"q2_{i}" in st.session_state else None
+        first_answer = st.session_state.first_answers.get(i, "미응답")
+        second_answer = st.session_state.second_answers.get(i, None)
 
         st.write(f"### {i+1}. {item['sentence']}")
         st.write(f"- 정답: **{item['answer']}**")
+        st.write(f"- 1차 선택: {first_answer}")
 
-        if second_answer is not None:
-            st.write(f"- 1차 선택: {first_answer if first_answer else '미응답'}")
+        if i in st.session_state.wrong_indices:
             st.write(f"- 2차 선택: {second_answer if second_answer else '미응답'}")
 
-            if second_answer == item["answer"]:
-                st.success("최종 정답")
-            else:
+            if i in st.session_state.final_wrong_indices:
                 st.error("최종 오답")
-        else:
-            st.write(f"- 선택: {first_answer if first_answer else '미응답'}")
-
-            if first_answer == item["answer"]:
-                st.success("정답")
             else:
-                st.error("오답")
+                st.success("2차에서 정답")
+        else:
+            st.success("1차에서 정답")
 
         st.markdown("---")
