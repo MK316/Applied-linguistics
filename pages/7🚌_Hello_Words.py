@@ -54,6 +54,9 @@ if "quiz_data" not in st.session_state:
     st.session_state.quiz_data = word_data.copy()
 
 if "stage" not in st.session_state:
+    # stage 1: 전체 문제 풀이
+    # stage 2: 오답 문제 다시 풀이
+    # stage 3: 최종 결과 및 정답 공개
     st.session_state.stage = 1
 
 if "wrong_indices" not in st.session_state:
@@ -90,23 +93,23 @@ def show_question(i, item, radio_key, label):
             border: 2px solid #dfe8ff;
             border-radius: 24px;
             padding: 28px;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
             text-align: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.06);
         ">
             <div style="
-                font-size: 96px;
-                margin-bottom: 10px;
+                font-size: 100px;
+                margin-bottom: 8px;
             ">
                 {item['picture']}
             </div>
 
             <div style="
-                font-size: 52px;
+                font-size: 54px;
                 font-weight: 800;
                 color: #1f4e79;
                 margin-top: 8px;
-                margin-bottom: 6px;
+                margin-bottom: 4px;
             ">
                 {word_display}
             </div>
@@ -128,6 +131,7 @@ def show_question(i, item, radio_key, label):
     )
 
     st.markdown("---")
+
 
 # ---------------------------
 # 1단계: 전체 문제 풀이
@@ -162,6 +166,7 @@ if st.session_state.stage == 1:
 
         st.rerun()
 
+
 # ---------------------------
 # 2단계: 오답 문제 다시 풀이
 # ---------------------------
@@ -175,7 +180,7 @@ elif st.session_state.stage == 2:
 
     st.markdown("---")
     st.subheader("오답 다시 풀기")
-    st.caption("틀린 문제만 다시 풀어 보세요.")
+    st.caption("틀린 문제만 다시 풀어 보세요. 그림과 발음을 다시 확인할 수 있습니다.")
 
     for idx in wrong_indices:
         item = quiz_data[idx]
@@ -194,6 +199,7 @@ elif st.session_state.stage == 2:
         st.session_state.final_score = st.session_state.first_score + additional_correct
         st.session_state.stage = 3
         st.rerun()
+
 
 # ---------------------------
 # 3단계: 최종 결과 + 정답 공개
@@ -228,8 +234,9 @@ elif st.session_state.stage == 3:
                 padding: 24px;
                 margin-bottom: 14px;
                 text-align: center;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             ">
-                <div style="font-size: 80px;">{item['picture']}</div>
+                <div style="font-size: 86px;">{item['picture']}</div>
                 <div style="
                     font-size: 46px;
                     font-weight: 800;
