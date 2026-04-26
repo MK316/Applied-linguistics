@@ -3,7 +3,7 @@ import random
 
 st.set_page_config(page_title="영어 시제 퀴즈", layout="centered")
 
-st.title("⏰ Alex선생님과 함께하는 영어 시제 퀴즈")
+st.title("⏳ Alex선생님과 함께하는 영어 시제 퀴즈")
 st.caption("빈칸에 알맞은 표현을 고르는 30문제 · 4지선다 퀴즈")
 
 # ---------------------------
