@@ -48,7 +48,7 @@ This app could be improved by adding:
 - customizable vocabulary list creation
 
 ## 9. App Link
-[APP link](https://miniproject-epfq3zrjqsersgbtoxy8t2.streamlit.app/):  
+[APP link](https://miniproject-epfq3zrjqsersgbtoxy8t2.streamlit.app/): https://miniproject-epfq3zrjqsersgbtoxy8t2.streamlit.app/
 
 ## 10. Reflection
 Through this project, we learned that creating an educational app for learners is not difficult when utilizing generative AI. We also realized that with basic coding knowledge, it is entirely possible to build a customized vocabulary app tailored to our specific teaching context and our students' levels.
