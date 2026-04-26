@@ -2,6 +2,7 @@ import streamlit as st
 import random
 from gtts import gTTS
 import io
+import base64
 
 st.set_page_config(page_title="Voca Master Quiz", layout="centered")
 
@@ -246,10 +247,18 @@ elif st.session_state.stage == 3:
     st.caption("수고하셨습니다! 마지막으로 전체 단어의 발음을 들으며 복습해 보세요.")
     
     # 마지막 페이지에서만 전체 오디오 제공
-    for i, item in enumerate(quiz_data):
+  for i, item in enumerate(quiz_data):
         col1, col2 = st.columns([3, 1])
         with col1:
             st.write(f"**{i+1}. {item['en']}** : {item['ko']} {item['emoji']}")
         with col2:
             audio_bytes = make_audio(item["en"])
-            st.audio(audio_bytes, format="audio/mp3")
+            
+            # 여기서부터 수정! (st.audio 대신 HTML 플레이어 사용)
+            b64 = base64.b64encode(audio_bytes).decode()
+            audio_html = f"""
+                <audio controls style="width: 100%;">
+                    <source src="data:audio/mpeg;base64,{b64}" type="audio/mpeg">
+                </audio>
+            """
+            st.markdown(audio_html, unsafe_allow_html=True)
