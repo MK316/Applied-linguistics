@@ -19,7 +19,7 @@ Users can:
 - match English words with their meanings.
 - find the correct answers with the help of images or audio.
 - review and restudy only the words they answered incorrectly.
-- 
+ 
 ## 5. Classroom or Self-Study Use
 This app can be used for:
 - previewing or reviewing unit vocabulary
@@ -37,14 +37,21 @@ The app consists of the following parts:
 - vocabulary list display
   
 ## 7. Difficulties or Limitations
-One limitation is that 
+One limitation is that the app currently does not track long-term learning progress for individual students
+Another limitation is that the app cannot save or sync user learning data across different devices.
 
 ## 8. Further Improvement
 This app could be improved by adding:
-- vocabulary support for difficult words
+- addition of advanced-level vocabulary quizzes
+- provision of sentence-level context for words
+- student progress tracking system
+- customizable vocabulary list creation
 
 ## 9. App Link
 [APP link](https://miniproject-epfq3zrjqsersgbtoxy8t2.streamlit.app/):  
 
 ## 10. Reflection
-Through this project, I learned how a simple coding-based app can support language learning.  
+Through this project, we learned that creating an educational app for learners is not difficult when utilizing generative AI. We also realized that with basic coding knowledge, it is entirely possible to build a customized vocabulary app tailored to our specific teaching context and our students' levels.
+
+## 11. Describe which Generative AI tool you used and for what specific purpose.
+We used both Chat gpt and Google Gemini for this project. Specifically, we utilized them to generate the basic code framework for the app and to get assistance with modifying and troubleshooting the code when needed.
