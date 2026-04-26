@@ -254,7 +254,6 @@ elif st.session_state.stage == 3:
         with col2:
             audio_bytes = make_audio(item["en"])
             
-            # 여기서부터 수정! (st.audio 대신 HTML 플레이어 사용)
             b64 = base64.b64encode(audio_bytes).decode()
             audio_html = f"""
                 <audio controls style="width: 100%;">
