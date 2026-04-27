@@ -325,102 +325,177 @@ with tabs[5]:
 
 
 # --- Tab 7: (was tabs[6]) Grouping ---
+# --- Tab 7: Grouping ---
 with tabs[6]:
 
     st.subheader("👥 Grouping Tool")
-    st.caption("Your CSV should have at least the column `Course` and `Names`.")
+    st.caption("CSV를 올리지 않아도 기본 명단으로 조 편성을 할 수 있습니다.")
+    st.caption("CSV를 올릴 경우, 반드시 `Course`, `Names` 열이 있어야 합니다.")
 
-    default_url = 
+    # ---------------------------
+    # 기본 명단 데이터
+    # CSV를 아직 안 올렸을 때 사용됨
+    # ---------------------------
+    default_data = pd.DataFrame({
+        "Course": [
+            "Class 1", "Class 1", "Class 1", "Class 1", "Class 1",
+            "Class 1", "Class 1", "Class 1", "Class 1", "Class 1",
+            "Class 2", "Class 2", "Class 2", "Class 2", "Class 2",
+            "Class 2", "Class 2", "Class 2", "Class 2", "Class 2"
+        ],
+        "Names": [
+            "Student 1", "Student 2", "Student 3", "Student 4", "Student 5",
+            "Student 6", "Student 7", "Student 8", "Student 9", "Student 10",
+            "Student 11", "Student 12", "Student 13", "Student 14", "Student 15",
+            "Student 16", "Student 17", "Student 18", "Student 19", "Student 20"
+        ]
+    })
 
     uploaded_file = st.file_uploader("🌱 Step 1: Upload your CSV file (optional)", type=["csv"])
 
     if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
-        source_label = "✅ File uploaded"
+        source_label = "✅ Uploaded CSV data"
     else:
-        df = pd.read_csv(default_url)
-        source_label = "📂 Using default GitHub data"
+        df = default_data
+        source_label = "📂 Using default sample data"
 
-    if all(col in df.columns for col in ['Course', 'Names']):
+    # ---------------------------
+    # 데이터 확인
+    # ---------------------------
+    if all(col in df.columns for col in ["Course", "Names"]):
+
+        st.markdown("### 📋 Current Student List")
+        st.dataframe(df, use_container_width=True)
+
         # Step 2: Select Course
-        course_list = df['Course'].dropna().unique().tolist()
+        course_list = df["Course"].dropna().unique().tolist()
         selected_course = st.selectbox("🌱 Step 2: Select Course for Grouping", course_list)
 
         # 코스별 데이터 필터링 및 인원수 계산
-        course_df = df[df['Course'] == selected_course]
-        names = course_df['Names'].dropna().tolist()
+        course_df = df[df["Course"] == selected_course]
+        names = course_df["Names"].dropna().tolist()
         total_students = len(names)
 
-        # [수정 포인트] 안내 박스에 전체 인원수 추가
-        st.info(f"{source_label} | 🎓 **{selected_course}**: Total **{total_students}** students available for grouping.")
+        st.info(
+            f"{source_label} | 🎓 **{selected_course}**: "
+            f"Total **{total_students}** students available for grouping."
+        )
 
         # Step 3: Group size input
-        st.markdown(f"##### 🌱 Step 3: Group Settings")
+        st.markdown("##### 🌱 Step 3: Group Settings")
+
         col_in1, col_in2 = st.columns(2)
+
         with col_in1:
-            num_group3 = st.number_input("Number of 3-member groups", min_value=0, value=0, step=1)
+            num_group3 = st.number_input(
+                "Number of 3-member groups",
+                min_value=0,
+                value=0,
+                step=1
+            )
+
         with col_in2:
-            num_group4 = st.number_input("Number of 4-member groups", min_value=0, value=0, step=1)
+            num_group4 = st.number_input(
+                "Number of 4-member groups",
+                min_value=0,
+                value=0,
+                step=1
+            )
 
+        needed_students = num_group3 * 3 + num_group4 * 4
+
+        st.write(f"Selected students needed: **{needed_students}**")
+        st.write(f"Available students: **{total_students}**")
+
+        if needed_students > total_students:
+            st.warning("설정한 조 인원 수가 현재 학생 수보다 많습니다. 조 개수를 줄여 주세요.")
+
+        # Step 4: Generate Groups
         if st.button("🌱 Step 4: Generate Groups"):
-            random.shuffle(names)
-            grouped_data = []
-            group_num = 1
-            assigned_count = 0
 
-            # 1. 3인 그룹 생성
-            for _ in range(num_group3):
-                if len(names) >= 3:
-                    members = names[:3]
-                    names = names[3:]
-                    grouped_data.append({"Group": f"Group {group_num}", **{f"Member{i+1}": m for i, m in enumerate(members)}})
-                    group_num += 1
-                    assigned_count += 3
+            if total_students == 0:
+                st.warning("No students available for grouping.")
 
-            # 2. 4인 그룹 생성
-            for _ in range(num_group4):
-                if len(names) >= 4:
-                    members = names[:4]
-                    names = names[4:]
-                    grouped_data.append({"Group": f"Group {group_num}", **{f"Member{i+1}": m for i, m in enumerate(members)}})
-                    group_num += 1
-                    assigned_count += 4
+            elif num_group3 == 0 and num_group4 == 0:
+                st.warning("Please enter at least one group.")
 
-            # 3. 남은 인원 처리
-            remaining_count = len(names)
-            if remaining_count > 0:
-                grouped_data.append({"Group": f"Group {group_num} (Remainder)", **{f"Member{i+1}": m for i, m in enumerate(names)}})
-                assigned_count += remaining_count
-
-            if not grouped_data:
-                st.warning("No groups were created. Please check your settings.")
             else:
-                grouped_df = pd.DataFrame(grouped_data)
-                cols = ['Group'] + [c for c in grouped_df.columns if c.startswith('Member')]
-                grouped_df = grouped_df[cols].fillna("")
+                names_for_grouping = names.copy()
+                random.shuffle(names_for_grouping)
 
-                # 결과 요약 출력
-                st.success(f"✅ Grouping Complete! (Total {assigned_count} students assigned to {len(grouped_data)} groups)")
-                st.write(grouped_df)
+                grouped_data = []
+                group_num = 1
+                assigned_count = 0
 
-                # Download button
-# [수정된 부분] Download button 로직
-# [최종 해결책] StringIO 대신 BytesIO를 사용하여 인코딩 유실 방지
-                csv_buffer = io.BytesIO()
-                
-                # 1. 데이터프레임을 utf-8-sig(BOM 포함)로 인코딩하여 바이트로 변환
-                csv_text = grouped_df.to_csv(index=False, encoding='utf-8-sig')
-                csv_bytes = csv_text.encode('utf-8-sig')
-                
-                csv_buffer.write(csv_bytes)
+                # 1. 3인 그룹 생성
+                for _ in range(num_group3):
+                    if len(names_for_grouping) >= 3:
+                        members = names_for_grouping[:3]
+                        names_for_grouping = names_for_grouping[3:]
 
-                # 2. 다운로드 버튼 설정
-                st.download_button(
-                    label="📥 Download Grouped CSV (Full Compatibility)",
-                    data=csv_buffer.getvalue(),
-                    file_name=f"grouped_{selected_course.replace(' ', '_')}.csv",
-                    mime="text/csv"
-                )
+                        group_row = {"Group": f"Group {group_num}"}
+                        for i, member in enumerate(members):
+                            group_row[f"Member{i+1}"] = member
+
+                        grouped_data.append(group_row)
+                        group_num += 1
+                        assigned_count += 3
+
+                # 2. 4인 그룹 생성
+                for _ in range(num_group4):
+                    if len(names_for_grouping) >= 4:
+                        members = names_for_grouping[:4]
+                        names_for_grouping = names_for_grouping[4:]
+
+                        group_row = {"Group": f"Group {group_num}"}
+                        for i, member in enumerate(members):
+                            group_row[f"Member{i+1}"] = member
+
+                        grouped_data.append(group_row)
+                        group_num += 1
+                        assigned_count += 4
+
+                # 3. 남은 인원 처리
+                remaining_count = len(names_for_grouping)
+
+                if remaining_count > 0:
+                    group_row = {"Group": f"Group {group_num} (Remainder)"}
+                    for i, member in enumerate(names_for_grouping):
+                        group_row[f"Member{i+1}"] = member
+
+                    grouped_data.append(group_row)
+                    assigned_count += remaining_count
+
+                if not grouped_data:
+                    st.warning("No groups were created. Please check your settings.")
+
+                else:
+                    grouped_df = pd.DataFrame(grouped_data)
+
+                    cols = ["Group"] + [
+                        c for c in grouped_df.columns if c.startswith("Member")
+                    ]
+
+                    grouped_df = grouped_df[cols].fillna("")
+
+                    st.success(
+                        f"✅ Grouping Complete! "
+                        f"Total {assigned_count} students assigned to {len(grouped_data)} groups."
+                    )
+
+                    st.dataframe(grouped_df, use_container_width=True)
+
+                    # 다운로드 버튼
+                    csv_text = grouped_df.to_csv(index=False)
+                    csv_bytes = csv_text.encode("utf-8-sig")
+
+                    st.download_button(
+                        label="📥 Download Grouped CSV",
+                        data=csv_bytes,
+                        file_name=f"grouped_{selected_course.replace(' ', '_')}.csv",
+                        mime="text/csv"
+                    )
+
     else:
         st.error("The file must contain both `Course` and `Names` columns.")
-
