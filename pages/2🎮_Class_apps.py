@@ -330,7 +330,7 @@ with tabs[6]:
     st.subheader("👥 Grouping Tool")
     st.caption("Your CSV should have at least the column `Course` and `Names`.")
 
-    default_url = "https://raw.githubusercontent.com/MK316/english-phonetics/refs/heads/main/pages/data/Roster_2026b_0302.csv"
+    default_url = 
 
     uploaded_file = st.file_uploader("🌱 Step 1: Upload your CSV file (optional)", type=["csv"])
 
