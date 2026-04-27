@@ -1,6 +1,7 @@
 import streamlit as st
 from gtts import gTTS
 import io
+import base64
 
 st.set_page_config(page_title="Easy English Word Quiz", layout="centered")
 
@@ -8,6 +9,7 @@ st.title("✨신나는 영어 단어 복습 퀴즈🚌")
 st.caption("그림을 보고, 발음을 들은 뒤 알맞은 영어 단어를 고르세요.")
 
 TOTAL_QUESTIONS = 20
+
 
 # ---------------------------
 # 단어 듣기 함수
@@ -22,10 +24,23 @@ def make_audio(word):
 
 
 # ---------------------------
+# 모바일 안정용 오디오 플레이어
+# ---------------------------
+def audio_player(audio_bytes):
+    audio_base64 = base64.b64encode(audio_bytes).decode()
+
+    audio_html = f"""
+    <audio controls preload="none" style="width: 100%;">
+        <source src="data:audio/mpeg;base64,{audio_base64}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    """
+
+    st.markdown(audio_html, unsafe_allow_html=True)
+
+
+# ---------------------------
 # 단어 목록 20개
-# answer: 정답 영어 단어
-# meaning: 마지막 정답 확인용 한국어 뜻
-# choices: 영어 보기 3지선다
 # ---------------------------
 word_data = [
     {"word": "run", "answer": "run", "meaning": "달리다", "picture": "🏃", "choices": ["run", "swim", "read"]},
@@ -89,6 +104,17 @@ if "first_celebration_shown" not in st.session_state:
 if "second_celebration_shown" not in st.session_state:
     st.session_state.second_celebration_shown = False
 
+if "start_celebration_shown" not in st.session_state:
+    st.session_state.start_celebration_shown = False
+
+
+# ---------------------------
+# 처음 시작 풍선 효과
+# ---------------------------
+if st.session_state.stage == 1 and not st.session_state.start_celebration_shown:
+    st.balloons()
+    st.session_state.start_celebration_shown = True
+
 
 # ---------------------------
 # 다시 시작
@@ -112,7 +138,6 @@ def show_question(i, item, radio_key, label):
     st.write(f"### {i+1}. Look, listen, and choose the English word.")
     st.caption("그림을 보고, 발음을 들은 뒤 알맞은 영어 단어를 고르세요.")
 
-    # 이모지 그림
     st.markdown(
         f"""
         <div style="
@@ -137,11 +162,9 @@ def show_question(i, item, radio_key, label):
         unsafe_allow_html=True
     )
 
-    # 발음 듣기
     audio_bytes = make_audio(item["word"])
-    st.audio(audio_bytes, format="audio/mp3")
+    audio_player(audio_bytes)
 
-    # 영어 단어 3지선다
     st.radio(
         label,
         item["choices"],
@@ -347,7 +370,7 @@ elif st.session_state.stage == 3:
         )
 
         audio_bytes = make_audio(item["word"])
-        st.audio(audio_bytes, format="audio/mp3")
+        audio_player(audio_bytes)
 
         first_answer = st.session_state.get(f"q1_{i}")
         second_answer = st.session_state.get(f"q2_{i}") if f"q2_{i}" in st.session_state else None
