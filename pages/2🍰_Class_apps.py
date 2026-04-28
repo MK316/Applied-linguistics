@@ -114,15 +114,42 @@ with tabs[2]:
 
 # --- Tab 4: Timer ---
 with tabs[3]:
-    huggingface_space_url = "https://MK-316-mytimer.hf.space"
-    st.components.v1.html(
-        f"""
-        <iframe src="{huggingface_space_url}" width="100%" height="600px" frameborder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
+    st.subheader("⏳ Current Time in Korea:")
+
+    components.html(
+        """
+        <div id="clock" style="
+            text-align:center;
+            font-size:60px;
+            font-weight:700;
+            color:#5785A4;
+            font-family:Arial, sans-serif;
+            margin:20px 0;">
+        </div>
+
+        <script>
+        function updateClock() {
+            const now = new Date();
+            const koreaTime = new Intl.DateTimeFormat('en-GB', {
+                timeZone: 'Asia/Seoul',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            }).format(now);
+
+            document.getElementById("clock").innerHTML = koreaTime;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+        </script>
         """,
-        height=600
+        height=120
     )
+
+    st.write("Open the timer app in a new tab:")
+    st.link_button("Open Stopwatch App", "https://mytimer.streamlit.app")
 
 # --- Tab 3: ✅ NEW WordCloud ---
 with tabs[4]:
