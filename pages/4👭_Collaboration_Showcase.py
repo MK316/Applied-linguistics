@@ -32,7 +32,7 @@ with tab1:
         "Sample - Multi-language TTS": "https://raw.githubusercontent.com/MK316/Collaboration26/main/mini-project/sample.md",
         "🍩 Project 1 - Sentence by Sentence TTS": "https://github.com/MK316/Collaboration26/raw/main/mini-project/miniproject-sample.md",
         "🍩 Project 2 - Verb Learning": "https://github.com/JHC0531/Mini-project/raw/main/README.md",
-        "🍩 Project 3 - Project title": "https://github.com/kwonsungja/MiniProject/blob/main/README.md",
+        "🍩 Project 3 - Project title": "https://github.com/kwonsungja/MiniProject/raw/main/README.md",
         "Giving Feedback": "https://forms.gle/1rDSAf8q8HexoVg78"
     }
 
