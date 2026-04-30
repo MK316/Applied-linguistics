@@ -33,7 +33,8 @@ with tab1:
         "🍩 Project 1 - Sentence by Sentence TTS": "https://github.com/MK316/Collaboration26/raw/main/mini-project/miniproject-sample.md",
         "🍩 Project 2 - Verb Learning": "https://github.com/JHC0531/Mini-project/raw/main/README.md",
         "🍩 Project 3 - Project title": "https://github.com/kwonsungja/MiniProject/raw/main/README.md",
-        "Giving Feedback": "https://forms.gle/1rDSAf8q8HexoVg78"
+        "📪 Peer Feedback: "https://github.com/MK316/Collaboration26/raw/main/mini-project/feedback.md",
+        "Feedback Google Form": "https://forms.gle/1rDSAf8q8HexoVg78",
     }
 
     selected_project = st.selectbox(
