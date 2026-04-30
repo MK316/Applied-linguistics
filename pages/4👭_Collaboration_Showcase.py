@@ -52,7 +52,7 @@ with tab1:
             st.write("Click the button below to open the peer feedback form.")
             st.link_button("Open Feedback Form", md_url)
         else:
-            st.markdown("### Project overview")
+            st.markdown("### Project Feedback")
             md_text = load_markdown_from_url(md_url)
             st.markdown(md_text)
 
