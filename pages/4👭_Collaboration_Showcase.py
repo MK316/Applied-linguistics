@@ -71,8 +71,7 @@ with tab3:
         "Select a final project": None,
         "Overview & guidelines": "https://github.com/MK316/Collaboration26/raw/main/final-project/README.md",
         "Project 1(KSJ)": "https://github.com/kwonsungja/Myproject/raw/main/README.md",
-        "Project 2": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
-        "Project 3": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
+        "Project 2(JWC)": "https://github.com/Alexwcjung/2026-highschool/raw/main/README.md
         "Project 4": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
         "Project 5": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
         "Project 6": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
