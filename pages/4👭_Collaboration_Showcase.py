@@ -76,7 +76,7 @@ with tab3:
         "Project 5": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
         "Project 6": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
         "Project 7": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
-        "Giving Feedback": "https://forms.gle/5QLKafV9BxNonms69"
+        "Giving Feedback": "https://forms.gle/MpRGBndu6NXtYeNHA"
     }
 
     selected_final_project = st.selectbox(
