@@ -70,8 +70,7 @@ with tab3:
     FINAL_PROJECTS = {
         "Select a final project": None,
         "Overview & guidelines": "https://github.com/MK316/Collaboration26/raw/main/final-project/README.md",
-        "Sample final project": "https://raw.githubusercontent.com/MK316/Collaboration26/main/final-project/sample.md",
-        "Project 1": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
+        "Project 1(KSJ)": "https://github.com/kwonsungja/Myproject/raw/main/README.md",
         "Project 2": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
         "Project 3": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
         "Project 4": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
