@@ -70,14 +70,14 @@ with tab3:
     FINAL_PROJECTS = {
         "Select a final project": None,
         "Overview & guidelines": "https://github.com/MK316/Collaboration26/raw/main/final-project/README.md",
-        "Project 1(JWC)": "https://github.com/Alexwcjung/2026-highschool/raw/main/README.md",
-        "Project 2(KSJ)": "https://github.com/kwonsungja/Myproject/raw/main/README.md",
-        "Project 3(CSK)": "https://github.com/csk190/Myproject/raw/main/README.md",
+        "🍩 Project 1(JWC)": "https://github.com/Alexwcjung/2026-highschool/raw/main/README.md",
+        "🍩 Project 2(KSJ)": "https://github.com/kwonsungja/Myproject/raw/main/README.md",
+        "🍩 Project 3(CSK)": "https://github.com/csk190/Myproject/raw/main/README.md",
         "Project 4": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
         "Project 5": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
         "Project 6": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
         "Project 7": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
-        "Giving Feedback": "https://forms.gle/MpRGBndu6NXtYeNHA"
+        "📪 Giving Feedback": "https://forms.gle/MpRGBndu6NXtYeNHA"
     }
 
     selected_final_project = st.selectbox(
