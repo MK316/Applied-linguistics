@@ -66,6 +66,7 @@ with tab2:
 
 with tab3:
     st.write("Final project: 50-minute lesson plan with a customized app.")
+    st.write("Note: 📌 Feedback form is corrected. (9:15AM, June 11, 2026")
 
     FINAL_PROJECTS = {
         "Select a final project": None,
