@@ -74,7 +74,7 @@ with tab3:
         "🍩 Project 1(JWC)": "https://github.com/Alexwcjung/2026-highschool/raw/main/README.md",
         "🍩 Project 2(KSJ)": "https://github.com/kwonsungja/Myproject/raw/main/README.md",
         "🍩 Project 3(CSK)": "https://github.com/csk190/Myproject/raw/main/README.md",
-        "Project 4": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
+        "🍩 Project 4(CJH)": "https://github.com/JHC0531/newbasic/blob/main/README.md",
         "Project 5": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
         "Project 6": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
         "Project 7": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
