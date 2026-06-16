@@ -75,9 +75,9 @@ with tab3:
         "🍩 Project 2(KSJ)": "https://github.com/kwonsungja/Myproject/raw/main/README.md",
         "🍩 Project 3(CSK)": "https://github.com/csk190/Myproject/raw/main/README.md",
         "Project 4(최지현)": "https://github.com/JHC0531/newbasic/raw/main/README.md",
-        "Project 5": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
-        "Project 6": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
-        "Project 7": "https://raw.githubusercontent.com/USERNAME/REPO/main/README.md",
+        "Project 5(강동경)": "https://github.com/dongkyung1208/Myproject/raw/main/README.md",
+        "Project 6(조재민)": "https://github.com/JJM912/Myproject/raw/main/README.md",
+        "Project 7(박아진)": "https://github.com/Ahjin-5252/Myproject/raw/main/README.md",
         "Giving Feedback": "https://forms.gle/MpRGBndu6NXtYeNHA"
     }
 
